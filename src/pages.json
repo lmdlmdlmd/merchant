@@ -1,0 +1,95 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/login/index",
+			"style": {
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/login/index",
+			"style": {
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/home/index",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"titleNView": false
+			}
+		},
+		{
+			"path": "pages/navigation/index",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/navigation/depositOrder",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"titleNView": false
+			}
+		},
+		{
+			"path": "pages/navigation/depositOrderDetail",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"titleNView": false
+			}
+		},
+		{
+			"path": "pages/navigation/standardOrder",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"titleNView": false
+			}
+		}
+	],
+	"tabBar": {
+		"color": "#A0A0A0",
+		"selectedColor": "#0096E4",
+		"backgroundColor": "#ffffff",
+		"borderStyle": "black",
+		"height": "56px",
+		"fontSize":"10px",
+		"iconWidth": "20px",
+		"iconHeight": "20px",
+		"list": [{
+				"text": "首页",
+				"pagePath": "pages/home/index",
+				"iconPath": "./static/img/tabbar/index.png",
+				"selectedIconPath": "./static/img/tabbar/index_s.png"
+			},
+			{
+				"text": "导航",
+				"pagePath": "pages/navigation/index",
+				"iconPath": "./static/img/tabbar/navigation.png",
+				"selectedIconPath": "./static/img/tabbar/navigation_s.png"
+			},
+			{
+				"text": "我的",
+				"pagePath": "pages/mine/index",
+				"iconPath": "./static/img/tabbar/mine.png",
+				"selectedIconPath": "./static/img/tabbar/mine_s.png"
+			}
+		]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	}
+}
