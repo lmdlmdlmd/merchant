@@ -64,8 +64,8 @@
 </template>
 
 <script>
-import zzNavBar from "../components/zz-nav-bar";
-import Footer from "../components/footer-nav";
+import zzNavBar from "../../components/zz-nav-bar";
+import Footer from "../../components/footer-nav";
 export default {
   components: {
     zzNavBar,
@@ -98,7 +98,7 @@ export default {
     //提交
     handleSubmit() {
       uni.navigateTo({
-        url: `/pages/navigation/depositOrderDetail`,
+        url: `/pages/navigation/deposit/depositOrderDetail`,
       });
     },
     //重置
@@ -164,7 +164,7 @@ export default {
 }
 .depositOrderBox {
   background: #f5f5f5;
-  height: 100vh;
+  min-height: 100vh;
 }
 .footer {
   position: fixed;

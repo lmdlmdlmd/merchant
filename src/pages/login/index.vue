@@ -86,26 +86,8 @@ export default {
         icon: "none",
       });
     }
-    this.login1();
   },
   methods: {
-    login1() {
-      const params = {
-        id: 1,
-      };
-      Vue.prototype.$api.login1(params).then((res) => {
-        console.log(res);
-      });
-    },
-    next_step() {
-      if (this.step == 1 && !this.phoneData) {
-        return this.$toast.text("请输入手机号！");
-      }
-      if (!/^1[34578]\d{9}$/.test(this.phoneData)) {
-        return this.$toast.text("请输入正确的手机号！");
-      }
-      this.step = this.step == 1 ? 2 : 1;
-    },
     login(params) {
       console.log("store cookie");
       console.log(params);

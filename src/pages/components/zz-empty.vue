@@ -44,7 +44,7 @@ export default {
 <style scoped>
 .empty-container {
   position: fixed;
-  top: 32%;
+  top: 38%;
   left: 50%;
   display: flex;
   flex-direction: column;
@@ -55,10 +55,10 @@ export default {
 
 .empty-container .title {
   /* font-weight: 700; */
-  font-size: 26upx;
+  font-size: 32upx;
   line-height: 36upx;
-  margin-top: 20upx;
-  color: #333;
+  margin-top: 32upx;
+  color: #aaaaaa;
 }
 
 .empty-container .desc {

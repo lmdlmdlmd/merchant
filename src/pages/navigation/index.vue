@@ -13,7 +13,7 @@
               v-for="(item, index) of items.child"
               :key="index"
               class="nav_box"
-              @click="handleClick(item.id)"
+              @click="handleClick(item.path)"
             >
               <image :src="item.url" class="nav_img"></image>
               <p class="nav_text">{{ item.title }}</p>
@@ -41,11 +41,13 @@ export default {
               id: 1,
               url: "../../static/img/imgs/standard_order.png",
               title: "标准开单",
+              path: "/pages/navigation/standard/standardOrder",
             },
             {
               id: 2,
               url: "../../static/img/imgs/deposit_order.png",
               title: "定金订单",
+              path: "/pages/navigation/deposit/depositOrder",
             },
             {
               id: 3,
@@ -66,6 +68,7 @@ export default {
               id: 5,
               url: "../../static/img/imgs/goods_query.png",
               title: "商品查询",
+              path: "/pages/navigation/commodityManagement/index",
             },
             {
               id: 6,
@@ -99,18 +102,9 @@ export default {
   },
   onLoad() {},
   methods: {
-    handleClick(id) {
-      let url = "";
-      switch (parseInt(id)) {
-        case 1:
-          url = "/pages/navigation/standardOrder";
-          break;
-        case 2:
-          url = "/pages/navigation/depositOrder";
-          break;
-      }
+    handleClick(path) {
       uni.navigateTo({
-        url: url,
+        url: path,
       });
     },
   },

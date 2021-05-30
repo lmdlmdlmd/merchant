@@ -63,10 +63,16 @@
         </view>
       </view>
       <view class="operation_goods">
-        <van-button type="primary" class="reset_goods" @click="handleReset"
+        <van-button
+          type="primary"
+          class="reset_goods"
+          @click="handleAddGoods('-1')"
           >新增商品</van-button
         >
-        <van-button type="primary" class="determine_goods" @click="handleSubmit"
+        <van-button
+          type="primary"
+          class="determine_goods"
+          @click="handleSelectGoods"
           >选择商品</van-button
         >
       </view>
@@ -91,16 +97,29 @@
                 </view>
               </van-col>
             </van-row>
+            <van-row class="info">
+              <van-col span="12">规格</van-col>
+              <van-col span="12" class="info_right">{{
+                item.specifications
+              }}</van-col>
+            </van-row>
+            <van-row class="info">
+              <van-col span="12">型号</van-col>
+              <van-col span="12" class="info_right">{{ item.model }}</van-col>
+            </van-row>
           </view>
         </view>
         <view class="good_opr">
-          <van-button type="primary" class="reset_goods" @click="handleReset"
+          <van-button
+            type="primary"
+            class="reset_goods"
+            @click="handleAddGoods(item.id)"
             >修改商品</van-button
           >
           <van-button
             type="primary"
             class="determine_goods"
-            @click="handleSubmit"
+            @click.stop="handleDelete(item.id)"
             >删除商品</van-button
           >
         </view>
@@ -108,9 +127,24 @@
       <view class="deposit_info">
         <p class="ci_title">金额信息</p>
         <view class="ci_con">
-          <van-field class="br" v-model="allMoney" label="整单金额" />
-          <van-field v-model="allPreferential" label="整单优惠" />
-          <van-field class="br" v-model="receivableMoney" label="应收金额" />
+          <view class="ci_con_box">
+            <van-row class="info">
+              <van-col span="12">整单金额</van-col>
+              <van-col span="12" class="info_right">{{ allMoney }}</van-col>
+            </van-row>
+            <van-row class="info">
+              <van-col span="12">整单优惠</van-col>
+              <van-col span="12" class="info_right">{{
+                allPreferential
+              }}</van-col>
+            </van-row>
+            <van-row class="info">
+              <van-col span="12">应收金额</van-col>
+              <van-col span="12" class="info_right">{{
+                receivableMoney
+              }}</van-col>
+            </van-row>
+          </view>
         </view>
       </view>
       <p class="ci_title">备注信息</p>
@@ -127,7 +161,7 @@
         <van-button type="primary" class="reset" @click="handleReset"
           >重置</van-button
         >
-        <van-button type="primary" class="determine" @click="handleSubmit"
+        <van-button type="primary" class="determine" @click.stop="handleSubmit"
           >确定</van-button
         >
       </view>
@@ -176,17 +210,37 @@
         />
       </view>
     </van-popup>
+    <selectGoods
+      :show="isSelectGoddShow"
+      @isShow="handleIsShow"
+      @goods="handleSelectGood"
+    />
+    <van-dialog v-model="show" :showConfirmButton="false">
+      <view class="dialog_box">
+        <image
+          class="warning"
+          src="../../../static/img/icon/warning.png"
+        ></image>
+        <text class="dele_title">确定删除此商品？</text>
+        <view class="dialog_btn">
+          <button class="btn_cancel" @click="show = false">取消</button>
+          <button class="btn_confim" @click="handleConfim">确定</button></view
+        >
+      </view>
+    </van-dialog>
   </view>
 </template>
 
 <script>
-import zzNavBar from "../components/zz-nav-bar";
-import Footer from "../components/footer-nav";
+import zzNavBar from "../../components/zz-nav-bar";
+import Footer from "../../components/footer-nav";
+import selectGoods from "../components/selectGoods";
 import { areaList } from "@vant/area-data";
 export default {
   components: {
     zzNavBar,
     Footer,
+    selectGoods,
   },
   data() {
     return {
@@ -208,7 +262,9 @@ export default {
       currenTypeAdd: "",
       goods: [
         {
-          name: "实木沙发北欧组合现代简约新中式客厅家具组",
+          id: 1,
+          name:
+            "实木沙发北欧组合现代简约新中式客厅简约新中式约新中式客厅简约新中约新中式客厅简约新中约新中式客厅简约新中客厅简约新中式客厅简约新中式客厅家具组",
           money: 999.0,
           number: 1,
           goodNumber: 30,
@@ -216,6 +272,7 @@ export default {
           model: "SFIP99200U990",
         },
         {
+          id: 2,
           name: "实木沙发北欧组合现代简约新中式客厅家具组",
           money: 999.0,
           number: 1,
@@ -228,10 +285,50 @@ export default {
       allPreferential: "¥999.00",
       receivableMoney: "¥999.00",
       askremark: "",
+      isSelectGoddShow: false,
+      show: false,
+      delId: "",
     };
   },
   onLoad() {},
   methods: {
+    //删除商品
+    handleDelete(id) {
+      this.show = true;
+      this.delId = id;
+    },
+    handleConfim() {
+      //调用接口delId
+      this.show = false;
+    },
+    //新增商品
+    handleAddGoods(id) {
+      uni.navigateTo({
+        url: `/pages/navigation/standard/addGood?id=${id}`,
+      });
+    },
+    //获取选择的商品
+    handleSelectGood(e) {
+      console.log(e);
+      //将传过来的数据加到goods
+      this.goods.push({
+        name:
+          "实木沙发北欧组合现代简约新中式客厅简约新中式约新中式客厅简约新中约新中式客厅简约新中约新中式客厅简约新中客厅简约新中式客厅简约新中式客厅家具组",
+        money: 999.0,
+        number: 1,
+        goodNumber: 30,
+        specifications: "75757575",
+        model: "SFIP99200U990",
+      });
+    },
+    //关闭选择商品
+    handleIsShow() {
+      this.isSelectGoddShow = false;
+    },
+    //选择商品
+    handleSelectGoods() {
+      this.isSelectGoddShow = true;
+    },
     //增加商品数量
     handleAdd(data) {
       this.goods.map((item) => {
@@ -293,8 +390,9 @@ export default {
     },
     //提交
     handleSubmit() {
+      //提交之后有个id要传到详情页去查询详情
       uni.navigateTo({
-        url: `/pages/navigation/depositOrderDetail`,
+        url: `/pages/navigation/standard/standardOrderDetail`,
       });
     },
     //重置
@@ -305,6 +403,9 @@ export default {
       this.name = "";
       this.phone = "";
       this.money = "";
+      (this.currentAddName = ""),
+        (this.currenTypeAdd = ""),
+        (this.currentDate = "");
     },
   },
 };
@@ -344,7 +445,7 @@ export default {
     width: calc(100% - 20px);
     .reset,
     .determine {
-      color: #000;
+      color: rgba(0, 0, 0, 0.5);
       background: #dddddd;
       border: none;
       outline: none;
@@ -425,6 +526,16 @@ export default {
     font-size: 12px;
     color: #1e1e1e;
     font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    width: auto;
+    height: 35px;
+    word-break: break-all;
+    // margin-top: -16upx;
   }
   .ci_con_box {
     border-radius: 10px;
@@ -434,10 +545,59 @@ export default {
   .opr_sh {
     text-align: right;
   }
+  .good_money_box {
+    margin-top: 5px;
+  }
+  .good_money {
+    color: #1e1e1e;
+    font-size: 12px;
+  }
+  .info {
+    color: #1e1e1e;
+    font-size: 12px;
+    margin-top: 6px;
+    .info_right {
+      text-align: right;
+    }
+  }
+}
+.dialog_box {
+  padding: 28upx 0 25upx;
+  text-align: center;
+
+  .warning {
+    width: 32upx;
+    height: 32upx;
+    vertical-align: middle;
+  }
+  .dele_title {
+    color: #000;
+    font-size: 28upx;
+    margin-left: 20upx;
+  }
+  .dialog_btn {
+    padding: 40upx 0;
+    width: 248upx;
+    margin: 0 auto 30upx;
+  }
+  .btn_cancel,
+  .btn_confim {
+    width: 114upx;
+    line-height: 48upx;
+    color: #000;
+    font-size: 28upx;
+    background: #fff;
+    float: left;
+  }
+  .btn_confim {
+    background: #1890ff;
+    margin-left: 20upx;
+    color: #fff;
+  }
 }
 .depositOrderBox {
   background: #f5f5f5;
-  height: 100vh;
+  min-height: 100vh;
 }
 .footer {
   position: fixed;
@@ -468,5 +628,8 @@ export default {
 /deep/ .textAreaRemark .van-field__word-limit {
   margin-right: 10px;
   margin-bottom: 10px;
+}
+/deep/.van-dialog {
+  width: 260px;
 }
 </style>

@@ -197,7 +197,8 @@ export default {
 }
 
 .navbar__placeholder {
-  height: calc(88upx + var(--status-bar-height));
+  height: calc(80upx + var(--status-bar-height));
+  border-bottom: 1px solid #eeeeee;
 }
 
 .navbar--fixed {

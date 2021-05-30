@@ -11,7 +11,10 @@
       <view class="code_info">
         <p class="ci_title">二维码信息</p>
         <view class="ci_con">
-          <image src="../../static/img/imgs/code.png" class="code_img"></image>
+          <image
+            src="../../../static/img/imgs/code.png"
+            class="code_img"
+          ></image>
           <p>订单号：XSDH-202103010002</p>
         </view>
       </view>
@@ -42,8 +45,8 @@
 </template>
 
 <script>
-import zzNavBar from "../components/zz-nav-bar";
-import Footer from "../components/footer-nav";
+import zzNavBar from "../../components/zz-nav-bar";
+import Footer from "../../components/footer-nav";
 export default {
   components: {
     zzNavBar,
@@ -101,7 +104,7 @@ export default {
   }
   .ci_con {
     width: calc(100% - 20px);
-    padding: 10px;
+    padding: 0 10px 10px;
     background: #fafafa;
   }
   .br {
@@ -137,7 +140,7 @@ export default {
 }
 .depositOrderDetailBox {
   background: #f5f5f5;
-  height: 100vh;
+  min-height: 100vh;
 }
 .footer {
   position: fixed;

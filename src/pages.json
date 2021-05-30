@@ -26,6 +26,30 @@
 			}
 		},
 		{
+			"path": "pages/mine/index",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/mine/edit",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"titleNView": false
+			}
+		},
+		{
+			"path": "pages/mine/forgotPassword",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"titleNView": false
+			}
+		},
+		{
 			"path": "pages/navigation/index",
 			"style": {
 				"navigationBarTextStyle": "white",
@@ -36,21 +60,84 @@
 			}
 		},
 		{
-			"path": "pages/navigation/depositOrder",
+			"path": "pages/navigation/deposit/depositOrder",
 			"style": {
 				"navigationBarTextStyle": "white",
 				"titleNView": false
 			}
 		},
 		{
-			"path": "pages/navigation/depositOrderDetail",
+			"path": "pages/navigation/deposit/depositOrderDetail",
 			"style": {
 				"navigationBarTextStyle": "white",
 				"titleNView": false
 			}
 		},
 		{
-			"path": "pages/navigation/standardOrder",
+			"path": "pages/navigation/standard/standardOrder",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"titleNView": false
+			}
+		},
+		{
+			"path": "pages/navigation/standard/standardOrderDetail",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"titleNView": false
+			}
+		},
+		{
+			"path": "pages/navigation/standard/addGood",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"titleNView": false
+			}
+		},
+		{
+			"path": "pages/navigation/commodityManagement/list",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"titleNView": false
+			}
+		},
+		{
+			"path": "pages/navigation/priceTag/index",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"titleNView": false
+			}
+		},
+		{
+			"path": "pages/navigation/priceTag/edit",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"titleNView": false
+			}
+		},
+		{
+			"path": "pages/navigation/salesInquiry/index",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"titleNView": false
+			}
+		},
+		{
+			"path": "pages/navigation/checkQuery/index",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"titleNView": false
+			}
+		},
+		{
+			"path": "pages/navigation/receivingQuery/index",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"titleNView": false
+			}
+		},
+		{
+			"path": "pages/navigation/receivingQuery/detail",
 			"style": {
 				"navigationBarTextStyle": "white",
 				"titleNView": false
