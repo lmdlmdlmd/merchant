@@ -1,65 +1,72 @@
 <template>
   <view class="depositOrderBox">
-    <zz-nav-bar title="标准订单" @click-right="rightClick"></zz-nav-bar>
+    <zz-nav-bar
+      title="标准订单"
+      leftIcon="back"
+      @click-right="rightClick"
+    ></zz-nav-bar>
 
     <view class="content">
-      <view class="customer_info">
-        <p class="ci_title">顾客信息</p>
-        <view class="ci_con">
-          <van-field
-            class="br"
-            placeholder="请输入商铺"
-            v-model="shops"
-            label="商铺"
-          />
-          <van-field
-            class="bg"
-            placeholder="请输入品牌名称"
-            v-model="brandName"
-            label="品牌名称"
-          />
-          <van-field
-            v-model="cardNumber"
-            placeholder="请输入会员号或手机号"
-            label="会员卡号"
-            right-icon="search"
-            @click-right-icon="handleRightSearch"
-          />
-          <van-field
-            class="bg"
-            v-model="name"
-            placeholder="请输入顾客姓名"
-            label="顾客姓名"
-          />
-          <van-field
-            v-model="phone"
-            placeholder="请输入联系电话"
-            label="联系电话"
-          />
-          <van-field
-            class="bg"
-            :clickable="true"
-            v-model="currentDate"
-            placeholder="请选择送货日期"
-            label="送货日期"
-            right-icon="arrow"
-            @click-right-icon="dataShow = true"
-          />
-          <van-field
-            v-model="currenTypeAdd"
-            placeholder="请输入送货方式"
-            label="送货方式"
-            right-icon="arrow"
-            @click-right-icon="addTypeShow = true"
-          />
-          <van-field
-            class="br bg"
-            placeholder="请输入送货地址"
-            v-model="currentAddName"
-            label="送货地址"
-            right-icon="arrow"
-            @click-right-icon="addShow = true"
-          />
+      <Anchor :anchor="anchor" />
+      <view id="screens1">
+        <view class="customer_info">
+          <p class="ci_title">顾客信息</p>
+          <view class="ci_con">
+            <van-field
+              class="br"
+              placeholder="请输入商铺"
+              v-model="shops"
+              label="商铺"
+            />
+            <van-field
+              class="bg"
+              placeholder="请输入品牌名称"
+              v-model="brandName"
+              label="品牌名称"
+            />
+            <van-field
+              v-model="cardNumber"
+              placeholder="请输入会员号或手机号"
+              label="会员卡号"
+              right-icon="search"
+              @click-right-icon="handleRightSearch"
+            />
+            <van-field
+              class="bg"
+              v-model="name"
+              placeholder="请输入顾客姓名"
+              label="顾客姓名"
+            />
+            <van-field
+              v-model="phone"
+              placeholder="请输入联系电话"
+              label="联系电话"
+            />
+            <van-field
+              class="bg"
+              :clickable="true"
+              v-model="currentDate"
+              placeholder="请选择送货日期"
+              label="送货日期"
+              right-icon="arrow"
+              @click-right-icon="dataShow = true"
+            />
+            <van-field
+              v-model="currenTypeAdd"
+              placeholder="请输入送货方式"
+              label="送货方式"
+              right-icon="arrow"
+              @click-right-icon="addTypeShow = true"
+            />
+            <van-field
+              class="br bg"
+              placeholder="请输入送货地址"
+              v-model="currentAddName"
+              label="送货地址"
+              right-icon="arrow"
+              @click-right-icon="addShow = true"
+            />
+          </view>
         </view>
       </view>
       <view class="operation_goods">
@@ -76,94 +83,103 @@
           >选择商品</van-button
         >
       </view>
-      <view class="deposit_info" v-for="(item, index) of goods" :key="index">
-        <p class="ci_title" v-show="index == 0">商品信息</p>
-        <view class="ci_con">
-          <view class="ci_con_box">
-            <p class="good_name">{{ item.name }}</p>
-            <van-row class="good_money_box">
-              <van-col span="12">
-                <p class="good_money">
-                  ¥{{ item.money ? item.money.toFixed(2) : 0 + ".00" }}*{{
-                    item.number
-                  }}
-                </p>
-              </van-col>
-              <van-col span="12" class="opr_sh">
-                <view>
-                  <text class="add_sh" @click="handleAdd(item)">+</text>
-                  <text class="add_num">{{ item.goodNumber }}</text>
-                  <text class="de_sh" @click="handleDel(item)">-</text>
-                </view>
-              </van-col>
-            </van-row>
-            <van-row class="info">
-              <van-col span="12">规格</van-col>
-              <van-col span="12" class="info_right">{{
-                item.specifications
-              }}</van-col>
-            </van-row>
-            <van-row class="info">
-              <van-col span="12">型号</van-col>
-              <van-col span="12" class="info_right">{{ item.model }}</van-col>
-            </van-row>
+      <view id="screens2">
+        <view class="deposit_info" v-for="(item, index) of goods" :key="index">
+          <p class="ci_title" v-show="index == 0">商品信息</p>
+          <view class="ci_con">
+            <view class="ci_con_box">
+              <p class="good_name">{{ item.name }}</p>
+              <van-row class="good_money_box">
+                <van-col span="12">
+                  <p class="good_money">
+                    ¥{{ item.money ? item.money.toFixed(2) : 0 + ".00" }}*{{
+                      item.number
+                    }}
+                  </p>
+                </van-col>
+                <van-col span="12" class="opr_sh">
+                  <view>
+                    <text class="add_sh" @click="handleAdd(item)">+</text>
+                    <text class="add_num">{{ item.goodNumber }}</text>
+                    <text class="de_sh" @click="handleDel(item)">-</text>
+                  </view>
+                </van-col>
+              </van-row>
+              <van-row class="info">
+                <van-col span="12">规格</van-col>
+                <van-col span="12" class="info_right">{{
+                  item.specifications
+                }}</van-col>
+              </van-row>
+              <van-row class="info">
+                <van-col span="12">型号</van-col>
+                <van-col span="12" class="info_right">{{ item.model }}</van-col>
+              </van-row>
+            </view>
           </view>
-        </view>
-        <view class="good_opr">
-          <van-button
-            type="primary"
-            class="reset_goods"
-            @click="handleAddGoods(item.id)"
-            >修改商品</van-button
-          >
-          <van-button
-            type="primary"
-            class="determine_goods"
-            @click.stop="handleDelete(item.id)"
-            >删除商品</van-button
-          >
-        </view>
-      </view>
-      <view class="deposit_info">
-        <p class="ci_title">金额信息</p>
-        <view class="ci_con">
-          <view class="ci_con_box">
-            <van-row class="info">
-              <van-col span="12">整单金额</van-col>
-              <van-col span="12" class="info_right">{{ allMoney }}</van-col>
-            </van-row>
-            <van-row class="info">
-              <van-col span="12">整单优惠</van-col>
-              <van-col span="12" class="info_right">{{
-                allPreferential
-              }}</van-col>
-            </van-row>
-            <van-row class="info">
-              <van-col span="12">应收金额</van-col>
-              <van-col span="12" class="info_right">{{
-                receivableMoney
-              }}</van-col>
-            </van-row>
+          <view class="good_opr">
+            <van-button
+              type="primary"
+              class="reset_goods"
+              @click="handleAddGoods(item.id)"
+              >修改商品</van-button
+            >
+            <van-button
+              type="primary"
+              class="determine_goods"
+              @click.stop="handleDelete(item.id)"
+              >删除商品</van-button
+            >
           </view>
         </view>
       </view>
-      <p class="ci_title">备注信息</p>
-      <van-field
-        v-model="askremark"
-        autosize
-        type="textarea"
-        rows="2"
-        maxlength="100"
-        show-word-limit
-        class="textAreaRemark"
-      />
-      <view class="sub_box reset_box">
-        <van-button type="primary" class="reset" @click="handleReset"
-          >重置</van-button
-        >
-        <van-button type="primary" class="determine" @click.stop="handleSubmit"
-          >确定</van-button
-        >
+      <view id="screens3">
+        <view class="deposit_info">
+          <p class="ci_title">金额信息</p>
+          <view class="ci_con">
+            <view class="ci_con_box">
+              <van-row class="info">
+                <van-col span="12">整单金额</van-col>
+                <van-col span="12" class="info_right">{{ allMoney }}</van-col>
+              </van-row>
+              <van-row class="info">
+                <van-col span="12">整单优惠</van-col>
+                <van-col span="12" class="info_right">{{
+                  allPreferential
+                }}</van-col>
+              </van-row>
+              <van-row class="info">
+                <van-col span="12">应收金额</van-col>
+                <van-col span="12" class="info_right">{{
+                  receivableMoney
+                }}</van-col>
+              </van-row>
+            </view>
+          </view>
+        </view>
+        <p class="ci_title">备注信息</p>
+        <van-field
+          v-model="askremark"
+          autosize
+          type="textarea"
+          rows="2"
+          maxlength="100"
+          show-word-limit
+          class="textAreaRemark"
+        />
+      </view>
+      <view id="screens4">
+        <view class="sub_box reset_box">
+          <van-button type="primary" class="reset" @click="handleReset"
+            >重置</van-button
+          >
+          <van-button
+            type="primary"
+            class="determine"
+            @click.stop="handleSubmit"
+            >确定</van-button
+          >
+        </view>
       </view>
     </view>
     <view class="footer"> <Footer active="navigation"></Footer></view>
@@ -235,12 +251,14 @@
 import zzNavBar from "../../components/zz-nav-bar";
 import Footer from "../../components/footer-nav";
 import selectGoods from "../components/selectGoods";
+import Anchor from "../components/anchor";
 import { areaList } from "@vant/area-data";
 export default {
   components: {
     zzNavBar,
     Footer,
     selectGoods,
+    Anchor,
   },
   data() {
     return {
@@ -288,6 +306,7 @@ export default {
       isSelectGoddShow: false,
       show: false,
       delId: "",
+      anchor: ["顾客信息", "商品信息", "金额信息", "订单确认"],
     };
   },
   onLoad() {},
@@ -331,9 +350,10 @@ export default {
     },
     //增加商品数量
     handleAdd(data) {
+      console.log(data);
       this.goods.map((item) => {
         if (item.id == data.id) {
-          item.num = parseInt(item.num) + 1;
+          item.goodNumber = parseInt(item.goodNumber) + 1;
         }
       });
     },
@@ -341,7 +361,7 @@ export default {
     handleDel(data) {
       this.goods.map((item) => {
         if (item.id == data.id) {
-          item.num = parseInt(item.num) - 1;
+          item.goodNumber = parseInt(item.goodNumber) - 1;
         }
       });
     },
@@ -403,9 +423,10 @@ export default {
       this.name = "";
       this.phone = "";
       this.money = "";
-      (this.currentAddName = ""),
-        (this.currenTypeAdd = ""),
-        (this.currentDate = "");
+      this.askremark = "";
+      this.currentAddName = "";
+      this.currenTypeAdd = "";
+      this.currentDate = "";
     },
   },
 };
@@ -417,7 +438,11 @@ export default {
   .customer_info,
   .deposit_info {
     padding: 10px 0;
+    background: #fafafa;
     border-top: 1px solid #dddddd;
+  }
+  #screens1 {
+    padding-top: 65px;
   }
   .ci_title {
     color: #333;
@@ -619,6 +644,7 @@ export default {
   border-radius: 10px;
   width: 100%;
   padding: 0 20px;
+  text-align: left;
   box-sizing: border-box;
 }
 /deep/ .textAreaRemark .van-field__value {

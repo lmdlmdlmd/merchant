@@ -83,6 +83,7 @@
 </template>
 
 <script>
+import zzEmpty from "../../components/zz-empty";
 export default {
   name: "List",
   props: {
@@ -90,7 +91,9 @@ export default {
       type: Number,
     },
   },
-  components: {},
+  components: {
+    zzEmpty,
+  },
   data() {
     return {
       dataSource: [],
@@ -168,7 +171,20 @@ export default {
       }
       case 2: {
         this.dataSource = [
-          { id: 2, status: "2", sn: "JQDY-202103020002", number: "1" },
+          {
+            id: 3,
+            status: "1",
+            sn: "XSDH-202103010002",
+            checkDate: "2021/03/21",
+            expirationDate: "2021/04/21",
+            money: "200.00",
+            loanAmount: "100.00",
+            deductionAmount: "100.00",
+            refundAmount: "100.00",
+            returnsAmount: "100.00",
+            costAmount: "100.00",
+            paymentAmount: "100.00",
+          },
         ];
         break;
       }

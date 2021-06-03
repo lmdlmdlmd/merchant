@@ -75,4 +75,7 @@ export default {
   border-bottom: 1px solid #f0f0f0;
   padding: 10px 0;
 }
+/deep/.van-cell::after {
+  border: none;
+}
 </style>

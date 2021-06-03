@@ -3,7 +3,7 @@
     <view class="empty-container">
       <image
         v-if="image == 'default'"
-        src="../../static/img/icon/icon-back-arrow.png"
+        src="../../static/img/icon/no_data.png"
         class="icon"
       ></image>
       <image
@@ -69,8 +69,8 @@ export default {
 }
 
 .empty-container .icon {
-  width: 284upx;
-  height: 200upx;
+  width: 180upx;
+  height: 180upx;
   /* margin-bottom: 42upx; */
 }
 </style>

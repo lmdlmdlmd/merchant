@@ -8,35 +8,47 @@
     ></zz-nav-bar>
 
     <view class="content">
-      <view class="code_info">
-        <p class="ci_title">二维码信息</p>
-        <view class="ci_con">
-          <image
-            src="../../../static/img/imgs/code.png"
-            class="code_img"
-          ></image>
-          <p>订单号：XSDH-202103010002</p>
+      <Anchor :anchor="anchor" />
+      <view id="screens1">
+        <view class="code_info">
+          <p class="ci_title">二维码信息</p>
+          <view class="ci_con">
+            <image
+              src="../../../static/img/imgs/code.png"
+              class="code_img"
+            ></image>
+            <p>订单号：XSDH-202103010002</p>
+          </view>
         </view>
       </view>
-      <view class="customer_info">
-        <p class="ci_title">顾客信息</p>
-        <view class="ci_con">
-          <van-field class="br" v-model="shops" label="商铺" readonly />
-          <van-field class="bg" v-model="brandName" label="品牌名称" readonly />
-          <van-field v-model="cardNumber" label="会员卡号" readonly />
-          <van-field class="bg" v-model="name" label="顾客姓名" readonly />
-          <van-field
-            class="br phone"
-            v-model="phone"
-            label="联系电话"
-            readonly
-          />
+      <view id="screens2">
+        <view class="customer_info">
+          <p class="ci_title">顾客信息</p>
+          <view class="ci_con">
+            <van-field class="br" v-model="shops" label="商铺" readonly />
+            <van-field
+              class="bg"
+              v-model="brandName"
+              label="品牌名称"
+              readonly
+            />
+            <van-field v-model="cardNumber" label="会员卡号" readonly />
+            <van-field class="bg" v-model="name" label="顾客姓名" readonly />
+            <van-field
+              class="br phone"
+              v-model="phone"
+              label="联系电话"
+              readonly
+            />
+          </view>
         </view>
       </view>
-      <view class="deposit_info">
-        <p class="ci_title">定金信息</p>
-        <view class="ci_con">
-          <van-field class="br money" v-model="money" label="定金金额" />
+      <view id="screens3">
+        <view class="deposit_info pad_64">
+          <p class="ci_title">定金信息</p>
+          <view class="ci_con">
+            <van-field class="br money" v-model="money" label="定金金额" />
+          </view>
         </view>
       </view>
     </view>
@@ -47,10 +59,12 @@
 <script>
 import zzNavBar from "../../components/zz-nav-bar";
 import Footer from "../../components/footer-nav";
+import Anchor from "../components/anchor";
 export default {
   components: {
     zzNavBar,
     Footer,
+    Anchor,
   },
   data() {
     return {
@@ -60,6 +74,7 @@ export default {
       name: "王立伟",
       phone: "15515569201",
       money: "¥999.00",
+      anchor: ["二维码信息", "顾客信息", "定金信息"],
     };
   },
   onLoad() {},
@@ -70,11 +85,17 @@ export default {
 <style lang="less" scoped>
 .content {
   margin: 0 auto 68upx;
+  #screens1 {
+    padding-top: 55px;
+  }
   .customer_info,
   .deposit_info,
   .code_info {
     padding: 10px 0;
     border-top: 1px solid #dddddd;
+  }
+  .pad_64 {
+    padding-bottom: 64px;
   }
   .code_info {
     margin-top: 10px;

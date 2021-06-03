@@ -34,7 +34,7 @@
     </view>
     <view class="content">
       <view class="deposit_info" v-for="(item, index) of goods" :key="index">
-        <p class="ci_title" v-show="index == 0">商品信息</p>
+        <!-- <p class="ci_title" v-show="index == 0">商品信息</p> -->
 
         <view class="ci_con">
           <view class="ci_con_box">

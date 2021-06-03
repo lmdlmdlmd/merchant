@@ -1,62 +1,73 @@
 <template>
   <view class="depositOrderBox">
-    <zz-nav-bar title="定金订单" @click-right="rightClick"></zz-nav-bar>
+    <zz-nav-bar
+      title="定金订单"
+      leftIcon="back"
+      @click-right="rightClick"
+    ></zz-nav-bar>
 
     <view class="content">
-      <view class="customer_info">
-        <p class="ci_title">顾客信息</p>
-        <view class="ci_con">
-          <van-field
-            class="br"
-            placeholder="请输入商铺"
-            v-model="shops"
-            label="商铺"
-          />
-          <van-field
-            class="bg"
-            placeholder="请输入品牌名称"
-            v-model="brandName"
-            label="品牌名称"
-          />
-          <van-field
-            v-model="cardNumber"
-            placeholder="请输入会员号或手机号"
-            label="会员卡号"
-            right-icon="search"
-            @click-right-icon="handleRightSearch"
-          />
-          <van-field
-            class="bg"
-            v-model="name"
-            placeholder="请输入顾客姓名"
-            label="顾客姓名"
-          />
-          <van-field
-            class="br"
-            v-model="phone"
-            placeholder="请输入联系电话"
-            label="联系电话"
-          />
+      <Anchor :anchor="anchor" />
+      <view id="screens1">
+        <view class="customer_info">
+          <p class="ci_title">顾客信息</p>
+          <view class="ci_con">
+            <van-field
+              class="br"
+              placeholder="请输入商铺"
+              v-model="shops"
+              label="商铺"
+            />
+            <van-field
+              class="bg"
+              placeholder="请输入品牌名称"
+              v-model="brandName"
+              label="品牌名称"
+            />
+            <van-field
+              v-model="cardNumber"
+              placeholder="请输入会员号或手机号"
+              label="会员卡号"
+              right-icon="search"
+              @click-right-icon="handleRightSearch"
+            />
+            <van-field
+              class="bg"
+              v-model="name"
+              placeholder="请输入顾客姓名"
+              label="顾客姓名"
+            />
+            <van-field
+              class="br"
+              v-model="phone"
+              placeholder="请输入联系电话"
+              label="联系电话"
+            />
+          </view>
         </view>
       </view>
-      <view class="deposit_info">
-        <p class="ci_title">定金信息</p>
-        <view class="ci_con">
-          <van-field
-            class="br"
-            v-model="money"
-            placeholder="请输入定金金额"
-            label="定金金额"
-          />
+      <view id="screens2">
+        <view class="deposit_info">
+          <p class="ci_title">定金信息</p>
+          <view class="ci_con">
+            <van-field
+              class="br"
+              v-model="money"
+              placeholder="请输入定金金额"
+              label="定金金额"
+            />
+          </view>
         </view>
       </view>
-      <view class="sub_box">
-        <van-button type="primary" class="reset" @click="handleReset"
-          >重置</van-button
-        >
-        <van-button type="primary" class="determine" @click="handleSubmit"
-          >确定</van-button
-        >
+      <view id="screens3">
+        <view class="sub_box">
+          <van-button type="primary" class="reset" @click="handleReset"
+            >重置</van-button
+          >
+          <van-button type="primary" class="determine" @click="handleSubmit"
+            >确定</van-button
+          >
+        </view>
       </view>
     </view>
     <view class="footer"> <Footer active="navigation"></Footer></view>
@@ -66,10 +77,12 @@
 <script>
 import zzNavBar from "../../components/zz-nav-bar";
 import Footer from "../../components/footer-nav";
+import Anchor from "../components/anchor";
 export default {
   components: {
     zzNavBar,
     Footer,
+    Anchor,
   },
   data() {
     return {
@@ -79,6 +92,7 @@ export default {
       name: "",
       phone: "",
       money: "¥999",
+      anchor: ["顾客信息", "定金信息", "订单确认"],
     };
   },
   onLoad() {},
@@ -117,6 +131,9 @@ export default {
 <style lang="less" scoped>
 .content {
   margin: 0 auto 68upx;
+  #screens1 {
+    padding-top: 65px;
+  }
   .customer_info,
   .deposit_info {
     padding: 10px 0;

@@ -1,6 +1,10 @@
 <template>
   <view class="checkQueryBox">
-    <zz-nav-bar title="对账查询"></zz-nav-bar>
+    <zz-nav-bar
+      title="对账查询"
+      leftIcon="back"
+      @click-right="rightClick"
+    ></zz-nav-bar>
 
     <view class="content">
       <van-tabs v-model="active" color="#0091FF">

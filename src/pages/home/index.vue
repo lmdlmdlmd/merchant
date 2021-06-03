@@ -136,8 +136,8 @@ export default {
       minDate: new Date(1900, 0, 1),
       maxDate: new Date(2999, 10, 1),
       currentDate: new Date(),
-      dateStart: "",
-      dateEnd: "",
+      dateStart: new Date(),
+      dateEnd: new Date(),
       type: "", //表示开始时间还是结束时间
       addShow: false, //切换用户身份
       columns: [
@@ -183,6 +183,13 @@ export default {
         this.dateEnd = [year, month, date].join("-");
       }
       this.show = false;
+      if (this.dateStart && this.dateEnd) {
+        uni.showToast({
+          icon: "none",
+          position: "bottom",
+          title: "查询成功",
+        });
+      }
       //开始时间结束时间同时存在刷新页面
       // const params = {};
       // Vue.prototype.$api.updateUser(params).then((res) => {

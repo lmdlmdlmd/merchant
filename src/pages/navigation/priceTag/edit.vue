@@ -1,79 +1,91 @@
 <template>
   <view class="tagEditBox">
     <zz-nav-bar
-      title="价签打印详情"
+      title="价签打印申请"
       leftIcon="back"
       @click-right="rightClick"
     ></zz-nav-bar>
 
     <view class="content">
-      <view class="deposit_info">
-        <p class="ci_title">基本信息</p>
-        <view class="ci_con">
-          <view class="ci_con_box">
-            <van-row class="info">
-              <van-col span="12">商铺</van-col>
-              <van-col span="12" class="info_right">{{ shops }}</van-col>
-            </van-row>
-            <van-row class="info">
-              <van-col span="12">主营品牌</van-col>
-              <van-col span="12" class="info_right">{{ brand }}</van-col>
-            </van-row>
-            <van-row class="info">
-              <van-col span="12">商户</van-col>
-              <van-col span="12" class="info_right">{{ merchants }}</van-col>
-            </van-row>
-          </view>
-        </view>
-        <view class="operation_goods">
-          <van-button
-            type="primary"
-            class="determine_goods"
-            @click="isSelectGoddShow = true"
-            >选择商品</van-button
-          >
-        </view>
-      </view>
-      <view v-show="goods.length !== 0">
-        <view class="deposit_info" v-for="(item, index) of goods" :key="index">
+      <Anchor :anchor="anchor" />
+      <view id="screens1">
+        <view class="deposit_info">
+          <p class="ci_title">基本信息</p>
           <view class="ci_con">
             <view class="ci_con_box">
-              <p class="good_name">{{ item.name }}</p>
               <van-row class="info">
-                <van-col span="12">金额</van-col>
-                <van-col span="12" class="info_right">
-                  ¥{{ item.money ? item.money.toFixed(2) : 0 + ".00" }}*{{
-                    item.number
-                  }}</van-col
-                >
+                <van-col span="12">商铺</van-col>
+                <van-col span="12" class="info_right">{{ shops }}</van-col>
               </van-row>
               <van-row class="info">
-                <van-col span="12">规格</van-col>
-                <van-col span="12" class="info_right">{{
-                  item.specifications
-                }}</van-col>
+                <van-col span="12">主营品牌</van-col>
+                <van-col span="12" class="info_right">{{ brand }}</van-col>
               </van-row>
               <van-row class="info">
-                <van-col span="12">型号</van-col>
-                <van-col span="12" class="info_right">{{ item.model }}</van-col>
+                <van-col span="12">商户</van-col>
+                <van-col span="12" class="info_right">{{ merchants }}</van-col>
               </van-row>
-            </view>
-            <view class="good_opr">
-              <van-button
-                type="primary"
-                class="del_goods"
-                @click.stop="handleDelete(item.id)"
-                >删除商品</van-button
-              >
             </view>
           </view>
-          <view class="sub_box" v-if="index == goods.length - 1">
+          <view class="operation_goods">
             <van-button
               type="primary"
-              class="determine"
-              @click.stop="handleSubmit"
-              >确定</van-button
+              class="determine_goods"
+              @click="isSelectGoddShow = true"
+              >选择商品</van-button
             >
+          </view>
+        </view>
+      </view>
+      <view id="screens2">
+        <view v-show="goods.length !== 0">
+          <view
+            class="deposit_info"
+            v-for="(item, index) of goods"
+            :key="index"
+          >
+            <p class="ci_title" v-show="index == 0">商品信息</p>
+            <view class="ci_con">
+              <view class="ci_con_box">
+                <p class="good_name">{{ item.name }}</p>
+                <van-row class="info">
+                  <van-col span="12">金额</van-col>
+                  <van-col span="12" class="info_right">
+                    ¥{{ item.money ? item.money.toFixed(2) : 0 + ".00" }}*{{
+                      item.number
+                    }}</van-col
+                  >
+                </van-row>
+                <van-row class="info">
+                  <van-col span="12">规格</van-col>
+                  <van-col span="12" class="info_right">{{
+                    item.specifications
+                  }}</van-col>
+                </van-row>
+                <van-row class="info">
+                  <van-col span="12">型号</van-col>
+                  <van-col span="12" class="info_right">{{
+                    item.model
+                  }}</van-col>
+                </van-row>
+              </view>
+              <view class="good_opr">
+                <van-button
+                  type="primary"
+                  class="del_goods"
+                  @click.stop="handleDelete(item.id)"
+                  >删除商品</van-button
+                >
+              </view>
+            </view>
+            <view class="sub_box" v-if="index == goods.length - 1">
+              <van-button
+                type="primary"
+                class="determine"
+                @click.stop="handleSubmit"
+                >确定</van-button
+              >
+            </view>
           </view>
         </view>
       </view>
@@ -101,11 +113,13 @@
 
 <script>
 import zzNavBar from "../../components/zz-nav-bar";
+import Anchor from "../components/anchor";
 import selectGoods from "../components/selectGoods";
 export default {
   components: {
     zzNavBar,
     selectGoods,
+    Anchor,
   },
   data() {
     return {
@@ -116,6 +130,7 @@ export default {
       show: false,
       delId: "",
       goods: [],
+      anchor: ["基本信息", "商品信息"],
     };
   },
   onLoad(query) {
@@ -184,6 +199,9 @@ export default {
 .content {
   padding-bottom: 68px;
   margin: 0 auto 68upx;
+  #screens1 {
+    padding-top: 65px;
+  }
   .deposit_info {
     background: #fafafa;
     border-top: 1px solid #ddd;

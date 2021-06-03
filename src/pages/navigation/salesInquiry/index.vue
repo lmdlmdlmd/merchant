@@ -1,6 +1,10 @@
 <template>
   <view class="salesInquiryBox">
-    <zz-nav-bar title="销售查询" @click-right="rightClick"></zz-nav-bar>
+    <zz-nav-bar
+      title="销售查询"
+      leftIcon="back"
+      @click-right="rightClick"
+    ></zz-nav-bar>
 
     <view class="content">
       <view class="selling_period">
@@ -120,30 +124,30 @@ export default {
       maxDate: new Date(2999, 10, 1),
       currentDate: new Date(),
       dataSource: [
-        // {
-        //   id: 1,
-        //   sn: "XSDH-202103010002",
-        //   type: "定金单",
-        //   date: "2021/04/21",
-        //   card: "9080797",
-        //   price: "20099.00",
-        // },
-        // {
-        //   id: 2,
-        //   sn: "XSDH-202103010002",
-        //   type: "销售单",
-        //   date: "2021/04/21",
-        //   card: "9080797",
-        //   price: "20099.00",
-        // },
-        // {
-        //   id: 3,
-        //   sn: "XSDH-202103010002",
-        //   type: "定金单",
-        //   date: "2021/04/21",
-        //   card: "9080797",
-        //   price: "20099.00",
-        // },
+        {
+          id: 1,
+          sn: "XSDH-202103010002",
+          type: "定金单",
+          date: "2021/04/21",
+          card: "9080797",
+          price: "20099.00",
+        },
+        {
+          id: 2,
+          sn: "XSDH-202103010002",
+          type: "销售单",
+          date: "2021/04/21",
+          card: "9080797",
+          price: "20099.00",
+        },
+        {
+          id: 3,
+          sn: "XSDH-202103010002",
+          type: "定金单",
+          date: "2021/04/21",
+          card: "9080797",
+          price: "20099.00",
+        },
       ],
     };
   },
@@ -168,6 +172,9 @@ export default {
         this.dateStart = [year, month, date].join("-");
       } else {
         this.dateEnd = [year, month, date].join("-");
+      }
+      if (this.dateStart && this.dateEnd) {
+        this.dataSource = [];
       }
       this.show = false;
     },

@@ -1,6 +1,10 @@
 <template>
   <view class="receivingQueryBox">
-    <zz-nav-bar title="收款查询" @click-right="rightClick"></zz-nav-bar>
+    <zz-nav-bar
+      title="收款查询"
+      leftIcon="back"
+      @click-right="rightClick"
+    ></zz-nav-bar>
 
     <view class="content">
       <van-tabs v-model="active" color="#0091FF">

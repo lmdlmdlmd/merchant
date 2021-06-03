@@ -7,89 +7,103 @@
     ></zz-nav-bar>
 
     <view class="content">
-      <view class="customer_info code_info">
-        <p class="ci_title">二维码信息</p>
-        <view class="ci_con">
-          <view class="code_box">
-            <image
-              src="../../../static/img/imgs/code.png"
-              class="code_img"
-            ></image>
-            <p class="mato18">订单号：XSDH-202103010002</p>
+      <Anchor :anchor="anchor" />
+      <view id="screens1">
+        <view class="customer_info code_info">
+          <p class="ci_title">二维码信息</p>
+          <view class="ci_con">
+            <view class="code_box">
+              <image
+                src="../../../static/img/imgs/code.png"
+                class="code_img"
+              ></image>
+              <p class="mato18">订单号：XSDH-202103010002</p>
+            </view>
           </view>
         </view>
       </view>
-      <view class="customer_info">
-        <p class="ci_title">顾客信息</p>
-        <view class="ci_con">
-          <van-field class="br" readonly v-model="shops" label="商铺" />
-          <van-field class="bg" readonly v-model="brandName" label="品牌名称" />
-          <van-field v-model="cardNumber" readonly label="会员卡号" />
-          <van-field class="bg" v-model="name" readonly label="顾客姓名" />
-          <van-field v-model="phone" readonly label="联系电话" />
-          <van-field
-            class="bg"
-            readonly
-            :clickable="true"
-            v-model="currentDate"
-            label="送货日期"
-          />
-          <van-field readonly v-model="currenTypeAdd" label="送货方式" />
-          <van-field
-            readonly
-            class="br bg"
-            v-model="currentAddName"
-            label="送货地址"
-          />
-        </view>
-      </view>
-      <view class="deposit_info" v-for="(item, index) of goods" :key="index">
-        <p class="ci_title" v-show="index == 0">商品信息</p>
-        <view class="ci_con">
-          <view class="ci_con_box">
-            <p class="good_name">{{ item.name }}</p>
-            <van-row class="good_money_box">
-              <van-col span="12">
-                <p class="good_money">
-                  ¥{{ item.money ? item.money.toFixed(2) : 0 + ".00" }}*{{
-                    item.number
-                  }}
-                </p>
-              </van-col>
-            </van-row>
-            <van-row class="info">
-              <van-col span="12">规格</van-col>
-              <van-col span="12" class="info_right">{{
-                item.specifications
-              }}</van-col>
-            </van-row>
-            <van-row class="info">
-              <van-col span="12">型号</van-col>
-              <van-col span="12" class="info_right">{{ item.model }}</van-col>
-            </van-row>
+      <view id="screens2">
+        <view class="customer_info">
+          <p class="ci_title">顾客信息</p>
+          <view class="ci_con">
+            <van-field class="br" readonly v-model="shops" label="商铺" />
+            <van-field
+              class="bg"
+              readonly
+              v-model="brandName"
+              label="品牌名称"
+            />
+            <van-field v-model="cardNumber" readonly label="会员卡号" />
+            <van-field class="bg" v-model="name" readonly label="顾客姓名" />
+            <van-field v-model="phone" readonly label="联系电话" />
+            <van-field
+              class="bg"
+              readonly
+              :clickable="true"
+              v-model="currentDate"
+              label="送货日期"
+            />
+            <van-field readonly v-model="currenTypeAdd" label="送货方式" />
+            <van-field
+              readonly
+              class="br bg"
+              v-model="currentAddName"
+              label="送货地址"
+            />
           </view>
         </view>
       </view>
-      <view class="deposit_info">
-        <p class="ci_title">金额信息</p>
-        <view class="ci_con">
-          <view class="ci_con_box">
-            <van-row class="info">
-              <van-col span="12">整单金额"</van-col>
-              <van-col span="12" class="info_right">{{ allMoney }}</van-col>
-            </van-row>
-            <van-row class="info">
-              <van-col span="12">整单优惠</van-col>
-              <van-col span="12" class="info_right">{{
-                allPreferential
-              }}</van-col>
-            </van-row>
-            <van-row class="info">
-              <van-col span="12">应收金额</van-col>
-              <van-col span="12" class="info_right">{{
-                receivableMoney
-              }}</van-col>
-            </van-row>
+      <view id="screens3">
+        <view class="deposit_info" v-for="(item, index) of goods" :key="index">
+          <p class="ci_title" v-show="index == 0">商品信息</p>
+          <view class="ci_con">
+            <view class="ci_con_box">
+              <p class="good_name">{{ item.name }}</p>
+              <van-row class="good_money_box">
+                <van-col span="12">
+                  <p class="good_money">
+                    ¥{{ item.money ? item.money.toFixed(2) : 0 + ".00" }}*{{
+                      item.number
+                    }}
+                  </p>
+                </van-col>
+              </van-row>
+              <van-row class="info">
+                <van-col span="12">规格</van-col>
+                <van-col span="12" class="info_right">{{
+                  item.specifications
+                }}</van-col>
+              </van-row>
+              <van-row class="info">
+                <van-col span="12">型号</van-col>
+                <van-col span="12" class="info_right">{{ item.model }}</van-col>
+              </van-row>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view id="screens4">
+        <view class="deposit_info">
+          <p class="ci_title">金额信息</p>
+          <view class="ci_con">
+            <view class="ci_con_box">
+              <van-row class="info">
+                <van-col span="12">整单金额"</van-col>
+                <van-col span="12" class="info_right">{{ allMoney }}</van-col>
+              </van-row>
+              <van-row class="info">
+                <van-col span="12">整单优惠</van-col>
+                <van-col span="12" class="info_right">{{
+                  allPreferential
+                }}</van-col>
+              </van-row>
+              <van-row class="info">
+                <van-col span="12">应收金额</van-col>
+                <van-col span="12" class="info_right">{{
+                  receivableMoney
+                }}</van-col>
+              </van-row>
+            </view>
           </view>
         </view>
       </view>
@@ -110,10 +124,12 @@
 <script>
 import zzNavBar from "../../components/zz-nav-bar";
 import Footer from "../../components/footer-nav";
+import Anchor from "../components/anchor";
 export default {
   components: {
     zzNavBar,
     Footer,
+    Anchor,
   },
   data() {
     return {
@@ -153,6 +169,7 @@ export default {
       receivableMoney: "¥999.00",
       askremark:
         "备注信息整段文字备注信息整段文字备注信息整段文字备注信息整段文字备注信息整段文字",
+      anchor: ["二维码信息", "顾客信息", "商品信息", "金额信息"],
     };
   },
   onLoad() {},
@@ -163,6 +180,9 @@ export default {
 <style lang="less" scoped>
 .content {
   margin: 0 auto 68upx;
+  #screens1 {
+    padding-top: 55px;
+  }
   .code_info {
     margin-top: 10px;
     .ci_con {
