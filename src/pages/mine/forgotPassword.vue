@@ -1,6 +1,10 @@
 <template>
   <view class="editPwBox">
-    <zz-nav-bar title="忘记密码"></zz-nav-bar>
+    <zz-nav-bar
+      title="忘记密码"
+      leftIcon="back"
+      @click-right="rightClick"
+    ></zz-nav-bar>
 
     <view class="content">
       <van-field v-model="phone" placeholder="请输入手机号" />
@@ -30,7 +34,7 @@ export default {
   methods: {
     handleRetPassword() {
       uni.navigateTo({
-        url: `/pages/mine/edit`,
+        url: `/pages/login/index`,
       });
     },
   },

@@ -186,6 +186,13 @@ export default {
     };
   },
   onLoad() {},
+  created() {
+    const dateSource = new Date();
+    let year = dateSource.getFullYear() + "年";
+    let month = dateSource.getMonth() + 1 + "月";
+    let date = dateSource.getDate() + "日";
+    this.dateStart = [year, month, date].join("-");
+  },
   methods: {
     handleDetail(id) {
       uni.navigateTo({

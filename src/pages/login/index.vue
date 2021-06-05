@@ -20,7 +20,7 @@
             <text class="reg_lable mar_26">账号</text>
             <zz-input
               placeholder="请输入账号"
-              :value.sync="number"
+              :value.sync="mobile"
               key="username6"
               class="reg_input"
             ></zz-input>
@@ -34,6 +34,7 @@
               class="reg_input"
             ></zz-input>
           </view>
+          <p @click="handleEdit()">忘记原密码？</p>
           <view class="row">
             <van-checkbox
               v-model="checked"
@@ -68,7 +69,7 @@ export default {
       checked: false,
       isRotate: false, //是否加载旋转
       code: "",
-      number: "",
+      mobile: "",
       password: "",
     };
   },
@@ -88,6 +89,11 @@ export default {
     }
   },
   methods: {
+    handleEdit() {
+      uni.navigateTo({
+        url: `/pages/mine/forgotPassword`,
+      });
+    },
     login(params) {
       console.log("store cookie");
       console.log(params);
@@ -114,6 +120,25 @@ export default {
       }
     },
     startLogin() {
+      const params = {
+        mobile: "18637152523",
+        password: "99999999",
+        code: "LMD",
+      };
+      this.$auth
+        .login(params)
+        .then((res) => {
+          // console.log(res, "-----");
+          //  request.setRequestHeader("Authorization", token);
+          uni.reLaunch({
+            url: "/pages/home/index",
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          // let key = Object.keys(err.data)[0];
+          this.$toast.text(err.message || "登录失败");
+        });
       //登录
       if (this.isRotate) {
         //判断是否加载中，避免重复点击请求
@@ -127,7 +152,7 @@ export default {
         });
         return;
       }
-      if (!this.number) {
+      if (!this.mobile) {
         uni.showToast({
           icon: "none",
           position: "bottom",
@@ -145,12 +170,12 @@ export default {
       }
 
       // 网络请求
-      const params = {
-        code: this.code,
-        number: this.number,
-        password: md5(this.password),
-      };
-      this.login(params);
+      // const params = {
+      //   code: this.code,
+      //   mobile: this.mobile,
+      //   password: this.password,
+      // };
+      // this.login(params);
     },
   },
 };
@@ -166,6 +191,12 @@ export default {
     width: 100%;
     height: 100%;
   }
+}
+p {
+  color: #1e1e18;
+  font-size: 14px;
+  margin-top: 20px;
+  text-align: right;
 }
 .main_box_login {
   margin-top: 60upx;

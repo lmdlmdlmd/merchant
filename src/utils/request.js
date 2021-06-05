@@ -110,11 +110,11 @@ Service.install = function(Vue) {
       }
     }
   })
-  Object.defineProperty(Vue.prototype, '$api', {
-    get: function() {
-      return Vue._api.apis
-    }
-  })
+  // Object.defineProperty(Vue.prototype, '$api', {
+  //   get: function() {
+  //     return Vue._api.apis
+  //   }
+  // })
 }
 
 export default Service

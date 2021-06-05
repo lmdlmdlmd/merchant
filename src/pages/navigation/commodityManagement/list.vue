@@ -33,47 +33,57 @@
       </van-row>
     </view>
     <view class="content">
-      <view class="deposit_info" v-for="(item, index) of goods" :key="index">
-        <!-- <p class="ci_title" v-show="index == 0">商品信息</p> -->
+      <mescroll-uni
+        @down="downCallback"
+        @up="upCallback"
+        :top="top"
+        @init="scroll = $event"
+        class="dataList"
+      >
+        <view
+          class="deposit_info"
+          v-for="(item, index) of list.data"
+          :key="index"
+        >
+          <!-- <p class="ci_title" v-show="index == 0">商品信息</p> -->
 
-        <view class="ci_con">
-          <view class="ci_con_box">
-            <p class="good_name">{{ item.name }}</p>
-            <van-row class="info">
-              <van-col span="12">金额</van-col>
-              <van-col span="12" class="info_right">
-                ¥{{ item.money ? item.money.toFixed(2) : 0 + ".00" }}*{{
-                  item.number
-                }}</van-col
-              >
-            </van-row>
-            <van-row class="info">
-              <van-col span="12">规格</van-col>
-              <van-col span="12" class="info_right">{{
-                item.specifications
-              }}</van-col>
-            </van-row>
-            <van-row class="info">
-              <van-col span="12">型号</van-col>
-              <van-col span="12" class="info_right">{{ item.model }}</van-col>
-            </van-row>
+          <view class="ci_con">
+            <view class="ci_con_box">
+              <p class="good_name">{{ item.name_s }}</p>
+              <van-row class="info">
+                <van-col span="12">金额</van-col>
+                <van-col span="12" class="info_right">
+                  ¥{{ item.price ? item.price.toFixed(2) : 0 + ".00" }}</van-col
+                >
+              </van-row>
+              <van-row class="info">
+                <van-col span="12">规格</van-col>
+                <van-col span="12" class="info_right">{{
+                  item.specification
+                }}</van-col>
+              </van-row>
+              <van-row class="info">
+                <van-col span="12">型号</van-col>
+                <van-col span="12" class="info_right">{{ item.model }}</van-col>
+              </van-row>
+            </view>
+          </view>
+          <view class="good_opr">
+            <van-button
+              type="primary"
+              class="reset_goods"
+              @click="handleAddGoods(item.id)"
+              >修改商品</van-button
+            >
+            <van-button
+              type="primary"
+              class="determine_goods"
+              @click.stop="handleDelete(item.id)"
+              >删除商品</van-button
+            >
           </view>
         </view>
-        <view class="good_opr">
-          <van-button
-            type="primary"
-            class="reset_goods"
-            @click="handleAddGoods(item.id)"
-            >修改商品</van-button
-          >
-          <van-button
-            type="primary"
-            class="determine_goods"
-            @click.stop="handleDelete(item.id)"
-            >删除商品</van-button
-          >
-        </view>
-      </view>
+      </mescroll-uni>
       <view class="footer"> <Footer active="navigation"></Footer></view>
       <selectGoods
         :show="isSelectGoddShow"
@@ -101,14 +111,20 @@
 import zzNavBar from "../../components/zz-nav-bar";
 import Footer from "../../components/footer-nav";
 import selectGoods from "../components/selectGoods";
+import MescrollUni from "@/mescroll-uni/mescroll-uni.vue";
+import { EasyListService } from "../../../provider/list.service.js";
 export default {
   components: {
     zzNavBar,
     Footer,
     selectGoods,
+    MescrollUni,
   },
   data() {
     return {
+      top: 0,
+      list: {},
+      scroll: null,
       goods: [
         {
           id: 1,
@@ -136,7 +152,46 @@ export default {
     };
   },
   onLoad() {},
+
+  onShow() {
+    this.list = new EasyListService({
+      url: "mall/commodity/search",
+      pageKey: "page",
+      sizeKey: "rows",
+      // params: {
+      // 	business_role: this.role,
+      // 	shop_id: this.shopid,
+      // 	type: 0
+      // },
+      // format: (list) => {
+      // 	return list.map(_ => {
+      // 		_._createTime = dateFmt('Y.m.d H:i', _.created_at);
+      // 		return _;
+      // 	})
+      // }
+    });
+    // console.log(this.list);
+    let sys = uni.getSystemInfoSync();
+    this.top = 198 + Math.floor(sys.statusBarHeight) * 2;
+  },
   methods: {
+    downCallback(e) {
+      // console.log("刷新");
+      e.resetUpScroll();
+    },
+    upCallback(e) {
+      // console.log("加载", e);
+      this.list
+        .load(e.num, e.size)
+        .then(() => {
+          // console.log("加载成功", this.list);
+          e.endBySize(this.list.preLength, this.list.total);
+        })
+        .catch(() => {
+          // console.log('加载失败');
+          e.endErr();
+        });
+    },
     //删除商品
     handleDelete(id) {
       this.show = true;
@@ -144,13 +199,27 @@ export default {
     },
     handleConfim() {
       //调用接口delId
-      this.show = false;
+      this.$api
+        .post("mall/commodity/del", {
+          id: this.delId,
+        })
+        .then((res) => {
+          this.$toast.toast({
+            icon: "success",
+            title: "删除成功",
+            success: () => {
+              // uni.navigateBack();
+              this.scroll.resetUpScroll();
+            },
+          });
+          this.show = false;
+        });
     },
 
     //新增商品
     handleAddGoods(id) {
       uni.navigateTo({
-        url: `/pages/navigation/standard/addGood?id=${id}`,
+        url: `/pages/navigation/standard/addGood?id=${id}&list='good'`,
       });
     },
     //获取选择的商品
@@ -228,7 +297,7 @@ export default {
     line-clamp: 3;
     -webkit-box-orient: vertical;
     width: auto;
-    height: 35px;
+    // height: 35px;
     word-break: break-all;
     // margin-top: -16upx;
   }
@@ -347,6 +416,21 @@ export default {
   left: 0;
   right: 0;
   z-index: 999;
+}
+.top {
+  padding: 34upx 40upx;
+  color: #ffffff;
+  // background: url(~@/static/imgs/freeze-detail-bg.png);
+  background-size: 100%;
+  box-shadow: 0px 5px 28px 0px rgba(62, 89, 149, 0.16);
+  display: flex;
+  flex-direction: column;
+
+  .num {
+    font-size: 74upx;
+    font-weight: 700;
+    line-height: 104upx;
+  }
 }
 </style>
 <style lang="less">

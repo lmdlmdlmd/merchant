@@ -52,7 +52,7 @@
                   <van-col span="12">金额</van-col>
                   <van-col span="12" class="info_right">
                     ¥{{ item.money ? item.money.toFixed(2) : 0 + ".00" }}*{{
-                      item.number
+                      item.num
                     }}</van-col
                   >
                 </van-row>
@@ -68,6 +68,16 @@
                     item.model
                   }}</van-col>
                 </van-row>
+              </view>
+              <view class="opeBody">
+                <Operate
+                  :number="item.number"
+                  :type="item.type"
+                  maLe="0px"
+                  @handleAdd="handleAdd(item)"
+                  @handleDel="handleDel(item)"
+                  @handleConfirm="handleConfirm(item, arguments)"
+                />
               </view>
               <view class="good_opr">
                 <van-button
@@ -114,12 +124,14 @@
 <script>
 import zzNavBar from "../../components/zz-nav-bar";
 import Anchor from "../components/anchor";
+import Operate from "../../components/operate";
 import selectGoods from "../components/selectGoods";
 export default {
   components: {
     zzNavBar,
     selectGoods,
     Anchor,
+    Operate,
   },
   data() {
     return {
@@ -141,32 +153,63 @@ export default {
           name:
             "实木沙发北欧组合现代简约新中式客厅简约新中式约新中式客厅简约新中约新中式客厅简约新中约新中式客厅简约新中客厅简约新中式客厅简约新中式客厅家具组",
           money: 999.0,
-          number: 1,
+          num: 1,
           goodNumber: 30,
           specifications: "75757575",
           model: "SFIP99200U990",
+          type: "爆炸签",
+          number: 2,
         },
         {
           id: 2,
           name: "实木沙发北欧组合现代简约新中式客厅家具组",
           money: 999.0,
-          number: 1,
+          num: 1,
           goodNumber: 30,
           specifications: "75757575",
           model: "SFIP99200U990",
+          type: "标准价签",
+          number: 1,
         },
       ];
     }
   },
   methods: {
+    //增加商品数量
+    handleAdd(data) {
+      this.goods.map((item) => {
+        if (item.id == data.id) {
+          item.number = parseInt(item.number) + 1;
+        }
+      });
+    },
+    //减少商品数量
+    handleDel(data) {
+      this.goods.map((item) => {
+        if (item.id == data.id) {
+          item.number = parseInt(item.number) - 1;
+        }
+      });
+    },
+    handleConfirm() {
+      console.log(arguments[0], this.goods, arguments[1][0]);
+      this.goods.map((item) => {
+        if (item.id == arguments[0].id) {
+          item.type = arguments[1][0];
+        }
+      });
+    },
     //获取选择的商品
     handleSelectGood(e) {
       console.log(e);
       this.goods.push({
+        id: 2,
         name:
           "实木沙发北欧组合现代简约新中式客厅简约新中式约新中式客厅简约新中约新中式客厅简约新中约新中式客厅简约新中客厅简约新中式客厅简约新中式客厅家具组",
         money: 999.0,
+        num: 1,
         number: 1,
+        type: "爆炸签",
         goodNumber: 30,
         specifications: "75757575",
         model: "SFIP99200U990",
@@ -245,6 +288,9 @@ export default {
     height: 35px;
     word-break: break-all;
     // margin-top: -16upx;
+  }
+  .opeBody {
+    padding-bottom: 10px;
   }
   .operation_goods,
   .good_opr {

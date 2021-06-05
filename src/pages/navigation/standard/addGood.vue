@@ -14,15 +14,21 @@
           <view class="ci_con">
             <van-row class="info">
               <van-col span="12">商铺</van-col>
-              <van-col span="12" class="info_right">{{ shops }}</van-col>
+              <van-col span="12" class="info_right">{{
+                detail.shopid
+              }}</van-col>
             </van-row>
             <van-row class="info">
               <van-col span="12">主营品牌</van-col>
-              <van-col span="12" class="info_right">{{ brand }}</van-col>
+              <van-col span="12" class="info_right">{{
+                detail.brandid
+              }}</van-col>
             </van-row>
             <van-row class="info">
               <van-col span="12">商户</van-col>
-              <van-col span="12" class="info_right">{{ merchants }}</van-col>
+              <van-col span="12" class="info_right">{{
+                detail.merchid
+              }}</van-col>
             </van-row>
           </view>
         </view>
@@ -34,33 +40,67 @@
             <van-field
               class="br"
               placeholder="请输入品名"
-              v-model="goodsName"
+              v-model="detail.name"
               label="品名"
+              required
             />
             <van-field
               class="bg"
               placeholder="请选择品牌名称"
-              v-model="brandName"
+              v-model="detail.code"
               label="品牌名称"
               right-icon="arrow"
-              @click-right-icon="handleRightSearch"
+              required
+              @click-right-icon="isShow = false"
             />
-            <van-field v-model="spec" placeholder="请输入规格" label="规格" />
-            <van-field v-model="model" placeholder="请输入型号" label="型号" />
-
-            <van-field v-model="origin" placeholder="请输入产地" label="产地" />
             <van-field
-              v-model="material"
+              v-model="detail.categoryid"
+              placeholder="请选择商品分类"
+              label="商品分类"
+              right-icon="arrow"
+              @click-right-icon="isClassify = true"
+            />
+            <van-field
+              class="bg"
+              v-model="detail.specification"
+              placeholder="请输入规格"
+              label="规格"
+            />
+            <van-field
+              v-model="detail.model"
+              placeholder="请输入型号"
+              label="型号"
+            />
+
+            <van-field
+              class="bg"
+              v-model="detail.origin"
+              placeholder="请输入产地"
+              label="产地"
+            />
+            <van-field
+              v-model="detail.mainmaterial"
               placeholder="请输入材质"
               label="材质"
             />
             <van-field
-              v-model="denominated"
+              v-model="detail.unit"
               placeholder="请输入计价单位"
               label="计价单位"
+              class="bg"
             />
-            <van-field v-model="level" placeholder="请输入等级" label="等级" />
-            <van-field v-model="money" placeholder="请输入价格" label="价格" />
+            <van-field
+              v-model="detail.level"
+              placeholder="请输入等级"
+              label="等级"
+            />
+            <van-field
+              class="bg"
+              v-model="detail.price"
+              placeholder="请输入价格"
+              label="价格"
+              required
+            />
             <view class="sub_box">
               <van-button type="primary" class="reset" @click="handleReset"
                 >重置</van-button
@@ -89,6 +129,20 @@
         />
       </view>
     </van-popup>
+    <van-popup
+      v-model="isClassify"
+      position="bottom"
+      :style="{ height: '30%' }"
+    >
+      <van-tree-select
+        height="55vw"
+        :items="items"
+        :active-id="activeId"
+        :main-active-index.sync="activeIndex"
+        @click-nav="onNavClick"
+        @click-item="onItemClick"
+      />
+    </van-popup>
   </view>
 </template>
 
@@ -102,69 +156,172 @@ export default {
   },
   data() {
     return {
-      shops: "SI-001-002",
-      brand: "芝华仕",
-      merchants: "HT2232323323",
-      goodsName: "",
-      spec: "",
-      model: "",
-      origin: "",
-      brandName: "",
-      material: "",
-      denominated: "",
-      level: "",
-      money: "",
+      detail: {
+        id: "",
+        shopid: "5", //bug要换成商铺名称
+        brandid: "芝华仕", //bug要换成品牌名称
+        merchid: "HT2232323323", //bug要换成商户名称
+        name: "",
+        code: "", //bug要换成品牌名称
+        categoryid: "",
+        specification: "",
+        model: "",
+        origin: "",
+        mainmaterial: "",
+        unit: "",
+        level: "",
+        price: "",
+      },
+      id: "",
       isShow: false,
       columns: ["TATA", "科勒", "世友", "书香"],
       loading: false,
       anchor: ["基本信息", "商品信息"],
+      // classify: "实木家具",
+      isClassify: false,
+      activeIndex: 0,
+      activeId: "002",
+      address: "",
+      items: [
+        {
+          text: "家具",
+          id: 1,
+          children: [
+            { id: "01", text: "进口实木家具" },
+            { id: "001", text: "儿童家具" },
+            {
+              id: "002",
+              text: "实木家具",
+              children: [
+                { id: "0003", text: "现代实木" },
+                { id: "0005", text: "古典实木" },
+              ],
+            },
+          ],
+        },
+        {
+          text: "建材",
+          id: "2",
+          children: [{ id: "02", text: "陶瓷" }],
+        },
+        {
+          text: "灯饰",
+          id: "3",
+          children: [{ id: "03", text: "吊灯" }],
+        },
+      ],
     };
   },
   onLoad(query) {
-    if (query.id && query.id !== "-1") {
-      this.goodsName = "不二家";
-      this.spec = "DS1-001-002";
-      this.model = "DS1-001-002";
-      this.origin = "DS1-001-002";
-      this.brandName = "书香";
-      this.material = "23";
-      this.denominated = "元";
-      this.level = "1";
-      this.money = "¥999";
-    }
+    this.id = query.id;
+    this.address = query.list;
+  },
+  onShow() {
+    this.getDetail();
   },
   methods: {
+    getDetail() {
+      let data = {
+        id: "1",
+        shopid: "5", //bug要换成商铺名称
+        brandid: "5", //bug要换成品牌名称
+        merchid: "11", //bug要换成商户名称
+        name: "2",
+        code: "3", //bug要换成品牌名称
+        categoryid: "7",
+        specification: "1",
+        model: "6",
+        origin: "7",
+        mainmaterial: "8",
+        unit: "9",
+        level: "0",
+        price: "10",
+      };
+      this.detail = Object.assign(data);
+      console.log(this.detail);
+      // this.id &&
+      //   this.$api
+      //     .post("mall/commodity/details", {
+      //       id: this.id,
+      //     })
+      //     .then((res) => {
+      //       // this.detail.
+      //     });
+    },
+    //选择分类
+    onNavClick(index) {
+      console.log(index);
+      this.activeIndex = index;
+      // let substationCode = this.items[index].id; //这是我们通过index获取到当前点击的值
+      // console.log(substationCode);
+      // this.requestPoliceList(substationCode) //这是请求右侧列表的请求通过activeId去请求。
+    },
+    onItemClick(data) {
+      console.log(data);
+      this.activeId = data.id;
+    },
     //选择品牌
     onConfirm(value) {
-      this.brandName = value;
+      this.brandName = value; //bug选择之后是传id 还要根据后端返回查处对应的品牌列表
       this.isShow = false;
-    },
-
-    //筛选品牌
-    handleRightSearch() {
-      this.isShow = true;
     },
     //提交
     handleSubmit() {
+      if (!(this.detail.name && this.detail.code && this.detail.price)) {
+        return uni.showToast({
+          icon: "none",
+          position: "bottom",
+          title: "请输入必填项",
+        });
+      }
+      // delete
+      let url = "";
+      let params = {};
+      if (this.id == "-1") {
+        console.log(this.detail);
+        delete this.detail.id;
+        url = "all/commodity/add";
+        params = {
+          ...this.detail,
+        };
+      } else {
+        console.log(this.detail);
+        url = "mmall/commodity/edit";
+        params = {
+          ...this.detail,
+        };
+      }
       this.loading = true;
+      this.$api.post(url, params).then((res) => {
+        this.$toast.toast({
+          icon: "success",
+          title: this.id == "-1" ? "新增成功！" : "修改成功！",
+          success: () => {
+            //根据跳进来地址判断是商品列表还是其他 如果是其他直接back
+            if (this.address) {
+              uni.navigateTo({
+                url: `/pages/navigation/commodityManagement/list`,
+              });
+            } else {
+              uni.navigateBack({
+                delta: 1,
+              });
+            }
+          },
+        });
+      });
       setTimeout(() => {
         this.loading = false;
-        uni.navigateBack({
-          delta: 1,
-        });
+        // uni.navigateBack({
+        //   delta: 1,
+        // });
       }, 500);
     },
     //重置
     handleReset() {
-      this.goodsName = "";
-      this.spec = "";
-      this.model = "";
-      this.origin = "";
-      this.brandName = "";
-      this.material = "";
-      this.denominated = "";
-      this.level = "";
-      this.money = "";
+      Object.keys(this.detail).forEach((key) => {
+        this.detail[key] = "";
+      });
     },
   },
 };
@@ -197,7 +354,7 @@ export default {
   }
   .ci_con {
     width: calc(100% - 20px);
-    padding: 10px 0;
+    padding: 0 0 10px;
     background: #ffffff;
     margin: 0 auto;
     border-radius: 10px;

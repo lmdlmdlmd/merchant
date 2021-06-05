@@ -1,7 +1,7 @@
 <template>
   <view>
     <view class="content">
-      <text class="name">王晓霞</text>
+      <text class="name">{{ name }}</text>
 
       <van-row class="store_box" @click="handleAddShow">
         <van-col>
@@ -95,7 +95,7 @@
         />
       </view>
     </van-popup>
-    <van-popup
+    <!-- <van-popup
       v-model="addShow"
       title=""
       class="addSheet"
@@ -111,7 +111,7 @@
         :columns="columns"
         @change="handleConfirm"
       />
-    </van-popup>
+    </van-popup> -->
     <van-action-sheet v-model="addShow" title="" class="addSheet">
       <van-row class="add_opr">
         <van-col span="12" class="can" @click="handleCancel">取消</van-col>
@@ -132,26 +132,35 @@ export default {
   components: {},
   data() {
     return {
+      name: "王晓霞",
       show: false,
       minDate: new Date(1900, 0, 1),
       maxDate: new Date(2999, 10, 1),
       currentDate: new Date(),
-      dateStart: new Date(),
-      dateEnd: new Date(),
+      dateStart: null,
+      dateEnd: null,
       type: "", //表示开始时间还是结束时间
       addShow: false, //切换用户身份
       columns: [
-        "上海徐家汇店 招商经理",
-        "大明宫店钻石店 导购员",
-        "杭州滨江店 客服经理",
+        "上海徐家汇店(DS1-A-001)-招商经理",
+        "大明宫店钻石店(DS1-A-001)-导购员",
+        "杭州滨江店(DS1-A-001)-客服经理",
       ],
-      addData: "大明宫店钻石店 导购员",
+      addData: "大明宫店钻石店(DS1-A-001)-导购员",
       addIndex: null,
     };
   },
   onLoad() {
     //地址弹出框选择默认值
     this.addIndex = this.columns.findIndex((x) => x == this.addData);
+  },
+  created() {
+    const dateSource = new Date();
+    let year = dateSource.getFullYear() + "年";
+    let month = dateSource.getMonth() + 1 + "月";
+    let date = dateSource.getDate() + "日";
+    this.dateStart = [year, month, date].join("-");
+    this.dateEnd = [year, month, date].join("-");
   },
   methods: {
     //地址筛选start

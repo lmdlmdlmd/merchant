@@ -118,8 +118,8 @@ export default {
     return {
       show: false,
       type: "",
-      dateStart: "",
-      dateEnd: "",
+      dateStart: null,
+      dateEnd: null,
       minDate: new Date(1900, 0, 1),
       maxDate: new Date(2999, 10, 1),
       currentDate: new Date(),
@@ -152,6 +152,14 @@ export default {
     };
   },
   onLoad() {},
+  created() {
+    const dateSource = new Date();
+    let year = dateSource.getFullYear() + "年";
+    let month = dateSource.getMonth() + 1 + "月";
+    let date = dateSource.getDate() + "日";
+    this.dateStart = [year, month, date].join("-");
+    this.dateEnd = [year, month, date].join("-");
+  },
   methods: {
     handleDetail(id) {
       uni.navigateTo({
@@ -265,8 +273,8 @@ export default {
       color: #9a9a9a;
     }
     .lavelBox {
-      text-align: right;
-      padding-right: 10px;
+      text-align: center;
+      // padding-right: 10px;
     }
   }
 }

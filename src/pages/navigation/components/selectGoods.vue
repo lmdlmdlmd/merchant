@@ -34,6 +34,15 @@
             ></image>
           </van-col>
         </van-row>
+        <view class="operBox">
+          <Operate
+            :number="number"
+            :type="type"
+            @handleAdd="handleAdd"
+            @handleDel="handleDel"
+            @handleConfirm="handleConfirm"
+          />
+        </view>
         <div v-show="data.length" class="goods_body">
           <view v-for="(item, index) of data" :key="index" class="goods_div">
             <van-row class="goods_box">
@@ -87,6 +96,8 @@
 </template>
 
 <script>
+import Operate from "../../components/operate";
+import { Toast } from "vant";
 export default {
   name: "selectGoods",
   props: {
@@ -95,11 +106,15 @@ export default {
       default: false,
     },
   },
-  components: {},
+  components: {
+    Operate,
+  },
   data() {
     return {
       checked: false,
       search: "",
+      number: 0,
+      type: "爆炸签",
       data: [
         {
           id: 1,
@@ -121,8 +136,23 @@ export default {
       ],
     };
   },
-  onLoad() {},
+
   methods: {
+    //获取到价签类型
+    handleConfirm(type) {
+      console.log(type);
+      this.type = type;
+    },
+    handleAdd() {
+      this.number++;
+    },
+
+    handleDel() {
+      if (this.number == 0) {
+        return;
+      }
+      this.number--;
+    },
     //查询
     handleSearch() {
       console.log("通过" + this.search + "查询");
@@ -151,6 +181,15 @@ export default {
       }
     },
     handleSubmit() {
+      if (this.number == 0) {
+        console.log(uni.showToast);
+        Toast("请至少选择打印一条");
+        return;
+      }
+      if (!this.type) {
+        Toast("请选择类型");
+        return;
+      }
       let dataArr = [];
       this.data.map((item) => {
         if (item.checked) {
@@ -159,11 +198,7 @@ export default {
         }
       });
       if (dataArr.length == 0) {
-        uni.showToast({
-          icon: "none",
-          position: "bottom",
-          title: "请至少选择一条数据",
-        });
+        Toast("请至少选择一条数据");
         return;
       } else {
         this.$emit("goods", dataArr);
@@ -282,6 +317,10 @@ export default {
       }
     }
   }
+  .operBox {
+    width: calc(100% - 20px);
+    margin: 22px auto 38px;
+  }
 }
 </style>
 <style lang="less">
@@ -321,4 +360,19 @@ export default {
   border: none !important;
   background-color: rgba(0, 0, 0, 0) !important;
 }
+// /deep/.addSheet .add_opr {
+//   width: 60%;
+//   margin: 0 auto;
+//   font-size: 14px;
+//   font-weight: 600;
+//   color: #0091ff;
+//   padding-bottom: 10px;
+//   margin-top: 20px;
+//   .con {
+//     text-align: right;
+//   }
+// }
+// /deep/.addSheet .van-picker-column__item--selected {
+//   color: #0091ff;
+// }
 </style>

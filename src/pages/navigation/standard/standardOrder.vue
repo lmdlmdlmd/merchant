@@ -105,6 +105,7 @@
                   </view>
                 </van-col>
               </van-row>
+
               <van-row class="info">
                 <van-col span="12">规格</van-col>
                 <van-col span="12" class="info_right">{{
@@ -249,6 +250,7 @@
 
 <script>
 import zzNavBar from "../../components/zz-nav-bar";
+
 import Footer from "../../components/footer-nav";
 import selectGoods from "../components/selectGoods";
 import Anchor from "../components/anchor";
@@ -576,6 +578,7 @@ export default {
   .good_money {
     color: #1e1e1e;
     font-size: 12px;
+    margin-top: 5px;
   }
   .info {
     color: #1e1e1e;
