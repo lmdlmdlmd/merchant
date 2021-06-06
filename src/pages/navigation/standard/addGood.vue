@@ -15,7 +15,7 @@
             <van-row class="info">
               <van-col span="12">商铺</van-col>
               <van-col span="12" class="info_right">{{
-                detail.shopid
+                detail.shopid_s
               }}</van-col>
             </van-row>
             <van-row class="info">
@@ -27,7 +27,7 @@
             <van-row class="info">
               <van-col span="12">商户</van-col>
               <van-col span="12" class="info_right">{{
-                detail.merchid
+                detail.merchid_s
               }}</van-col>
             </van-row>
           </view>
@@ -47,14 +47,14 @@
             <van-field
               class="bg"
               placeholder="请选择品牌名称"
-              v-model="detail.code"
+              v-model="detail.brandid_s"
               label="品牌名称"
               right-icon="arrow"
               required
               @click-right-icon="isShow = false"
             />
             <van-field
-              v-model="detail.categoryid"
+              v-model="detail.categoryid_s"
               placeholder="请选择商品分类"
               label="商品分类"
               right-icon="arrow"
@@ -223,12 +223,12 @@ export default {
     getDetail() {
       let data = {
         id: "1",
-        shopid: "5", //bug要换成商铺名称
-        brandid: "5", //bug要换成品牌名称
-        merchid: "11", //bug要换成商户名称
+        shopid_s: "5", //bug要换成商铺名称
+        brandid_s: "5", //bug要换成品牌名称
+        merchid_s: "11", //bug要换成商户名称
         name: "2",
-        code: "3", //bug要换成品牌名称
-        categoryid: "7",
+        brandid_s: "3", //bug要换成品牌名称
+        categoryid_s: "7",
         specification: "1",
         model: "6",
         origin: "7",
@@ -237,16 +237,14 @@ export default {
         level: "0",
         price: "10",
       };
-      this.detail = Object.assign(data);
-      console.log(this.detail);
-      // this.id &&
-      //   this.$api
-      //     .post("mall/commodity/details", {
-      //       id: this.id,
-      //     })
-      //     .then((res) => {
-      //       // this.detail.
-      //     });
+      this.id &&
+        this.$api
+          .post("mall/commodity/view", {
+            id: this.id,
+          })
+          .then((res) => {
+            this.detail = Object.assign(res);
+          });
     },
     //选择分类
     onNavClick(index) {
