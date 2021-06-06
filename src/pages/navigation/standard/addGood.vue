@@ -141,7 +141,29 @@
         :main-active-index.sync="activeIndex"
         @click-nav="onNavClick"
         @click-item="onItemClick"
-      />
+      >
+        <template #content>
+          <van-tree-select
+            height="55vw"
+            :items="items"
+            :active-id="activeId"
+            :main-active-index.sync="activeIndex"
+            @click-nav="onNavClick"
+            @click-item="onItemClick"
+          >
+            <template #content>
+              <van-tree-select
+                height="55vw"
+                :items="items"
+                :active-id="activeId"
+                :main-active-index.sync="activeIndex"
+                @click-nav="onNavClick"
+                @click-item="onItemClick"
+              />
+            </template>
+          </van-tree-select>
+        </template>
+      </van-tree-select>
     </van-popup>
   </view>
 </template>
@@ -187,7 +209,10 @@ export default {
           text: "家具",
           id: 1,
           children: [
-            { id: "01", text: "进口实木家具" },
+            { id: "01", text: "进口实木家具", children: [
+                { id: "0003", text: "现代实木" },
+                { id: "0005", text: "古典实木" },
+              ]},
             { id: "001", text: "儿童家具" },
             {
               id: "002",
