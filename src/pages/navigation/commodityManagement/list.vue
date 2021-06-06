@@ -6,7 +6,7 @@
       leftIcon="back"
       rightIcon="back"
       rightIcon1="back"
-      @click-left1="isSelectGoddShow = true"
+      @click-left1="isSelectGoodShow = true"
     ></zz-nav-bar> -->
     <view class="header">
       <van-row class="heaser_box">
@@ -17,7 +17,7 @@
             src="../../../static/img/icon/icon-back-black.png"
           ></image>
           <image
-            @click="isSelectGoddShow = true"
+            @click="handleSelectGoodShow"
             class="other"
             src="../../../static/img/icon/screening.png"
           ></image>
@@ -85,9 +85,9 @@
         </view>
       </mescroll-uni>
       <view class="footer"> <Footer active="navigation"></Footer></view>
-      <selectGoods
-        :show="isSelectGoddShow"
-        @isShow="isSelectGoddShow = false"
+      <select-goods
+        :showGood="isSelectGoodShow"
+        @isShow="isSelectGoodShow = false"
         @goods="handleSelectGood"
       />
       <van-dialog v-model="show" :showConfirmButton="false">
@@ -110,14 +110,15 @@
 <script>
 import zzNavBar from "../../components/zz-nav-bar";
 import Footer from "../../components/footer-nav";
-import selectGoods from "../components/selectGoods";
+// import selectGoods from "../components/selectGoods";
+import SelectGoods from "../../../components/SelectGoods";
 import MescrollUni from "@/mescroll-uni/mescroll-uni.vue";
 import { EasyListService } from "../../../provider/list.service.js";
 export default {
   components: {
     zzNavBar,
     Footer,
-    selectGoods,
+    SelectGoods,
     MescrollUni,
   },
   data() {
@@ -146,7 +147,7 @@ export default {
           model: "SFIP99200U990",
         },
       ],
-      isSelectGoddShow: false,
+      isSelectGoodShow: false,
       show: false,
       delId: "",
     };
@@ -175,6 +176,9 @@ export default {
     this.top = 198 + Math.floor(sys.statusBarHeight) * 2;
   },
   methods: {
+    handleSelectGoodShow() {
+      this.isSelectGoodShow = !this.isSelectGoodShow
+    },
     downCallback(e) {
       // console.log("刷新");
       e.resetUpScroll();
