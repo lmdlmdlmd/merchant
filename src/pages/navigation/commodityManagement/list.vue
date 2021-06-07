@@ -6,7 +6,7 @@
       leftIcon="back"
       rightIcon="back"
       rightIcon1="back"
-      @click-left1="isSelectGoddShow = true"
+      @click-left1="isSelectGoodShow = true"
     ></zz-nav-bar> -->
     <view class="header">
       <van-row class="heaser_box">
@@ -131,7 +131,7 @@ export default {
   components: {
     zzNavBar,
     Footer,
-    selectGoods,
+    SelectGoods,
     MescrollUni,
   },
   data() {
@@ -190,6 +190,9 @@ export default {
     this.top = 198 + Math.floor(sys.statusBarHeight) * 2;
   },
   methods: {
+    handleSelectGoodShow() {
+      this.isSelectGoodShow = !this.isSelectGoodShow;
+    },
     downCallback(e) {
       // console.log("刷新");
       e.resetUpScroll();
