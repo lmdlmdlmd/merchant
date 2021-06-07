@@ -3,7 +3,7 @@
     <view class="empty-container">
       <image
         v-if="image == 'default'"
-        src="../../static/img/icon/no_data.png"
+        src="../static/img/icon/no_data.png"
         class="icon"
       ></image>
       <image

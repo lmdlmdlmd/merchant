@@ -39,7 +39,7 @@
             >
             <van-col span="6" class="lavelBox moreBox">
               <van-dropdown-menu>
-                <van-dropdown-item title="筛选" ref="item">
+                <van-dropdown-item title="展开" ref="item">
                   <view class="moreBody">
                     <van-row class="moreDiv">
                       <van-col span="8">
@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import zzEmpty from "../../components/zz-empty";
+import zzEmpty from ".././../../components/zz-empty";
 export default {
   name: "List",
   props: {

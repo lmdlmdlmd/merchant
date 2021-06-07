@@ -73,6 +73,7 @@
                 <Operate
                   :number="item.number"
                   :type="item.type"
+                  :isRequire="false"
                   maLe="0px"
                   @handleAdd="handleAdd(item)"
                   @handleDel="handleDel(item)"
@@ -122,10 +123,10 @@
 </template>
 
 <script>
-import zzNavBar from "../../components/zz-nav-bar";
-import Anchor from "../components/anchor";
+import zzNavBar from "../../../components/zz-nav-bar";
+import Anchor from "../../components/anchor";
 import Operate from "../../components/operate";
-import selectGoods from "../components/selectGoods";
+import selectGoods from "../../components/selectGoods";
 export default {
   components: {
     zzNavBar,
@@ -187,7 +188,9 @@ export default {
     handleDel(data) {
       this.goods.map((item) => {
         if (item.id == data.id) {
-          item.number = parseInt(item.number) - 1;
+          if (item.number !== 1) {
+            item.number = parseInt(item.number) - 1;
+          }
         }
       });
     },

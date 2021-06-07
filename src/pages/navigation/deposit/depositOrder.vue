@@ -75,9 +75,9 @@
 </template>
 
 <script>
-import zzNavBar from "../../components/zz-nav-bar";
-import Footer from "../../components/footer-nav";
-import Anchor from "../components/anchor";
+import zzNavBar from "../../../components/zz-nav-bar";
+import Footer from "../../../components/footer-nav";
+import Anchor from "../../components/anchor";
 export default {
   components: {
     zzNavBar,

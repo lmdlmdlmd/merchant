@@ -143,9 +143,9 @@
 </template>
 
 <script>
-import zzNavBar from "../../components/zz-nav-bar";
-import Footer from "../../components/footer-nav";
-import zzEmpty from "../../components/zz-empty";
+import zzNavBar from "../../../components/zz-nav-bar";
+import Footer from "../../../components/footer-nav";
+import zzEmpty from "../../../components/zz-empty";
 export default {
   components: {
     zzNavBar,

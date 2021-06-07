@@ -17,7 +17,7 @@
             src="../../../static/img/icon/icon-back-black.png"
           ></image>
           <image
-            @click="isSelectGoddShow = true"
+            @click="handleSelectGoodShow"
             class="other"
             src="../../../static/img/icon/screening.png"
           ></image>
@@ -33,6 +33,20 @@
       </van-row>
     </view>
     <view class="content">
+      <view class="searchBox">
+        <view class="searchDiv">
+          <input
+            class="srarch_input"
+            v-model="search"
+            placeholder="请输入品名或规格/型号"
+          />
+          <image
+            src="../../../static/img/icon/search1.png"
+            class="search_img"
+            @click="handleSearch"
+          ></image>
+        </view>
+      </view>
       <mescroll-uni
         @down="downCallback"
         @up="upCallback"
@@ -49,7 +63,7 @@
 
           <view class="ci_con">
             <view class="ci_con_box">
-              <p class="good_name">{{ item.name_s }}</p>
+              <p class="good_name">{{ item.name }}</p>
               <van-row class="info">
                 <van-col span="12">金额</van-col>
                 <van-col span="12" class="info_right">
@@ -86,8 +100,8 @@
       </mescroll-uni>
       <view class="footer"> <Footer active="navigation"></Footer></view>
       <selectGoods
-        :show="isSelectGoddShow"
-        @isShow="isSelectGoddShow = false"
+        :showGood="isSelectGoodShow"
+        @isShow="isSelectGoodShow = false"
         @goods="handleSelectGood"
       />
       <van-dialog v-model="show" :showConfirmButton="false">
@@ -108,9 +122,9 @@
 </template>
 
 <script>
-import zzNavBar from "../../components/zz-nav-bar";
-import Footer from "../../components/footer-nav";
-import selectGoods from "../components/selectGoods";
+import zzNavBar from "../../../components/zz-nav-bar";
+import Footer from "../../../components/footer-nav";
+import selectGoods from "../../components/selectGoods";
 import MescrollUni from "@/mescroll-uni/mescroll-uni.vue";
 import { EasyListService } from "../../../provider/list.service.js";
 export default {
@@ -125,6 +139,7 @@ export default {
       top: 0,
       list: {},
       scroll: null,
+      search: "", //搜索
       goods: [
         {
           id: 1,
@@ -146,14 +161,14 @@ export default {
           model: "SFIP99200U990",
         },
       ],
-      isSelectGoddShow: false,
+      isSelectGoodShow: false,
       show: false,
       delId: "",
     };
   },
   onLoad() {},
 
-  onShow() {
+  created() {
     this.list = new EasyListService({
       url: "mall/commodity/search",
       pageKey: "page",
@@ -192,6 +207,18 @@ export default {
           e.endErr();
         });
     },
+    //搜索
+    handleSearch() {
+      this.list.onLoad = (body) => {
+        if (this.search) {
+          body.name = this.search;
+        }
+      };
+      this.downCallback(this.scroll);
+    },
+    handleSelectGoodShow() {
+      this.isSelectGoodShow = !this.isSelectGoodShow;
+    },
     //删除商品
     handleDelete(id) {
       this.show = true;
@@ -219,7 +246,7 @@ export default {
     //新增商品
     handleAddGoods(id) {
       uni.navigateTo({
-        url: `/pages/navigation/standard/addGood?id=${id}&list='good'`,
+        url: `/pages/navigation/commodityManagement/addCommodity?id=${id}&list='good'`,
       });
     },
     //获取选择的商品
@@ -253,7 +280,32 @@ export default {
     background: #fafafa;
     border-top: 1px solid #dddddd;
   }
-
+  .searchBox {
+    position: fixed;
+    width: 100%;
+  }
+  .searchDiv {
+    position: relative;
+    margin: 0 auto;
+    width: calc(100% - 80px);
+  }
+  .srarch_input {
+    border: none;
+    outline: none;
+    background: #fff;
+    border-radius: 20px;
+    line-height: 32px;
+    height: 32px;
+    text-indent: 19px;
+    font-size: 14px;
+  }
+  .search_img {
+    position: absolute;
+    width: 13px;
+    height: 13px;
+    top: 9px;
+    right: 22px;
+  }
   .good_opr {
     margin-top: 12px;
     text-align: right;
@@ -436,5 +488,10 @@ export default {
 <style lang="less">
 /deep/.van-dialog {
   width: 260px;
+}
+/deep/ .searchBox .uni-input-placeholder {
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 14px;
+  // display: none;
 }
 </style>

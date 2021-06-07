@@ -249,11 +249,11 @@
 </template>
 
 <script>
-import zzNavBar from "../../components/zz-nav-bar";
+import zzNavBar from "../../../components/zz-nav-bar";
 
-import Footer from "../../components/footer-nav";
-import selectGoods from "../components/selectGoods";
-import Anchor from "../components/anchor";
+import Footer from "../../../components/footer-nav";
+import selectGoods from "../../components/selectGoods";
+import Anchor from "../../components/anchor";
 import { areaList } from "@vant/area-data";
 export default {
   components: {
@@ -325,7 +325,7 @@ export default {
     //新增商品
     handleAddGoods(id) {
       uni.navigateTo({
-        url: `/pages/navigation/standard/addGood?id=${id}`,
+        url: `/pages/navigation/commodityManagement/addCommodity?id=${id}`,
       });
     },
     //获取选择的商品
@@ -363,7 +363,9 @@ export default {
     handleDel(data) {
       this.goods.map((item) => {
         if (item.id == data.id) {
-          item.goodNumber = parseInt(item.goodNumber) - 1;
+          if (item.goodNumber !== 1) {
+            item.goodNumber = parseInt(item.goodNumber) - 1;
+          }
         }
       });
     },

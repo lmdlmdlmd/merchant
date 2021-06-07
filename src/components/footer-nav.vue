@@ -3,12 +3,12 @@
     <div @click="go('/pages/home/index')">
       <div>
         <img
-          src="../../static/img/tabbar/index.png"
+          src="../static/img/tabbar/index.png"
           alt="home"
           v-if="active != 'home'"
         />
         <img
-          src="../../static/img/tabbar/index_s.png"
+          src="../static/img/tabbar/index_s.png"
           alt="home"
           v-if="active == 'home'"
         />
@@ -18,29 +18,29 @@
     <div @click="go('/pages/navigation/index')">
       <div>
         <img
-          src="../../static/img/tabbar/navigation.png"
+          src="../static/img/tabbar/navigation.png"
           alt="navigation"
           v-if="active != 'navigation'"
         />
         <img
-          src="../../static/img/tabbar/navigation_s.png"
+          src="../static/img/tabbar/navigation_s.png"
           alt="navigation"
           v-if="active == 'navigation'"
         />
       </div>
       <p>导航</p>
     </div>
-    <div @click="go('/pages/mine/index')">
+    <div @click="go('/pages/user/index')">
       <div>
         <img
-          src="../../static/img/tabbar/mine.png"
-          alt="mine"
-          v-if="active != 'mine'"
+          src="../static/img/tabbar/mine.png"
+          alt="user"
+          v-if="active != 'user'"
         />
         <img
-          src="../../static/img/tabbar/mine_s.png"
-          alt="mine"
-          v-if="active == 'mine'"
+          src="../static/img/tabbar/mine_s.png"
+          alt="user"
+          v-if="active == 'user'"
         />
       </div>
       <p>我的</p>

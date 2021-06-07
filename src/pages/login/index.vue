@@ -53,12 +53,9 @@
 
 <script>
 import { mapGetters } from "vuex";
-import wInput from "@/components/WatchInput/index.vue";
-import wButton from "@/components/WatchButton/index.vue";
 import md5 from "@/common/lib/md5.min.js";
-import zzNavBar from "../components/zz-nav-bar";
-import zzInput from "../components/zz-input";
-import zzVerifCode from "../components/zz-verif-code.vue";
+import zzNavBar from "../../components/zz-nav-bar";
+import zzInput from "../../components/zz-input";
 import Vue from "vue";
 export default {
   computed: {
@@ -74,11 +71,8 @@ export default {
     };
   },
   components: {
-    wInput,
-    wButton,
     zzNavBar,
     zzInput,
-    zzVerifCode,
   },
   onLoad(options) {
     if (options.errorMsg) {
@@ -91,7 +85,7 @@ export default {
   methods: {
     handleEdit() {
       uni.navigateTo({
-        url: `/pages/mine/forgotPassword`,
+        url: `/pages/user/forgotPassword`,
       });
     },
     login(params) {

@@ -4,13 +4,13 @@
       v-model="type"
       placeholder="请选择价签打印类型"
       label="价签打印类型"
-      required
+      :required="isRequire"
       right-icon="arrow"
       @click-right-icon="typeShow = true"
     />
     <van-row class="good_money_box">
       <van-col span="12">
-        <p class="good_money">
+        <p :class="isRequire ? 'good_money_be' : 'good_money'">
           {{ title }}
         </p>
       </van-col>
@@ -51,11 +51,15 @@ export default {
     },
     number: {
       type: Number,
-      default: 0,
+      default: 1,
     },
     maLe: {
       type: String,
-      default: "32px",
+      default: "0",
+    },
+    isRequire: {
+      type: Boolean,
+      default: true,
     },
   },
   data() {
@@ -102,14 +106,15 @@ export default {
 .good_money_box {
   margin-top: 5px;
 }
-.good_money {
+.good_money,
+.good_money_be {
   color: #1e1e1e;
   font-size: 12px;
   margin-top: 5px;
   left: 17px;
   position: relative;
 }
-.good_money::before {
+.good_money_be::before {
   position: absolute;
   left: -9px;
   color: #ee0a24;

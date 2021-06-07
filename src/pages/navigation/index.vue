@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import zzNavBar from "../components/zz-nav-bar";
+import zzNavBar from "../../components/zz-nav-bar";
 export default {
   components: {
     zzNavBar,
@@ -76,7 +76,7 @@ export default {
               id: 6,
               url: "../../static/img/imgs/new_goods.png",
               title: "商品新增",
-              path: "/pages/navigation/standard/addGood",
+              path: "/pages/navigation/commodityManagement/addCommodity?id=-1",
             },
             {
               id: 7,

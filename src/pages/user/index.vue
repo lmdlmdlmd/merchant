@@ -1,5 +1,5 @@
 <template>
-  <view class="mineBox">
+  <view class="userBox">
     <zz-nav-bar
       title="我的"
       leftIcon="back"
@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import zzNavBar from "../components/zz-nav-bar";
+import zzNavBar from "../../components/zz-nav-bar";
 export default {
   components: {
     zzNavBar,
@@ -94,7 +94,7 @@ export default {
     handleEdit() {
       console.log(1);
       uni.navigateTo({
-        url: `/pages/mine/edit`,
+        url: `/pages/user/edit`,
       });
     },
     handleOut() {

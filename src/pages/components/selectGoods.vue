@@ -5,7 +5,7 @@
         <van-row class="cl_title">
           <van-col span="4" @click="handleClose">
             <image
-              src="../../../static/img/icon/close.png"
+              src="../../static/img/icon/close.png"
               class="close_img"
             ></image>
           </van-col>
@@ -28,67 +28,85 @@
               placeholder="请输入品名或规格/型号"
             />
             <image
-              src="../../../static/img/icon/search1.png"
+              src="../../static/img/icon/search1.png"
               class="search_img"
               @click="handleSearch"
             ></image>
           </van-col>
         </van-row>
         <view class="operBox">
-          <Operate
-            :number="number"
-            :type="type"
-            @handleAdd="handleAdd"
-            @handleDel="handleDel"
-            @handleConfirm="handleConfirm"
-          />
+          <view class="opreBody">
+            <Operate
+              :number="number"
+              :type="type"
+              @handleAdd="handleAdd"
+              @handleDel="handleDel"
+              @handleConfirm="handleConfirm"
+            />
+          </view>
         </view>
         <div v-show="data.length" class="goods_body">
-          <view v-for="(item, index) of data" :key="index" class="goods_div">
-            <van-row class="goods_box">
-              <van-col span="2">
-                <van-checkbox
-                  class="checkbox"
-                  :id="'checkbox' + index"
-                  v-model="item.checked"
-                  @change="handlecheck(index)"
-                ></van-checkbox>
-              </van-col>
-              <van-col span="22" class="good_name">
-                {{ item.name }}
-              </van-col>
-            </van-row>
-            <van-row class="goods_box">
-              <van-col span="4" class="good_lable"> 价格 </van-col>
-              <van-col span="20" class="good_val"> ¥{{ item.money }} </van-col>
-            </van-row>
-            <van-row class="goods_box">
-              <van-col span="4" class="good_lable"> 规格 </van-col>
-              <van-col span="20" class="good_val">
-                {{ item.spec }}
-              </van-col>
-            </van-row>
-            <van-row class="goods_box">
-              <van-col span="4" class="good_lable"> 型号 </van-col>
-              <van-col span="20" class="good_val">
-                {{ item.model }}
-              </van-col>
-            </van-row>
-          </view>
+          <mescroll-uni
+            @down="downCallback"
+            @up="upCallback"
+            :top="top"
+            @init="scroll = $event"
+            class="dataList"
+          >
+            <view
+              v-for="(item, index) of list.data"
+              :key="index"
+              class="goods_div"
+            >
+              <van-row class="goods_box">
+                <van-col span="2">
+                  <van-checkbox
+                    class="checkbox"
+                    :id="'checkbox' + index"
+                    v-model="item.checked"
+                    @change="handlecheck(index)"
+                  ></van-checkbox>
+                </van-col>
+                <van-col span="22" class="good_name">
+                  {{ item.name }}
+                </van-col>
+              </van-row>
+              <van-row class="goods_box">
+                <van-col span="4" class="good_lable"> 价格 </van-col>
+                <van-col span="20" class="good_val">
+                  ¥{{ item.money }}
+                </van-col>
+              </van-row>
+              <van-row class="goods_box">
+                <van-col span="4" class="good_lable"> 规格 </van-col>
+                <van-col span="20" class="good_val">
+                  {{ item.spec }}
+                </van-col>
+              </van-row>
+              <van-row class="goods_box">
+                <van-col span="4" class="good_lable"> 型号 </van-col>
+                <van-col span="20" class="good_val">
+                  {{ item.model }}
+                </van-col>
+              </van-row>
+            </view>
+          </mescroll-uni>
         </div>
-        <view class="sub_box">
-          <van-button
-            type="primary"
-            class="reset"
-            @click="handleAllChange('search')"
-            >重置</van-button
-          >
-          <van-button
-            type="primary"
-            class="determine"
-            @click.stop="handleSubmit"
-            >确定</van-button
-          >
+        <view class="sub_body">
+          <view class="sub_box">
+            <van-button
+              type="primary"
+              class="reset"
+              @click="handleAllChange('search')"
+              >重置</van-button
+            >
+            <van-button
+              type="primary"
+              class="determine"
+              @click.stop="handleSubmit"
+              >确定</van-button
+            >
+          </view>
         </view>
       </view>
     </van-action-sheet>
@@ -96,24 +114,40 @@
 </template>
 
 <script>
-import Operate from "../../components/operate";
+import Operate from "../components/operate";
 import { Toast } from "vant";
+import MescrollUni from "@/mescroll-uni/mescroll-uni.vue";
+import { EasyListService } from "../../provider/list.service.js";
 export default {
   name: "selectGoods",
   props: {
-    show: {
+    showGood: {
       type: Boolean,
       default: false,
     },
   },
+  watch: {
+    showGood: function (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.show = true;
+      } else {
+        this.show = false;
+      }
+    },
+  },
   components: {
     Operate,
+    MescrollUni,
   },
   data() {
     return {
+      show: false,
       checked: false,
-      search: "",
-      number: 0,
+      top: 0,
+      list: {},
+      scroll: null,
+      search: "", //搜索
+      number: 1,
       type: "爆炸签",
       data: [
         {
@@ -136,8 +170,46 @@ export default {
       ],
     };
   },
+  created() {
+    this.list = new EasyListService({
+      url: "mall/commodity/search",
+      pageKey: "page",
+      sizeKey: "rows",
+      // params: {
+      // 	business_role: this.role,
+      // 	shop_id: this.shopid,
+      // 	type: 0
+      // },
+      format: (list) => {
+        return list.map((_) => {
+          _.checked = false;
+          return _;
+        });
+      },
+    });
 
+    let sys = uni.getSystemInfoSync();
+    console.log(sys.windowHeight - +220); //sys.windowHeight + 220;
+    this.top = "60%"; // 198 + Math.floor(sys.statusBarHeight) * 2;
+  },
   methods: {
+    downCallback(e) {
+      // console.log("刷新");
+      e.resetUpScroll();
+    },
+    upCallback(e) {
+      // console.log("加载", e);
+      this.list
+        .load(e.num, e.size)
+        .then(() => {
+          // console.log("加载成功", this.list);
+          e.endBySize(this.list.preLength, this.list.total);
+        })
+        .catch(() => {
+          // console.log('加载失败');
+          e.endErr();
+        });
+    },
     //获取到价签类型
     handleConfirm(type) {
       console.log(type);
@@ -159,12 +231,13 @@ export default {
     },
     //关闭
     handleClose() {
-      this.$emit("isShow");
+      // this.$emit("handleIsShow");
+      this.show = false;
     },
     //全选
     handleAllChange(val) {
       console.log(this.checked);
-      this.data.map((item) => {
+      this.list.data.map((item) => {
         item.checked = this.checked ? true : false;
       });
       if (val) {
@@ -261,6 +334,8 @@ export default {
     .goods_body {
       width: calc(100% - 40px);
       margin: 0 auto;
+      height: 200px;
+      overflow: scroll;
     }
     .goods_div {
       border: 1px solid #d3d3d3;
@@ -295,8 +370,14 @@ export default {
         }
       }
     }
+    .sub_body {
+      background: red;
+      padding: 10px 0;
+      z-index: 999;
+      position: relative;
+    }
     .sub_box {
-      margin: 43px auto 38px;
+      margin: 0 auto;
       width: calc(100% - 60px);
       text-align: right;
       .reset,
@@ -318,8 +399,11 @@ export default {
     }
   }
   .operBox {
-    width: calc(100% - 20px);
-    margin: 22px auto 38px;
+    width: calc(100% - 40px);
+    margin: 20px auto;
+  }
+  .opreBody {
+    margin-left: 16px;
   }
 }
 </style>
@@ -327,13 +411,13 @@ export default {
 /deep/ .searchBox .uni-input-placeholder {
   color: rgba(0, 0, 0, 0.65);
   font-size: 14px;
-  display: none;
+  // display: none;
 }
 
 .van-checkbox__icon--checked .van-icon-success::before {
   content: "";
   display: inline-block;
-  background: url("../../../static/img/icon/unselected.png");
+  background: url("../../static/img/icon/unselected.png");
   background-size: 100% 100%;
   width: 15px;
   height: 15px;
@@ -342,7 +426,7 @@ export default {
 .van-icon-success::before {
   content: "";
   display: inline-block;
-  background-image: url("../../../static/img/icon/unselected.png");
+  background-image: url("../../static/img/icon/unselected.png");
   background-size: 100% 100%;
   width: 15px;
   height: 15px;

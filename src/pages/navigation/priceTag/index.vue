@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import Footer from "../../components/footer-nav";
+import Footer from "../../../components/footer-nav";
 import List from "./list";
 export default {
   components: {

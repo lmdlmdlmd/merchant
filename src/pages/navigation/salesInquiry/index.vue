@@ -67,15 +67,19 @@
             </van-col>
           </van-row>
           <van-row class="dataCon">
-            <van-col span="8" class="lavelBox"
+            <van-col span="6" class="lavelBox"
               ><p class="lavel">销售日期</p>
               <p class="val">{{ item.date }}</p></van-col
             >
-            <van-col span="8" class="lavelBox"
+            <van-col span="6" class="lavelBox"
               ><p class="lavel">销售凭证号</p>
               <p class="val">{{ item.card }}</p></van-col
             >
-            <van-col span="8" class="lavelBox"
+            <van-col span="6" class="lavelBox"
+              ><p class="lavel">销售金额</p>
+              <p class="val">{{ item.price }}</p></van-col
+            >
+            <van-col span="6" class="lavelBox"
               ><p class="lavel">收款金额</p>
               <p class="val">{{ item.price }}</p></van-col
             >
@@ -105,9 +109,9 @@
 </template>
 
 <script>
-import zzNavBar from "../../components/zz-nav-bar";
-import Footer from "../../components/footer-nav";
-import zzEmpty from "../../components/zz-empty";
+import zzNavBar from "../../../components/zz-nav-bar";
+import Footer from "../../../components/footer-nav";
+import zzEmpty from "../../../components/zz-empty";
 export default {
   components: {
     zzNavBar,

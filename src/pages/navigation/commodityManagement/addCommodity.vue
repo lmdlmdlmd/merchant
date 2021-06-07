@@ -3,7 +3,7 @@
     <zz-nav-bar
       title="新增商品"
       leftIcon="back"
-      @click-right="rightClick"
+      @click-left="leftClick"
     ></zz-nav-bar>
 
     <view class="content">
@@ -51,7 +51,7 @@
               label="品牌名称"
               right-icon="arrow"
               required
-              @click-right-icon="isShow = false"
+              @click-right-icon="isShow = true"
             />
             <van-field
               v-model="detail.categoryid_s"
@@ -118,10 +118,17 @@
         </view>
       </view>
     </view>
-    <van-popup v-model="isShow" position="bottom" :style="{ height: '30%' }">
+    <van-popup
+      v-model="isShow"
+      :close-on-click-overlay="true"
+      :close-on-popstate="true"
+      position="bottom"
+      :style="{ height: '30%' }"
+    >
       <view>
         <van-picker
           title=""
+          :default-index="brandidIndex"
           show-toolbar
           :columns="columns"
           @confirm="onConfirm"
@@ -141,14 +148,36 @@
         :main-active-index.sync="activeIndex"
         @click-nav="onNavClick"
         @click-item="onItemClick"
-      />
+      >
+        <!-- <template #content>
+          <van-tree-select
+            height="55vw"
+            :items="items"
+            :active-id="activeId"
+            :main-active-index.sync="activeIndex"
+            @click-nav="onNavClick"
+            @click-item="onItemClick"
+          >
+            <template #content>
+              <van-tree-select
+                height="55vw"
+                :items="items"
+                :active-id="activeId"
+                :main-active-index.sync="activeIndex"
+                @click-nav="onNavClick"
+                @click-item="onItemClick"
+              />
+            </template>
+          </van-tree-select>
+        </template> -->
+      </van-tree-select>
     </van-popup>
   </view>
 </template>
 
 <script>
-import zzNavBar from "../../components/zz-nav-bar";
-import Anchor from "../components/anchor";
+import zzNavBar from "../../../components/zz-nav-bar";
+import Anchor from "../../components/anchor";
 export default {
   components: {
     zzNavBar,
@@ -158,11 +187,15 @@ export default {
     return {
       detail: {
         id: "",
-        shopid: "5", //bug要换成商铺名称
-        brandid: "芝华仕", //bug要换成品牌名称
-        merchid: "HT2232323323", //bug要换成商户名称
+        shopid_s: "",
+        shopid: "21",
+        brandid_s: "",
+        brandid: "",
+        merchid_s: "",
+        merchid: "1",
         name: "",
-        code: "", //bug要换成品牌名称
+        brandid_s: "",
+        categoryid_s: "",
         categoryid: "",
         specification: "",
         model: "",
@@ -170,11 +203,13 @@ export default {
         mainmaterial: "",
         unit: "",
         level: "",
-        price: "",
+        price: "1",
       },
+      //默认选中下标
+      brandidIndex: null,
       id: "",
       isShow: false,
-      columns: ["TATA", "科勒", "世友", "书香"],
+      columns: [],
       loading: false,
       anchor: ["基本信息", "商品信息"],
       // classify: "实木家具",
@@ -216,34 +251,66 @@ export default {
     this.id = query.id;
     this.address = query.list;
   },
-  onShow() {
+  created() {
+    this.bicategory();
+    this.handleBrand();
     this.getDetail();
   },
   methods: {
+    dep(list, menuDate) {
+      list.forEach((item) => {
+        menuDate.forEach((e) => {
+          item.text = e.name;
+          if (item.id === e.parentid) {
+            if (!item.children) item.children = [];
+            item.children.push({ ...e, text: e.name });
+          }
+        });
+        if (item.children) {
+          return this.dep(item.children, menuDate);
+        }
+      });
+      return list;
+    },
+    bicategory() {
+      this.$api
+        .post("base/bicategory/search", {
+          rows: 100,
+        })
+        .then((res) => {
+          console.log(res);
+          const { data } = res;
+          // const getTreeMenu = () => {
+          console.log(this.dep([{ id: 1 }, { id: 5 }], data));
+          // };
+          // getTreeMenu();
+        });
+    },
+    handleBrand() {
+      this.$api
+        .post("base/brand/search", {
+          rows: 100,
+        })
+        .then((res) => {
+          const { data } = res;
+          console.log(data);
+          data.map((item) =>
+            this.columns.push({ text: item.name, id: item.id })
+          );
+        });
+    },
+
     getDetail() {
-      let data = {
-        id: "1",
-        shopid_s: "5", //bug要换成商铺名称
-        brandid_s: "5", //bug要换成品牌名称
-        merchid_s: "11", //bug要换成商户名称
-        name: "2",
-        brandid_s: "3", //bug要换成品牌名称
-        categoryid_s: "7",
-        specification: "1",
-        model: "6",
-        origin: "7",
-        mainmaterial: "8",
-        unit: "9",
-        level: "0",
-        price: "10",
-      };
-      this.id &&
+      this.id != "-1" &&
         this.$api
           .post("mall/commodity/view", {
             id: this.id,
           })
           .then((res) => {
             this.detail = Object.assign(res);
+            this.brandidIndex = this.columns.findIndex(
+              (item) => item.id == res.brandid
+            );
           });
     },
     //选择分类
@@ -257,15 +324,20 @@ export default {
     onItemClick(data) {
       console.log(data);
       this.activeId = data.id;
+      this.detail.categoryid = data.id;
+      this.isClassify = false;
     },
     //选择品牌
     onConfirm(value) {
+      console.log(value);
       this.brandName = value; //bug选择之后是传id 还要根据后端返回查处对应的品牌列表
+      this.detail.brandid_s = value.text;
+      this.detail.brandid = value.id;
       this.isShow = false;
     },
     //提交
     handleSubmit() {
-      if (!(this.detail.name && this.detail.code && this.detail.price)) {
+      if (!(this.detail.name && this.detail.brandid && this.detail.price)) {
         return uni.showToast({
           icon: "none",
           position: "bottom",
@@ -278,13 +350,13 @@ export default {
       if (this.id == "-1") {
         console.log(this.detail);
         delete this.detail.id;
-        url = "all/commodity/add";
+        url = "mall/commodity/add";
         params = {
           ...this.detail,
         };
       } else {
         console.log(this.detail);
-        url = "mmall/commodity/edit";
+        url = "mall/commodity/edit";
         params = {
           ...this.detail,
         };
@@ -320,6 +392,18 @@ export default {
       Object.keys(this.detail).forEach((key) => {
         this.detail[key] = "";
       });
+    },
+    leftClick() {
+      if (this.address) {
+        console.log(111211);
+        uni.navigateTo({
+          url: `/pages/navigation/commodityManagement/list`,
+        });
+      } else {
+        uni.navigateBack({
+          delta: 1,
+        });
+      }
     },
   },
 };

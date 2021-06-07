@@ -26,7 +26,7 @@
 			}
 		},
 		{
-			"path": "pages/mine/index",
+			"path": "pages/user/index",
 			"style": {
 				"navigationBarTextStyle": "white",
 				"app-plus": {
@@ -36,14 +36,14 @@
 			}
 		},
 		{
-			"path": "pages/mine/edit",
+			"path": "pages/user/edit",
 			"style": {
 				"navigationBarTextStyle": "white",
 				"titleNView": false
 			}
 		},
 		{
-			"path": "pages/mine/forgotPassword",
+			"path": "pages/user/forgotPassword",
 			"style": {
 				"navigationBarTextStyle": "white",
 				"titleNView": false
@@ -88,7 +88,7 @@
 			}
 		},
 		{
-			"path": "pages/navigation/standard/addGood",
+			"path": "pages/navigation/commodityManagement/addCommodity",
 			"style": {
 				"navigationBarTextStyle": "white",
 				"titleNView": false
@@ -167,7 +167,7 @@
 			},
 			{
 				"text": "我的",
-				"pagePath": "pages/mine/index",
+				"pagePath": "pages/user/index",
 				"iconPath": "./static/img/tabbar/mine.png",
 				"selectedIconPath": "./static/img/tabbar/mine_s.png"
 			}

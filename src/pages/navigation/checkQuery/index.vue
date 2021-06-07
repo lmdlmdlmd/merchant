@@ -18,9 +18,9 @@
 </template>
 
 <script>
-import Footer from "../../components/footer-nav";
+import Footer from "../../../components/footer-nav";
 import List from "./list";
-import zzNavBar from "../../components/zz-nav-bar";
+import zzNavBar from "../../../components/zz-nav-bar";
 export default {
   components: {
     zzNavBar,

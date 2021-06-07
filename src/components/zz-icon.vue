@@ -3,27 +3,27 @@
     <image
       class="search"
       v-if="type == 'search'"
-      src="../../static/img/icon/icon-search.png"
+      src="../static/img/icon/icon-search.png"
     ></image>
     <image
       class="back-black"
       v-if="type == 'back' && color == '#000000'"
-      src="../../static/img/icon/icon-back-black.png"
+      src="../static/img/icon/icon-back-black.png"
     ></image>
     <image
       class="back-white"
       v-if="type == 'back' && color == '#ffffff'"
-      src="../../static/img/icon/icon-back-white.png"
+      src="../static/img/icon/icon-back-white.png"
     ></image>
     <image
       class="back-arrow"
       v-if="type == 'back-arrow'"
-      src="../../static/img/icon/icon-back-arrow.png"
+      src="../static/img/icon/icon-back-arrow.png"
     ></image>
     <image
       class="back-point"
       v-if="type == 'back-point'"
-      src="../../static/img/icon/icon-black-point.png"
+      src="../static/img/icon/icon-black-point.png"
     ></image>
   </view>
 </template>
