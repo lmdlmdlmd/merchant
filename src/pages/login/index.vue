@@ -115,9 +115,11 @@ export default {
     },
     startLogin() {
       const params = {
-        mobile: "18637152523",
-        password: "99999999",
+        // mobile: "18637152523",
+        // password: "99999999",
         code: "LMD",
+        mobile: "13838435531",
+        password: "12345678901",
       };
       this.$auth
         .login(params)

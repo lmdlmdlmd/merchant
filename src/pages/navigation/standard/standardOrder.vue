@@ -278,7 +278,7 @@ export default {
       currentDate: this.formatDate(new Date()),
       currentAdd: "220382",
       currentAddName: "",
-      columns: ["预约", "送货", "商家直送", "预约送货"],
+      columns: [],
       currenTypeAdd: "",
       goods: [
         {
@@ -311,8 +311,27 @@ export default {
       anchor: ["顾客信息", "商品信息", "金额信息", "订单确认"],
     };
   },
+  created() {
+    //获取送货方式
+    this.handleDict();
+  },
   onLoad() {},
+
   methods: {
+    handleDict() {
+      this.$api
+        .post("base/dict/search", {
+          datatype: "DELIVERYWAY",
+        })
+        .then((res) => {
+          const { data } = res;
+          let dataSource = [];
+          data.map((item) => {
+            dataSource.push({ text: item.name, id: item.code });
+          });
+          this.columns = dataSource;
+        });
+    },
     //删除商品
     handleDelete(id) {
       this.show = true;

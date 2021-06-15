@@ -1,7 +1,7 @@
 <template>
   <view class="operate" :style="{ marginLeft: maLe }">
     <van-field
-      v-model="type"
+      v-model="priceTagType.text"
       placeholder="请选择价签打印类型"
       label="价签打印类型"
       :required="isRequire"
@@ -24,8 +24,8 @@
     </van-row>
     <van-action-sheet v-model="typeShow" title="" class="addSheet">
       <van-row class="add_opr">
-        <van-col span="12" class="can" @click="handleCancel">取消</van-col>
-        <van-col span="12" class="con" @click="handleCancel">确定</van-col>
+        <van-col span="12" class="can" @click="typeShow = false">取消</van-col>
+        <van-col span="12" class="con" @click="handleSubmit">确定</van-col>
       </van-row>
       <van-picker
         :show-toolbar="false"
@@ -45,9 +45,8 @@ export default {
       type: String,
       default: "价签打印数量",
     },
-    type: {
-      type: String,
-      default: "",
+    tagType: {
+      type: Object,
     },
     number: {
       type: Number,
@@ -65,26 +64,53 @@ export default {
   data() {
     return {
       typeShow: false,
-      columns: ["标准签", "横签", "竖签", "爆炸签"],
-      //  addData: "横签",
-      addIndex: null,
-      index: null,
+      columns: [], //价签数据
+      priceTagType: this.tagType, //价签类型
+      addIndex: 0, //类型弹出框选择默认值
     };
   },
-  onLoad() {
-    //地址弹出框选择默认值
-    this.addIndex = this.columns.findIndex((x) => x == this.type);
-  },
-  methods: {
-    handleConfirm(value, index) {
-      // console.log(value, index);
-      // this.typeShow = true;
-      this.index = index;
+  watch: {
+    tagType: function (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.priceTagType = newVal;
+      }
     },
-    handleCancel() {
+  },
+  created() {
+    //获取价签数据
+    this.handleDict();
+  },
+  onLoad() {},
+
+  methods: {
+    handleDict() {
+      this.$api
+        .post("base/dict/search", {
+          datatype: "TAGSIZE",
+        })
+        .then((res) => {
+          const { data } = res;
+          let dataSource = [];
+          data.map((item) => {
+            dataSource.push({ text: item.name, id: item.code });
+          });
+          this.columns = dataSource;
+          this.addIndex = this.columns.findIndex(
+            (x) => x.id == this.tagType.id || 0
+          );
+        });
+    },
+    //价签change
+    handleConfirm(value, data) {
+      this.priceTagType = data;
+    },
+    //确定
+    handleSubmit() {
       this.typeShow = false;
-      console.log(this.index);
-      this.$emit("handleConfirm", this.index);
+      this.priceTagType = this.priceTagType.id
+        ? this.priceTagType
+        : this.columns[0]; //如果change时没有任何滑动默认选择第一条
+      this.$emit("handleConfirm", this.priceTagType);
     },
     handleAdd() {
       this.$emit("handleAdd");

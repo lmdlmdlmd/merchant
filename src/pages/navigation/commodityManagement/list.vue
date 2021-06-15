@@ -100,10 +100,11 @@
       </mescroll-uni>
       <view class="footer"> <Footer active="navigation"></Footer></view>
       <selectGoods
+        :operation="false"
         :showGood="isSelectGoodShow"
         @isShow="isSelectGoodShow = false"
-        @goods="handleSelectGood"
       />
+      <!-- @goods="handleSelectGood" -->
       <van-dialog v-model="show" :showConfirmButton="false">
         <view class="dialog_box">
           <image
@@ -219,9 +220,9 @@ export default {
       };
       this.downCallback(this.scroll);
     },
-    handleSelectGoodShow() {
-      this.isSelectGoodShow = !this.isSelectGoodShow;
-    },
+    // handleSelectGoodShow() {
+    //   this.isSelectGoodShow = !this.isSelectGoodShow;
+    // },
     //删除商品
     handleDelete(id) {
       this.show = true;
@@ -235,7 +236,7 @@ export default {
         })
         .then((res) => {
           this.$toast.toast({
-            icon: "success",
+            icon: "",
             title: "删除成功",
             success: () => {
               // uni.navigateBack();
@@ -253,18 +254,18 @@ export default {
       });
     },
     //获取选择的商品
-    handleSelectGood(e) {
-      //将传过来的数据加到goods
-      this.goods.push({
-        name:
-          "实木沙发北欧组合现代简约新中式客厅简约新中式约新中式客厅简约新中约新中式客厅简约新中约新中式客厅简约新中客厅简约新中式客厅简约新中式客厅家具组",
-        money: 999.0,
-        number: 1,
-        goodNumber: 30,
-        specifications: "75757575",
-        model: "SFIP99200U990",
-      });
-    },
+    // handleSelectGood(e) {
+    //将传过来的数据加到goods
+    // this.goods.push({
+    //   name:
+    //     "实木沙发北欧组合现代简约新中式客厅简约新中式约新中式客厅简约新中约新中式客厅简约新中约新中式客厅简约新中客厅简约新中式客厅简约新中式客厅家具组",
+    //   money: 999.0,
+    //   number: 1,
+    //   goodNumber: 30,
+    //   specifications: "75757575",
+    //   model: "SFIP99200U990",
+    // });
+    // },
     handleBack() {
       uni.navigateBack({
         delta: 1,

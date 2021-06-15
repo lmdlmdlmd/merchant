@@ -9,13 +9,13 @@
               class="close_img"
             ></image>
           </van-col>
-          <van-col span="16" class="title"> 选择商品 </van-col>
+          <van-col span="16" class="title"> {{ title }} </van-col>
           <van-col span="4"></van-col>
         </van-row>
-        <van-row class="all_select">
+        <van-row class="all_select" v-show="operation !== 'uPriceTag'">
           <van-col span="6" class="select_box">
             <van-checkbox
-              @change="handleAllChange"
+              @click.native="handleAllChange()"
               v-model="checked"
               class="subm_che"
               >全选</van-checkbox
@@ -34,18 +34,67 @@
             ></image>
           </van-col>
         </van-row>
+        <view class="orn_body">
+          <van-row class="orn_box" v-show="operation == 'uPriceTag'">
+            <van-col span="8" class="orn_title"> 价签打印单号 </van-col>
+            <van-col span="16" class="opr_sh">
+              <input
+                class="srarch_input orn_input"
+                v-model="dataSource.code"
+                disabled
+              />
+            </van-col>
+          </van-row>
+        </view>
         <view class="operBox">
           <view class="opreBody">
             <Operate
               :number="number"
-              :type="type"
+              :tagType="tagType"
               @handleAdd="handleAdd"
               @handleDel="handleDel"
               @handleConfirm="handleConfirm"
             />
           </view>
         </view>
-        <div v-show="data.length" class="goods_body">
+        <view class="goods_body" v-show="operation == 'uPriceTag'">
+          <view class="goods_div">
+            <van-row class="goods_box">
+              <van-col span="2">
+                <van-checkbox
+                  v-model="dataSource.checked"
+                  class="checkbox"
+                  disabled
+                ></van-checkbox>
+              </van-col>
+              <van-col span="22" class="good_name">
+                {{ dataSource.name }}
+              </van-col>
+            </van-row>
+            <van-row class="goods_box">
+              <van-col span="4" class="good_lable"> 价格 </van-col>
+              <van-col span="20" class="good_val">
+                ¥{{ dataSource.price }}
+              </van-col>
+            </van-row>
+            <van-row class="goods_box">
+              <van-col span="4" class="good_lable"> 规格 </van-col>
+              <van-col span="20" class="good_val">
+                {{ dataSource.specification }}
+              </van-col>
+            </van-row>
+            <van-row class="goods_box">
+              <van-col span="4" class="good_lable"> 型号 </van-col>
+              <van-col span="20" class="good_val">
+                {{ dataSource.model }}
+              </van-col>
+            </van-row>
+          </view>
+        </view>
+        <div
+          v-show="list.data.length && operation !== 'uPriceTag'"
+          class="goods_body"
+        >
           <mescroll-uni
             @down="downCallback"
             @up="upCallback"
@@ -62,9 +111,8 @@
                 <van-col span="2">
                   <van-checkbox
                     class="checkbox"
-                    :id="'checkbox' + index"
                     v-model="item.checked"
-                    @change="handlecheck(index)"
+                    @click.native="handlecheck(item)"
                   ></van-checkbox>
                 </van-col>
                 <van-col span="22" class="good_name">
@@ -74,13 +122,13 @@
               <van-row class="goods_box">
                 <van-col span="4" class="good_lable"> 价格 </van-col>
                 <van-col span="20" class="good_val">
-                  ¥{{ item.money }}
+                  ¥{{ item.price }}
                 </van-col>
               </van-row>
               <van-row class="goods_box">
                 <van-col span="4" class="good_lable"> 规格 </van-col>
                 <van-col span="20" class="good_val">
-                  {{ item.spec }}
+                  {{ item.specification }}
                 </van-col>
               </van-row>
               <van-row class="goods_box">
@@ -97,6 +145,7 @@
             <van-button
               type="primary"
               class="reset"
+              v-show="operation !== 'uPriceTag'"
               @click="handleAllChange('search')"
               >重置</van-button
             >
@@ -125,6 +174,17 @@ export default {
       type: Boolean,
       default: false,
     },
+    title: {
+      type: String,
+      default: "选择商品",
+    },
+    operation: {
+      type: String,
+      default: "",
+    },
+    detailId: {
+      type: Number,
+    },
   },
   watch: {
     showGood: function (newVal, oldVal) {
@@ -132,6 +192,11 @@ export default {
         this.show = true;
       } else {
         this.show = false;
+      }
+    },
+    detailId: function (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.getDetail();
       }
     },
   },
@@ -148,38 +213,17 @@ export default {
       scroll: null,
       search: "", //搜索
       number: 1,
-      type: "爆炸签",
-      data: [
-        {
-          id: 1,
-          name:
-            "Greatpal北极光车载家用桌面空气雾化器加湿器加送USB风扇和LED灯条GP0909",
-          spec: "2038450",
-          money: "999.00 ",
-          model: "SFIP99200U990",
-          checked: false,
-        },
-        {
-          id: 2,
-          name: "实木沙发北欧组合现代简约新中式客厅家具组",
-          spec: "2038450",
-          money: "999.00 ",
-          model: "SFIP99200U990",
-          checked: false,
-        },
-      ],
+      tagType: { id: "", text: "" },
+      dataSource: {},
+      // data: {},
     };
   },
+  onLoad() {},
   created() {
     this.list = new EasyListService({
       url: "mall/commodity/search",
       pageKey: "page",
       sizeKey: "rows",
-      // params: {
-      // 	business_role: this.role,
-      // 	shop_id: this.shopid,
-      // 	type: 0
-      // },
       format: (list) => {
         return list.map((_) => {
           _.checked = false;
@@ -187,10 +231,6 @@ export default {
         });
       },
     });
-
-    let sys = uni.getSystemInfoSync();
-    console.log(sys.windowHeight - +220); //sys.windowHeight + 220;
-    this.top = "60%"; // 198 + Math.floor(sys.statusBarHeight) * 2;
   },
   methods: {
     downCallback(e) {
@@ -210,24 +250,44 @@ export default {
           e.endErr();
         });
     },
+    getDetail() {
+      this.$api
+        .post("mall/pricetag/view", {
+          id: this.detailId,
+        })
+        .then((res) => {
+          console.log(res);
+          this.dataSource = res;
+          // this.data = res;
+          this.dataSource.checked = true;
+          this.tagType.text = res.tagsize_s;
+          this.tagType.id = res.tagsize;
+          this.number = parseInt(res.num);
+          console.log(this.num);
+        });
+    },
     //获取到价签类型
-    handleConfirm(type) {
-      console.log(type);
-      this.type = type;
+    handleConfirm(tagType) {
+      this.tagType = { ...tagType };
     },
     handleAdd() {
       this.number++;
     },
 
     handleDel() {
-      if (this.number == 0) {
+      if (this.number == 1) {
         return;
       }
       this.number--;
     },
     //查询
     handleSearch() {
-      console.log("通过" + this.search + "查询");
+      this.list.onLoad = (body) => {
+        if (this.search) {
+          body.name = this.search;
+        }
+      };
+      this.downCallback(this.scroll);
     },
     //关闭
     handleClose() {
@@ -236,48 +296,97 @@ export default {
     },
     //全选
     handleAllChange(val) {
-      console.log(this.checked);
-      this.list.data.map((item) => {
-        item.checked = this.checked ? true : false;
-      });
       if (val) {
         this.search = "";
+        this.checked = false;
+      } else {
+        this.checked = !this.checked;
       }
+      this.list.data.forEach((_) => {
+        _.checked = this.checked;
+      });
+      // if (this.operation) {
+      //   this.dataSource = this.data;
+      //   this.tagType.text = this.data.tagsize_s;
+      //   this.tagType.id = this.data.tagsize;
+      //   this.number = parseInt(this.data.num);
+      // }
     },
     //选择数据
-    handlecheck(index) {
-      // this.data[index].checked = !this.data[index].checked;
-      if (!this.data.some((item) => !item.checked)) {
+    handlecheck(item) {
+      item.checked = !item.checked;
+      if (!this.list.data.some((_) => !_.checked)) {
         this.checked = true;
       } else {
         this.checked = false;
       }
     },
     handleSubmit() {
-      if (this.number == 0) {
-        console.log(uni.showToast);
-        Toast("请至少选择打印一条");
-        return;
-      }
-      if (!this.type) {
-        Toast("请选择类型");
-        return;
-      }
-      let dataArr = [];
-      this.data.map((item) => {
-        if (item.checked) {
-          dataArr.push(item.id);
-          item.checked = false;
-        }
-      });
-      if (dataArr.length == 0) {
-        Toast("请至少选择一条数据");
-        return;
-      } else {
-        this.$emit("goods", dataArr);
+      if (this.operation == "uPriceTag") {
+        let params = {
+          id: this.detailId,
+          num: this.number,
+          tagsize: this.tagType.id,
+        };
+        this.$emit("handleUpdateGoods", params);
+        // this.$api.post("mall/pricetag/edit", params).then((res) => {
+        //   Toast("操作成功");
         this.handleClose();
+        // });
+      } else if (this.operation == "selectGoods") {
+        if (this.number == 0) {
+          Toast("请至少选择打印一条");
+          return;
+        }
+        if (!this.tagType.id) {
+          Toast("请选择类型");
+          return;
+        }
+        let dataArr = [];
+        this.list.data.map((item) => {
+          if (item.checked) {
+            dataArr.push({
+              name: item.name,
+              price: item.price,
+              specification: item.specification,
+              model: item.model,
+              commoid: item.id,
+              number: this.number,
+              type: this.tagType,
+            });
+            item.checked = false;
+          }
+        });
+        if (dataArr.length == 0) {
+          Toast("请至少选择一条数据");
+          return;
+        } else {
+          //传入父组件
+          console.log(dataArr);
+
+          this.$emit("handleSelectGoods", dataArr);
+          this.tagType = { id: "", text: "" };
+          this.number = 1;
+          this.checked = false;
+          this.handleClose();
+          // console.log(dataArr, this.number, this.tagType);
+          // let params = {
+          //   action: "add",
+          //   form: {
+          //     tagsize: this.tagType.id,
+          //     num: this.number,
+          //     commoid: dataArr,
+          //   },
+          // };
+          //调取添加
+          // this.$emit("goods", dataArr);
+          // this.$api.post("mall/pricetag/go", params).then((res) => {
+          //   Toast("操作成功");
+          //   this.handleClose();
+          //   this.checked = false;
+          // });
+        }
       }
-      this.checked = false;
     },
   },
 };
@@ -286,6 +395,18 @@ export default {
 <style lang="less" scoped>
 .sheetBox {
   .content {
+    .orn_body {
+      width: calc(100% - 40px);
+      margin: 0px auto -15px;
+      .orn_box {
+        margin: 0 18px 0 31px;
+        color: #1e1e1e;
+        font-size: 12px;
+      }
+      .orn_title {
+        margin-top: 6px;
+      }
+    }
     .cl_title {
       width: calc(100% - 48px);
       margin: 15px auto 33px;
@@ -324,6 +445,11 @@ export default {
       text-indent: 19px;
       font-size: 14px;
     }
+    .orn_input {
+      height: 28px;
+      text-align: right;
+      padding: 0 10px;
+    }
     .search_img {
       position: absolute;
       width: 13px;
@@ -334,8 +460,12 @@ export default {
     .goods_body {
       width: calc(100% - 40px);
       margin: 0 auto;
-      height: 200px;
+      height: 256px;
       overflow: scroll;
+
+      .dataList {
+        transform: translate(0);
+      }
     }
     .goods_div {
       border: 1px solid #d3d3d3;
@@ -371,7 +501,7 @@ export default {
       }
     }
     .sub_body {
-      background: red;
+      background: #fff;
       padding: 10px 0;
       z-index: 999;
       position: relative;

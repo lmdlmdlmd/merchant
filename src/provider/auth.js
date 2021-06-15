@@ -8,60 +8,101 @@ import authHandler from './auth.handler.js';
 
 function Auth() {
 	this.user = undefined;
-	this.pending = undefined;
 	this.token = undefined;
+	this.pending = undefined;
+	this.shop = undefined;
+	this.shPending = undefined;
+	this.role = undefined;
+	this.roPending = undefined;
 
 	this.init();
 }
 
 // const XBmessage = uni.requireNativePlugin('XBmessage');
 
+
 Auth.prototype = {
 	constructor: Auth,
 	init() {
+		console.log(authHandler)
+		if (authHandler.user) {
+			this.user = authHandler.getUser();
+		}
 		if (authHandler.token) {
 			this.token = authHandler.getAuthorization();
-			// this.restoreUser();
+			// this.restoreRole(this.roleorg)
+			// this.restoreShop(this.shopid);
+		}
+		if (authHandler.shopid) {
+			this.shopid = authHandler.getShopid();
+			// this.restoreRole(this.roleorg)
+			this.restoreShop(this.shopid);
+		}
+		if (authHandler.roleorg) {
+			this.roleorg = authHandler.getRoleorg();
+			this.restoreRole(this.roleorg)
+			// this.restoreShop(this.shopid);
 		}
 	},
 	login(params) {
 		return api.post(CONFIG.tokenApi, params).then(data => {
-			const {token} = data;
-			console.log(data)
+			const {token,shopid,roleorg} = data;
+			// console.log(data)
+			// this.shopid = shopid; 
+			// this.roleorg = roleorg;
+			authHandler.saveUser(data);
 			authHandler.saveToken(token);
+			authHandler.saveShopid(shopid);
+			authHandler.saveRoleorg(roleorg);
 			this.init();
-			// return this.restoreUser();
+			this.restoreRole(roleorg)
+			this.restoreShop(shopid);
 		})
 	},
-	// restoreUser() {
-	// 	return this.pending = api.get(CONFIG.userApi).then(user => {
-	// 		user._member_phone = encryptMobile(user.member_phone);
-	// 		user._member_nickname = user.member_nickname == '未设置昵称' ? '我的店铺' : user.member_nickname;
-	// 		user._operateAsset = user.store && user.store.finance_account_status == 1 ? true : false;
-	// 		this.user = user;
-	// 		this.pending = null;
-	// 		return user;
-	// 	}).catch(err => {
-	// 		this.logout();
-	// 		return false;
-	// 	})
-	// },
+	//商铺信息
+ 	restoreShop(shopid) {
+		this.shPending = api.post(CONFIG.shopApi,{id:shopid}).then(shop => {
+			console.log(shop)
+			this.shop = shop;
+			this.shPending = null;
+			return shop;
+		}).catch(err => {
+			// this.logout();
+			return false;
+		})
+	},
+	//角色信息
+	restoreRole(roleOrg) {
+		return this.roPending = api.post(CONFIG.roleApi,{id:roleOrg}).then(role => {
+			console.log(role)
+			this.role = role;
+			this.roPending = null;
+			return roleOrg;
+		}).catch(err => {
+			// this.logout();
+			return false;
+		})
+	},
 	logout() {
 		// MSG.RY.logout();
 		this.user = null;
+		this.shop = null;
 		this.token = null;
+		this.role = null;
 		authHandler.clearToken();
+		authHandler.clearShopid();
+		authHandler.cleaRoleorg();
 		uni.reLaunch({
 			url: '/pages/login/index'
 		})
 	},
-	check() {
-		if (!authHandler.token) {
-			return false;
-		}
+	// check() {
+	// 	if (!authHandler.token) {
+	// 		return false;
+	// 	}
 		
-		return this.user ? true : this.pending || false;
-	}
+	// 	return this.shop ? true : this.pending || false;
+	// }
 }
 
 export default new Auth();

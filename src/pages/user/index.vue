@@ -11,17 +11,19 @@
         <view class="author_box">
           <view class="author">
             <text>{{
-              name.substring(name.length - 2, name.length)
+              data &&
+              data.name &&
+              data.name.substring(data.name.length - 2, data.name.length)
             }}</text></view
           >
 
-          <text class="author_text">{{ name }}</text>
+          <text class="author_text">{{ data.name }}</text>
           <van-row class="detail">
             <van-col span="12" class="lable">
               <text>所属商场：</text>
             </van-col>
             <van-col span="12" class="value">
-              <text>{{ main }}</text>
+              <text>{{ data.mallid_s }}</text>
             </van-col>
           </van-row>
           <van-row class="detail">
@@ -29,7 +31,7 @@
               <text>店铺：</text>
             </van-col>
             <van-col span="12" class="value">
-              <text>{{ store }}</text>
+              <text>{{ data.shopid_s }}</text>
             </van-col>
           </van-row>
           <van-row class="detail">
@@ -37,7 +39,7 @@
               <text>品牌：</text>
             </van-col>
             <van-col span="12" class="value">
-              <text>{{ brand }}</text>
+              <text>{{ data.brandid_s }}</text>
             </van-col>
           </van-row>
           <van-row class="detail">
@@ -45,7 +47,7 @@
               <text>登录用户权限：</text>
             </van-col>
             <van-col span="12" class="value">
-              <text>{{ permissions }}</text>
+              <text>{{ data.role_s }}</text>
             </van-col>
           </van-row>
         </view>
@@ -82,14 +84,28 @@ export default {
   data() {
     return {
       show: false,
-      name: "王立伟",
-      main: "大明宫钻石店",
-      store: "DS1-A-001",
-      brand: "慕斯寝具",
-      permissions: "导购员",
+      data: {},
+      // name: "王立伟",
+      // main: "大明宫钻石店",
+      // store: "DS1-A-001",
+      // brand: "慕斯寝具",
+      // permissions: "导购员",
     };
   },
-  onLoad() {},
+
+  created() {
+    setTimeout(() => {
+      const { shop = {}, role = {}, user = {} } = this.$auth;
+      // console.log("shop------", user);
+      this.data = {
+        name: user.name,
+        mallid_s: user.mallid_s,
+        shopid_s: user.shopid_s,
+        brandid_s: shop.brandid_s,
+        role_s: role.role_s,
+      };
+    }, 300);
+  },
   methods: {
     handleEdit() {
       console.log(1);
