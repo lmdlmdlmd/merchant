@@ -50,7 +50,59 @@
     })
     return time_str
   }
-  
+  /**
+ * 日期格式化
+ * @param {Object} format 格式
+ * @param {Object} date	日期
+ */
+  export function dateFmt(format, _date) {
+    console.log(format, _date)
+	format = format || 'Y-m-d H:i:s';
+	_date = date(_date);
+	return format.replace(/[YmdHisu]/g, function(string) {
+		switch (string) {
+			case 'Y':
+				return _date.getFullYear().toString();
+			case 'm':
+				return (_date.getMonth() + 1).toString().padStart(2, '0');
+			case 'd':
+				return _date.getDate().toString().padStart(2, '0');
+			case 'H':
+				return _date.getHours().toString().padStart(2, '0');
+			case 'i':
+				return _date.getMinutes().toString().padStart(2, '0');
+			case 's':
+				return _date.getSeconds().toString().padStart(2, '0');
+			case 'u':
+				return _date.getMilliseconds().toString().padStart(3, '0');
+			default:
+				return string;
+		}
+	});
+}
+/**
+ * 返回日期格式
+ * @param {Object} date 日期
+ */
+ function date(date) {
+	if (Object.prototype.toString.call(date) != '[object Date]') {
+		if (date) {
+			if (typeof date == 'string') {
+				// 处理ios中 new Date - 分隔符不识别
+				date = date.replace(/[\-\.]/g, '/');
+			}
+			let temp = new Date(date);
+			if (temp == 'Invalid Date') {
+				throw new Error('日期格式错误');
+			} else {
+				date = temp;
+			}
+		} else {
+			date = new Date();
+		}
+	}
+	return date;
+}
   /**
    * @param {number} time
    * @param {string} option
@@ -354,5 +406,21 @@
       const reg = new RegExp('(\\s|^)' + cls + '(\\s|$)')
       ele.className = ele.className.replace(reg, ' ')
     }
+  }
+  /**
+   * @param {} num
+   */
+  export function formatDecimal(num, decimal) {
+      num = num.toString()
+      let index = num.indexOf('.')
+      if (index !== -1) {
+          num = num.substring(0, decimal + index + 1)
+      } else {
+          num = num.substring(0)
+      }
+      return parseFloat(num).toFixed(decimal)
+  
+    // let num2 = ( parseInt( num * 100 ) / 100 ).toFixed(2);
+    // return num2;
   }
   

@@ -14,18 +14,20 @@
           <view class="ci_con">
             <van-field
               class="br"
+              readonly
               placeholder="请输入商铺"
-              v-model="shops"
+              v-model="info.name"
               label="商铺"
             />
             <van-field
               class="bg"
+              readonly
               placeholder="请输入品牌名称"
-              v-model="brandName"
+              v-model="info.brandid_s"
               label="品牌名称"
             />
             <van-field
-              v-model="cardNumber"
+              v-model="params.customercode"
               placeholder="请输入会员号或手机号"
               label="会员卡号"
               right-icon="search"
@@ -33,13 +35,13 @@
             />
             <van-field
               class="bg"
-              v-model="name"
+              v-model="params.customer"
               placeholder="请输入顾客姓名"
               label="顾客姓名"
             />
             <van-field
               class="br"
-              v-model="phone"
+              v-model="params.customermobile"
               placeholder="请输入联系电话"
               label="联系电话"
             />
@@ -52,7 +54,7 @@
           <view class="ci_con">
             <van-field
               class="br"
-              v-model="money"
+              v-model="params.amount"
               placeholder="请输入定金金额"
               label="定金金额"
             />
@@ -86,43 +88,76 @@ export default {
   },
   data() {
     return {
-      shops: "DS1-001-002",
-      brandName: "HT2232323323",
-      cardNumber: "",
-      name: "",
-      phone: "",
-      money: "¥999",
+      params: {
+        amount: "¥ 0",
+        customermobile: "",
+        customer: "",
+        customercode: "",
+      },
       anchor: ["顾客信息", "定金信息", "订单确认"],
+      info: {},
     };
+  },
+  created() {
+    setTimeout(() => {
+      const { shop = {} } = this.$auth;
+      //基本信息
+      this.info = {
+        name: shop && shop.name,
+        brandid_s: shop.brandid_s,
+        merchatid_s: shop.merchatid_s,
+      };
+      // console.log(this.info, "info", this.$auth);
+    }, 500);
   },
   onLoad() {},
   methods: {
-    //会员卡号
+    //会员卡号预留查询
     handleRightSearch() {
-      if (!this.cardNumber) {
+      if (!this.customercode) {
         return uni.showToast({
           icon: "none",
           position: "bottom",
           title: "请输入会员号或手机号",
         });
       }
-      this.name = "王立伟";
-      this.phone = "13509090909";
+      //查询姓名和电话
+      // this.name = "王立伟";
+      // this.phone = "13509090909";
     },
     //提交
     handleSubmit() {
+      this.params.amount = this.params.amount && this.params.amount.substr(1);
+      this.$api
+        .post("mall/deposit/add", this.params)
+        .then((res) => {
+          // console.log(res);
+          this.$toast.toast({
+            icon: "",
+            title: "添加成功",
+            success: () => {
+              this.handleReset();
+              uni.navigateBack();
+            },
+          });
+        })
+        .catch((e) => {
+          console.log(e);
+          this.$toast.toast({
+            icon: "",
+            title: e.message,
+            success: () => {},
+          });
+        });
       uni.navigateTo({
         url: `/pages/navigation/deposit/depositOrderDetail`,
       });
     },
     //重置
     handleReset() {
-      this.shops = "";
-      this.brandName = "";
-      this.cardNumber = "";
-      this.name = "";
-      this.phone = "";
-      this.money = "";
+      Object.keys(this.params).forEach((key) => {
+        this.params[key] = "";
+      });
     },
   },
 };

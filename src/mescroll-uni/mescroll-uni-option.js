@@ -20,13 +20,13 @@ const GlobalOption = {
 		noMoreSize: 1,
 		toTop: {
 			// 回到顶部按钮,需配置src才显示
-			src: "/static/imgs/icons/icon-scroll-totop.png",
+			src: "/static/img/icon/icon-scroll-totop.png",
 			offset: 500
 		},
 		empty: {
 			use: true, // 是否显示空布局
-			icon: "/static/imgs/icons/icon-scroll-nomore.png", // 图标路径 (建议放入static目录, 如 /static/img/mescroll-empty.png )
-			tip: '~ 暂无相关数据 ~' // 提示
+			icon: '',//"/static/img/icon/icon-scroll-nomore.png", // 图标路径 (建议放入static目录, 如 /static/img/mescroll-empty.png )
+			tip: ''//'~ 暂无相关数据 ~' // 提示
 		}
 	}
 }

@@ -65,12 +65,18 @@ Api.prototype = {
 				method: method,
 				sslVerify: false,
 				success: (res) => {
+					
 					if (res.statusCode === 200) {
 						if (~url.indexOf('store/oauth/token')) {
 							return resolve(res.data);
 						}
 						if (res.data.code === 0) {
-							resolve(res.data.data);
+							if(res.data.data){
+							resolve(res.data.data || res.data);
+							}else{
+								resolve( res);
+							}
+							
 						} else {
 							errorHandler(res, url);
 							reject(res.data);

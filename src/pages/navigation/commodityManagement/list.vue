@@ -67,7 +67,7 @@
               <van-row class="info">
                 <van-col span="12">金额</van-col>
                 <van-col span="12" class="info_right">
-                  ¥{{ item.price ? item.price.toFixed(2) : 0 + ".00" }}</van-col
+                  ¥{{ item.price }}</van-col
                 >
               </van-row>
               <van-row class="info">
@@ -99,11 +99,10 @@
         </view>
       </mescroll-uni>
       <view class="footer"> <Footer active="navigation"></Footer></view>
-      <selectGoods
-        :operation="false"
+      <!-- <selectGoods
         :showGood="isSelectGoodShow"
         @isShow="isSelectGoodShow = false"
-      />
+      /> -->
       <!-- @goods="handleSelectGood" -->
       <van-dialog v-model="show" :showConfirmButton="false">
         <view class="dialog_box">
@@ -128,6 +127,7 @@ import Footer from "../../../components/footer-nav";
 import selectGoods from "../../components/selectGoods";
 import MescrollUni from "@/mescroll-uni/mescroll-uni.vue";
 import { EasyListService } from "../../../provider/list.service.js";
+import { formatDecimal } from "../../../utils/index.js";
 export default {
   components: {
     zzNavBar,
@@ -141,27 +141,6 @@ export default {
       list: {},
       scroll: null,
       search: "", //搜索
-      goods: [
-        {
-          id: 1,
-          name:
-            "实木沙发北欧组合现代简约新中式客厅简约新中式约新中式客厅简约新中约新中式客厅简约新中约新中式客厅简约新中客厅简约新中式客厅简约新中式客厅家具组",
-          money: 999.0,
-          number: 1,
-          goodNumber: 30,
-          specifications: "75757575",
-          model: "SFIP99200U990",
-        },
-        {
-          id: 2,
-          name: "实木沙发北欧组合现代简约新中式客厅家具组",
-          money: 999.0,
-          number: 1,
-          goodNumber: 30,
-          specifications: "75757575",
-          model: "SFIP99200U990",
-        },
-      ],
       isSelectGoodShow: false,
       show: false,
       delId: "",
@@ -179,12 +158,12 @@ export default {
       // 	shop_id: this.shopid,
       // 	type: 0
       // },
-      // format: (list) => {
-      // 	return list.map(_ => {
-      // 		_._createTime = dateFmt('Y.m.d H:i', _.created_at);
-      // 		return _;
-      // 	})
-      // }
+      format: (list) => {
+        return list.map((_) => {
+          _.price = formatDecimal(_.price, 2);
+          return _;
+        });
+      },
     });
     // console.log(this.list);
     let sys = uni.getSystemInfoSync();
@@ -250,22 +229,9 @@ export default {
     //新增商品
     handleAddGoods(id) {
       uni.navigateTo({
-        url: `/pages/navigation/commodityManagement/addCommodity?id=${id}&list='good'`,
+        url: `/pages/navigation/commodityManagement/addCommodity?id=${id}&list=good`,
       });
     },
-    //获取选择的商品
-    // handleSelectGood(e) {
-    //将传过来的数据加到goods
-    // this.goods.push({
-    //   name:
-    //     "实木沙发北欧组合现代简约新中式客厅简约新中式约新中式客厅简约新中约新中式客厅简约新中约新中式客厅简约新中客厅简约新中式客厅简约新中式客厅家具组",
-    //   money: 999.0,
-    //   number: 1,
-    //   goodNumber: 30,
-    //   specifications: "75757575",
-    //   model: "SFIP99200U990",
-    // });
-    // },
     handleBack() {
       uni.navigateBack({
         delta: 1,

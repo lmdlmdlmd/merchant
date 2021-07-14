@@ -1,7 +1,7 @@
 <template>
   <view class="depositOrderBox">
     <zz-nav-bar
-      title="标准订单"
+      title="标准开单"
       leftIcon="back"
       @click-right="rightClick"
     ></zz-nav-bar>
@@ -15,44 +15,45 @@
             <van-field
               class="br"
               placeholder="请输入商铺"
-              v-model="shops"
+              v-model="name"
               label="商铺"
             />
             <van-field
               class="bg"
               placeholder="请输入品牌名称"
-              v-model="brandName"
+              v-model="brandid_s"
               label="品牌名称"
             />
             <van-field
-              v-model="cardNumber"
+              v-model="info.customercode"
               placeholder="请输入会员号或手机号"
               label="会员卡号"
               right-icon="search"
-              @click-right-icon="handleRightSearch"
             />
+            <!-- @click-right-icon="handleRightSearch" 预留查询 -->
             <van-field
               class="bg"
-              v-model="name"
+              v-model="info.customer"
               placeholder="请输入顾客姓名"
               label="顾客姓名"
             />
             <van-field
-              v-model="phone"
+              v-model="info.customermobile"
               placeholder="请输入联系电话"
               label="联系电话"
+              type="tel"
             />
             <van-field
               class="bg"
               :clickable="true"
-              v-model="currentDate"
+              v-model="info.deliveryday"
               placeholder="请选择送货日期"
               label="送货日期"
               right-icon="arrow"
               @click-right-icon="dataShow = true"
             />
             <van-field
-              v-model="currenTypeAdd"
+              v-model="info.deliverywayId"
               placeholder="请输入送货方式"
               label="送货方式"
               right-icon="arrow"
@@ -61,7 +62,7 @@
             <van-field
               class="br bg"
               placeholder="请输入送货地址"
-              v-model="currentAddName"
+              v-model="info.customeraddr"
               label="送货地址"
               right-icon="arrow"
               @click-right-icon="addShow = true"
@@ -79,7 +80,7 @@
         <van-button
           type="primary"
           class="determine_goods"
-          @click="handleSelectGoods"
+          @click.prevent="handleSelectGoodShow('select')"
           >选择商品</van-button
         >
       </view>
@@ -88,19 +89,21 @@
           <p class="ci_title" v-show="index == 0">商品信息</p>
           <view class="ci_con">
             <view class="ci_con_box">
-              <p class="good_name">{{ item.name }}</p>
+              <p class="good_name">
+                {{ item.name }}
+              </p>
               <van-row class="good_money_box">
                 <van-col span="12">
                   <p class="good_money">
-                    ¥{{ item.money ? item.money.toFixed(2) : 0 + ".00" }}*{{
-                      item.number
-                    }}
+                    ¥ {{ item.price }}
+                    *
+                    {{ item.number }}
                   </p>
                 </van-col>
                 <van-col span="12" class="opr_sh">
                   <view>
                     <text class="add_sh" @click="handleAdd(item)">+</text>
-                    <text class="add_num">{{ item.goodNumber }}</text>
+                    <text class="add_num">{{ item.number }}</text>
                     <text class="de_sh" @click="handleDel(item)">-</text>
                   </view>
                 </van-col>
@@ -109,7 +112,7 @@
               <van-row class="info">
                 <van-col span="12">规格</van-col>
                 <van-col span="12" class="info_right">{{
-                  item.specifications
+                  item.specification
                 }}</van-col>
               </van-row>
               <van-row class="info">
@@ -122,13 +125,13 @@
             <van-button
               type="primary"
               class="reset_goods"
-              @click="handleAddGoods(item.id)"
+              @click.prevent="handleSelectGoodShow('update', item)"
               >修改商品</van-button
             >
             <van-button
               type="primary"
               class="determine_goods"
-              @click.stop="handleDelete(item.id)"
+              @click.stop="handleDelete(item)"
               >删除商品</van-button
             >
           </view>
@@ -139,28 +142,30 @@
           <p class="ci_title">金额信息</p>
           <view class="ci_con">
             <view class="ci_con_box">
-              <van-row class="info">
-                <van-col span="12">整单金额</van-col>
-                <van-col span="12" class="info_right">{{ allMoney }}</van-col>
-              </van-row>
-              <van-row class="info">
-                <van-col span="12">整单优惠</van-col>
-                <van-col span="12" class="info_right">{{
-                  allPreferential
-                }}</van-col>
-              </van-row>
-              <van-row class="info">
-                <van-col span="12">应收金额</van-col>
-                <van-col span="12" class="info_right">{{
-                  receivableMoney
-                }}</van-col>
-              </van-row>
+              <van-field
+                class="allPriceInput"
+                readonly
+                v-model="info.amount"
+                label="整单金额"
+              />
+              <van-field
+                class="priceInput"
+                v-model="info.discountamount"
+                placeholder="请输入整单优惠"
+                label="整单优惠"
+              />
+              <van-field
+                class="priceInput"
+                v-model="info.realamount"
+                placeholder="请输入应收金额"
+                label="应收金额"
+              />
             </view>
           </view>
         </view>
         <p class="ci_title">备注信息</p>
         <van-field
-          v-model="askremark"
+          v-model="info.note"
           autosize
           type="textarea"
           rows="2"
@@ -177,6 +182,8 @@
           <van-button
             type="primary"
             class="determine"
+            :loading="loading"
+            loading-type="spinner"
             @click.stop="handleSubmit"
             >确定</van-button
           >
@@ -187,7 +194,7 @@
     <van-popup v-model="dataShow" position="bottom" :style="{ height: '30%' }">
       <view>
         <van-datetime-picker
-          v-model="currentDate"
+          v-model="info.deliveryday"
           type="date"
           title="请选择日期"
           :min-date="minDate"
@@ -221,17 +228,19 @@
           title=""
           :columns-placeholder="['请选择', '请选择', '请选择']"
           :area-list="areaList"
-          :value="currentAdd"
           @cancel="addShow = false"
           @confirm="onAddConfirm"
         />
+        <!-- :value="currentAdd" -->
       </view>
     </van-popup>
-    <selectGoods
-      :show="isSelectGoddShow"
-      @isShow="handleIsShow"
-      @goods="handleSelectGood"
-    />
+    <!-- <selectGoods
+      operation="staSelectGoods"
+      :priceTypeShow="false"
+      :showGood="isSelectGoodShow"
+      @isShow="isSelectGoodShow = false"
+      @handleSelectGoods="handleSelectGoods"
+    /> -->
     <van-dialog v-model="show" :showConfirmButton="false">
       <view class="dialog_box">
         <image
@@ -245,6 +254,16 @@
         >
       </view>
     </van-dialog>
+    <selectGoods
+      :title="operation === 'staSelectGoods' ? '选择商品' : '修改商品'"
+      :operation="operation"
+      :priceTypeShow="false"
+      :data="data"
+      :showGood="isSelectGoodShow"
+      @isShow="isSelectGoodShow = false"
+      @handleSelectGoods="handleSelectGoods"
+      @touchmove="handleTouchMove"
+    />
   </view>
 </template>
 
@@ -264,60 +283,56 @@ export default {
   },
   data() {
     return {
-      shops: "DS1-001-002",
-      brandName: "HT2232323323",
-      cardNumber: "",
       name: "",
-      phone: "",
-      money: "¥999",
+      brandid_s: "",
+      // cardNumber: "",
+      // phone: "",
+      // money: "¥999",
       dataShow: false,
       addShow: false,
       addTypeShow: false,
-      areaList,
-      minDate: new Date(),
-      currentDate: this.formatDate(new Date()),
-      currentAdd: "220382",
-      currentAddName: "",
-      columns: [],
-      currenTypeAdd: "",
-      goods: [
-        {
-          id: 1,
-          name:
-            "实木沙发北欧组合现代简约新中式客厅简约新中式约新中式客厅简约新中约新中式客厅简约新中约新中式客厅简约新中客厅简约新中式客厅简约新中式客厅家具组",
-          money: 999.0,
-          number: 1,
-          goodNumber: 30,
-          specifications: "75757575",
-          model: "SFIP99200U990",
-        },
-        {
-          id: 2,
-          name: "实木沙发北欧组合现代简约新中式客厅家具组",
-          money: 999.0,
-          number: 1,
-          goodNumber: 30,
-          specifications: "75757575",
-          model: "SFIP99200U990",
-        },
-      ],
-      allMoney: "¥999.00",
-      allPreferential: "¥999.00",
-      receivableMoney: "¥999.00",
-      askremark: "",
-      isSelectGoddShow: false,
+      isSelectGoodShow: false,
       show: false,
-      delId: "",
+      areaList, //地址数据
+      minDate: new Date(), //最小时间
+      loading: false, //提交缓冲
+      columns: [], //送货方式数据源
+      // currenTypeAdd: "",
+      goods: [], //选择的商品
+      data: {}, //修改需要传的数据
+      operation: "", //判断是修改商品或者选择商品
+      info: {
+        customercode: "",
+        customer: "",
+        // customermobile: "",
+        deliveryday: "",
+        deliveryday: this.formatDate(new Date()),
+        deliveryway: "",
+        deliverywayId: "",
+        customeraddr: "",
+        amount: "0.00",
+        discountamount: "0.00",
+        realamount: "0.00",
+        note: "",
+        type: 2,
+      },
+      delId: "", //删除商品id
       anchor: ["顾客信息", "商品信息", "金额信息", "订单确认"],
     };
   },
   created() {
+    setTimeout(() => {
+      const { shop = {} } = this.$auth;
+      //基本信息
+      this.name = shop && shop.name;
+      this.brandid_s = shop.brandid_s;
+    }, 500);
     //获取送货方式
     this.handleDict();
   },
   onLoad() {},
-
   methods: {
+    handleTouchMove() {},
     handleDict() {
       this.$api
         .post("base/dict/search", {
@@ -333,76 +348,110 @@ export default {
         });
     },
     //删除商品
-    handleDelete(id) {
+    handleDelete(data) {
       this.show = true;
-      this.delId = id;
+      this.delId = data.commoid;
     },
     handleConfim() {
-      //调用接口delId
+      this.goods.map((item, i) => {
+        if (item.commoid === this.delId) {
+          this.goods.splice(i, 1);
+        }
+      });
+      this.handlePrice();
       this.show = false;
     },
     //新增商品
     handleAddGoods(id) {
       uni.navigateTo({
-        url: `/pages/navigation/commodityManagement/addCommodity?id=${id}`,
+        url: `/pages/navigation/commodityManagement/addCommodity?id=${id}&list=standard`,
       });
+    },
+
+    //选择商品
+    handleSelectGoodShow(type, data) {
+      this.operation =
+        type === "select" ? "staSelectGoods" : "staSelectGoodsUpdate";
+      this.data = data;
+      this.isSelectGoodShow = !this.isSelectGoodShow;
     },
     //获取选择的商品
-    handleSelectGood(e) {
-      console.log(e);
-      //将传过来的数据加到goods
-      this.goods.push({
-        name:
-          "实木沙发北欧组合现代简约新中式客厅简约新中式约新中式客厅简约新中约新中式客厅简约新中约新中式客厅简约新中客厅简约新中式客厅简约新中式客厅家具组",
-        money: 999.0,
-        number: 1,
-        goodNumber: 30,
-        specifications: "75757575",
-        model: "SFIP99200U990",
+    handleSelectGoods(data) {
+      // console.log(data);
+      let arr = [];
+      if (this.goods.length && data.length) {
+        // });
+        arr = [...data].filter((x) =>
+          [...this.goods].every((y) => y.commoid !== x.commoid)
+        );
+        this.goods.push(...arr);
+      } else {
+        this.goods.push(...data);
+      }
+      this.handlePrice();
+      // console.log(this.goods, "-----", totalPrice);
+    },
+    handlePrice() {
+      let totalPrice = 0;
+
+      this.goods.map((item) => {
+        totalPrice += item.price * item.number;
       });
-    },
-    //关闭选择商品
-    handleIsShow() {
-      this.isSelectGoddShow = false;
-    },
-    //选择商品
-    handleSelectGoods() {
-      this.isSelectGoddShow = true;
+      this.info.amount = totalPrice.toFixed(2);
+      this.info.discountamount = totalPrice.toFixed(2);
+      this.info.realamount = totalPrice.toFixed(2);
     },
     //增加商品数量
     handleAdd(data) {
       console.log(data);
+      let totalPrice = 0;
       this.goods.map((item) => {
-        if (item.id == data.id) {
-          item.goodNumber = parseInt(item.goodNumber) + 1;
+        if (item.commoid == data.commoid) {
+          item.number = parseInt(item.number) + 1;
         }
+        totalPrice += item.price * item.number;
       });
+      this.innfo.amount = totalPrice.toFixed(2);
+      this.info.discountamount = totalPrice.toFixed(2);
+      this.info.realamount = totalPrice.toFixed(2);
     },
     //减少商品数量
     handleDel(data) {
+      let totalPrice = 0;
       this.goods.map((item) => {
-        if (item.id == data.id) {
-          if (item.goodNumber !== 1) {
-            item.goodNumber = parseInt(item.goodNumber) - 1;
+        if (item.commoid == data.commoid) {
+          if (item.number !== 1) {
+            item.number = parseInt(item.number) - 1;
           }
         }
+        totalPrice += item.price * item.number;
       });
+      this.info.amount = totalPrice.toFixed(2);
+      this.info.discountamount = totalPrice.toFixed(2);
+      this.info.realamount = totalPrice.toFixed(2);
     },
-    //会员卡号
+    //预留会员卡号
     handleRightSearch() {
-      if (!this.cardNumber) {
+      if (!this.info.customercode) {
         return uni.showToast({
           icon: "none",
           position: "bottom",
           title: "请输入会员号或手机号",
         });
       }
-      this.name = "王立伟";
-      this.phone = "13509090909";
+      this.$api
+        .post("base/shopuser/search", {
+          mobile: this.info.customercode,
+        })
+        .then((res) => {
+          console.log(res);
+          this.info.customer = "王立伟";
+          this.info.customermobile = "13509090909";
+        });
     },
     //日期
     onDataConfirm(value) {
-      this.currentDate = this.formatDate(value);
+      this.info.deliveryday = this.formatDate(value);
       this.dataShow = false;
     },
 
@@ -420,36 +469,75 @@ export default {
     },
     //送货地址
     onAddConfirm(value) {
-      console.log(value);
-      this.currentAdd = value[2].code;
-      this.currentAddName = value[0].name + value[1].name + value[2].name;
-
+      // console.log(value);
+      // this.currentAdd = value[2].code;
+      this.info.customeraddr = value[0].name + value[1].name + value[2].name;
       this.addShow = false;
     },
     //送货方式
     onAddTypeConfirm(value, index) {
-      this.currenTypeAdd = value;
+      console.log(value);
+      this.info.deliverywayId = value.text;
+      this.info.deliveryway = value.id;
       this.addTypeShow = false;
     },
     //提交
     handleSubmit() {
-      //提交之后有个id要传到详情页去查询详情
-      uni.navigateTo({
-        url: `/pages/navigation/standard/standardOrderDetail`,
+      // console.log(this.info, this.goods);
+      this.loading = true;
+      delete this.info.deliverywayId;
+      this.$api.post("mall/saleorder/add", this.info).then((res) => {
+        const { data } = res;
+        let params = [];
+        this.goods.map((item) => {
+          params.push({
+            commoid: item.commoid,
+            num: item.number,
+            orderid: data.id,
+            price: item.price,
+            model: item.model,
+            specification: item.specification,
+          });
+        });
+        console.log("----", params);
+        this.$api
+          .post("mall/saleordercommo/multiadd", params)
+          .then((respones) => {
+            const { data } = respones;
+            this.$toast.toast({
+              icon: "",
+              title: "添加成功",
+              success: () => {
+                // uni.navigateBack();
+                // this.scroll.resetUpScroll();
+              },
+            });
+            // uni.showToast({
+            //   icon: "none",
+            //   position: "bottom",
+            //   title: "添加成功",
+            // });
+            //data.ids
+            // uni.navigateTo({
+            //   url: `/pages/navigation/standard/standardOrderDetail`,
+            // });
+          });
+        this.handleReset();
+        this.goods = [];
       });
+      setTimeout(() => {
+        this.loading = false;
+      }, 500);
+      //提交之后有个id要传到详情页去查询详情
+      // uni.navigateTo({
+      //   url: `/pages/navigation/standard/standardOrderDetail`,
+      // });
     },
     //重置
     handleReset() {
-      this.shops = "";
-      this.brandName = "";
-      this.cardNumber = "";
-      this.name = "";
-      this.phone = "";
-      this.money = "";
-      this.askremark = "";
-      this.currentAddName = "";
-      this.currenTypeAdd = "";
-      this.currentDate = "";
+      Object.keys(this.info).forEach((key) => {
+        this.info[key] = "";
+      });
     },
   },
 };
@@ -458,6 +546,7 @@ export default {
 <style lang="less" scoped>
 .content {
   margin: 0 auto 68upx;
+  overflow-y: auto !important;
   .customer_info,
   .deposit_info {
     padding: 10px 0;
@@ -581,7 +670,7 @@ export default {
     line-clamp: 3;
     -webkit-box-orient: vertical;
     width: auto;
-    height: 35px;
+    max-height: 35px;
     word-break: break-all;
     // margin-top: -16upx;
   }
@@ -655,8 +744,27 @@ export default {
   right: 0;
   z-index: 999;
 }
+.priceInput,
+.allPriceInput {
+  padding: 0;
+  color: #1e1e1e;
+  font-size: 12px;
+  margin-top: 6px;
+}
 </style>
 <style lang="less">
+/deep/ .van-field__label {
+  color: #1e1e1e;
+}
+/deep/ .priceInput .van-field__control {
+  color: #1890ff;
+}
+/deep/ .allPriceInput::after {
+  border: none;
+}
+/deep/ .priceInput::after {
+  border: none;
+}
 /deep/ .van-field__control {
   font-size: 12px;
   color: #1e1e1e;
@@ -673,7 +781,7 @@ export default {
 }
 /deep/ .textAreaRemark .van-field__value {
   border-radius: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.8);
+  border: 1px solid #ccc;
 }
 /deep/ .textAreaRemark .van-field__word-limit {
   margin-right: 10px;

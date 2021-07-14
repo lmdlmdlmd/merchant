@@ -3,12 +3,7 @@
     <view class="content">
       <view class="orderBox">
         <zz-empty v-if="!dataSource.length" title="还没有账单哦～"></zz-empty>
-        <view
-          v-for="(item, index) of dataSource"
-          :key="index"
-          class="orderDiv"
-          @click="handleDetail(item.id)"
-        >
+        <view v-for="(item, index) of dataSource" :key="index" class="orderDiv">
           <van-row class="dataHeader">
             <van-col span="18" class="order_title"
               >对账单号：<text class="sn">{{ item.sn }}</text></van-col

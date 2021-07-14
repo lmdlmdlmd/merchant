@@ -1,13 +1,15 @@
 <template>
   <view class="operate" :style="{ marginLeft: maLe }">
-    <van-field
-      v-model="priceTagType.text"
-      placeholder="请选择价签打印类型"
-      label="价签打印类型"
-      :required="isRequire"
-      right-icon="arrow"
-      @click-right-icon="typeShow = true"
-    />
+    <view>
+      <van-field
+        v-model="priceTagType.text"
+        placeholder="请选择价签打印类型"
+        label="价签打印类型"
+        :required="isRequire"
+        right-icon="arrow"
+        @click-right-icon="typeShow = true"
+      />
+    </view>
     <van-row class="good_money_box">
       <van-col span="12">
         <p :class="isRequire ? 'good_money_be' : 'good_money'">

@@ -43,48 +43,58 @@
       </view>
       <view class="orderBox">
         <zz-empty
-          v-if="!dataSource.length"
+          v-if="!list.data.length"
           title="该期间还没有订单哦～"
         ></zz-empty>
-        <view
-          v-for="(item, index) of dataSource"
-          :key="index"
-          class="orderDiv"
-          @click="handleDetail(item.id)"
+        <mescroll-uni
+          @down="downCallback"
+          @up="upCallback"
+          :top="top"
+          @init="scroll = $event"
+          class="dataList"
         >
-          <van-row class="dataHeader">
-            <van-col span="18" class="order_title"
-              >对账单号：<text class="sn">{{ item.sn }}</text></van-col
-            >
-            <van-col span="6" class="tel_right">
-              <span
-                class="mark"
-                :style="{
-                  background: item.type == '定金单' ? '#ff4c0f' : '#52C41A',
-                }"
-              ></span>
-              <text class="order_type">{{ item.type }}</text>
-            </van-col>
-          </van-row>
-          <van-row class="dataCon">
-            <van-col span="6" class="lavelBox"
-              ><p class="lavel">销售日期</p>
-              <p class="val">{{ item.date }}</p></van-col
-            >
-            <van-col span="6" class="lavelBox"
-              ><p class="lavel">销售凭证号</p>
-              <p class="val">{{ item.card }}</p></van-col
-            >
-            <van-col span="6" class="lavelBox"
-              ><p class="lavel">销售金额</p>
-              <p class="val">{{ item.price }}</p></van-col
-            >
-            <van-col span="6" class="lavelBox"
-              ><p class="lavel">收款金额</p>
-              <p class="val">{{ item.price }}</p></van-col
-            >
-          </van-row>
-        </view>
+          <view
+            v-for="(item, index) of list.data"
+            :key="index"
+            class="orderDiv"
+            @click="handleDetail(item)"
+          >
+            <van-row class="dataHeader">
+              <van-col span="18" class="order_title"
+                >对账单号：<text class="sn">{{ item.orderno }}</text></van-col
+              >
+              <van-col span="6" class="tel_right">
+                <span
+                  class="mark"
+                  :style="{
+                    background: item.type == '1' ? '#ff4c0f' : '#52C41A',
+                  }"
+                ></span>
+                <text class="order_type">{{
+                  item.type == "1" ? "定金" : "销售"
+                }}</text>
+              </van-col>
+            </van-row>
+            <van-row class="dataCon">
+              <van-col span="6" class="lavelBox"
+                ><p class="lavel">销售日期</p>
+                <p class="val">{{ item.Ordertime_s }}</p></van-col
+              >
+              <van-col span="6" class="lavelBox"
+                ><p class="lavel">销售凭证号</p>
+                <p class="val">{{ item.ordervoucher }}</p></van-col
+              >
+              <van-col span="6" class="lavelBox"
+                ><p class="lavel">销售金额</p>
+                <p class="val">¥ {{ item.Amount }}</p></van-col
+              >
+              <van-col span="6" class="lavelBox"
+                ><p class="lavel">收款金额</p>
+                <p class="val">¥ {{ item.Realamount }}</p></van-col
+              >
+            </van-row>
+          </view>
+        </mescroll-uni>
       </view>
       <view class="footer"> <Footer active="navigation"></Footer></view>
     </view>
@@ -112,14 +122,22 @@
 import zzNavBar from "../../../components/zz-nav-bar";
 import Footer from "../../../components/footer-nav";
 import zzEmpty from "../../../components/zz-empty";
+import moment from "moment";
+import MescrollUni from "@/mescroll-uni/mescroll-uni.vue";
+import { EasyListService } from "../../../provider/list.service.js";
+import { formatDecimal } from "../../../utils/index.js";
 export default {
   components: {
     zzNavBar,
     Footer,
     zzEmpty,
+    MescrollUni,
   },
   data() {
     return {
+      top: 0,
+      list: {},
+      scroll: null,
       show: false,
       type: "",
       dateStart: null,
@@ -127,47 +145,69 @@ export default {
       minDate: new Date(1900, 0, 1),
       maxDate: new Date(2999, 10, 1),
       currentDate: new Date(),
-      dataSource: [
-        {
-          id: 1,
-          sn: "XSDH-202103010002",
-          type: "定金单",
-          date: "2021/04/21",
-          card: "9080797",
-          price: "20099.00",
-        },
-        {
-          id: 2,
-          sn: "XSDH-202103010002",
-          type: "销售单",
-          date: "2021/04/21",
-          card: "9080797",
-          price: "20099.00",
-        },
-        {
-          id: 3,
-          sn: "XSDH-202103010002",
-          type: "定金单",
-          date: "2021/04/21",
-          card: "9080797",
-          price: "20099.00",
-        },
-      ],
+      start: "",
+      end: "",
     };
   },
   onLoad() {},
   created() {
+    let sys = uni.getSystemInfoSync();
+    this.top = 248 + Math.floor(sys.statusBarHeight) * 2;
     const dateSource = new Date();
     let year = dateSource.getFullYear() + "年";
     let month = dateSource.getMonth() + 1 + "月";
     let date = dateSource.getDate() + "日";
     this.dateStart = [year, month, date].join("-");
     this.dateEnd = [year, month, date].join("-");
+    this.start = moment(dateSource).valueOf();
+    this.end = moment(new Date()).valueOf();
+    this.list = new EasyListService({
+      url: "mall/saleorder/search",
+      pageKey: "page",
+      sizeKey: "rows",
+      params: {
+        ordertime: {
+          max: moment(new Date()).valueOf(),
+          min: moment(dateSource).valueOf(),
+        },
+      },
+      format: (list) => {
+        return list.map((_) => {
+          _.Amount = formatDecimal(_.amount, 2);
+          _.Realamount = formatDecimal(_.realamount, 2);
+          _.Ordertime_s = moment(_.ordertime_s).format("YYYY-MM-DD");
+          return _;
+        });
+      },
+    });
   },
   methods: {
-    handleDetail(id) {
+    downCallback(e) {
+      // console.log("刷新");
+      e.resetUpScroll();
+    },
+    upCallback(e) {
+      // console.log("加载", e);
+      this.list
+        .load(e.num, e.size)
+        .then(() => {
+          // console.log("加载成功", this.list);
+          e.endBySize(this.list.preLength, this.list.total);
+        })
+        .catch(() => {
+          // console.log('加载失败');
+          e.endErr();
+        });
+    },
+    handleDetail(data) {
+      console.log(data);
+      //定金订单详情`/pages/navigation/deposit/depositOrderDetail`
+      //标准订单详情`/pages/navigation/standard/standardOrderDetail?id=${id}`
       uni.navigateTo({
-        url: `/pages/navigation/standard/standardOrderDetail?id=${id}`,
+        url:
+          data.type == "1"
+            ? `/pages/navigation/deposit/depositOrderDetail?id=${data.id}`
+            : `/pages/navigation/standard/standardOrderDetail?id=${data.id}`,
       });
     },
     hanleUpdateDate(type) {
@@ -181,12 +221,22 @@ export default {
       var month = da.getMonth() + 1 + "月";
       var date = da.getDate() + "日";
       if (this.type == "start") {
+        this.start = value;
         this.dateStart = [year, month, date].join("-");
       } else {
+        this.end = value;
         this.dateEnd = [year, month, date].join("-");
       }
-      if (this.dateStart && this.dateEnd) {
-        this.dataSource = [];
+      console.log(this.start, this.end);
+      if (this.start && this.end) {
+        // console.log(this.start, moment(this.start).utcOffset(480));
+        this.list.onLoad = (body) => {
+          body.ordertime = {
+            max: moment(new Date(this.start)).utcOffset(480).valueOf(),
+            min: moment(new Date(this.end)).utcOffset(480).valueOf(),
+          };
+        };
+        this.downCallback(this.scroll);
       }
       this.show = false;
     },

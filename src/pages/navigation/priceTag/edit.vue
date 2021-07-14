@@ -55,8 +55,7 @@
                 <van-row class="info">
                   <van-col span="12">金额</van-col>
                   <van-col span="12" class="info_right">
-                    ¥{{ item.price ? item.price.toFixed(2) : 0 + ".00" }} *
-                    {{ item.num }}</van-col
+                    ¥{{ item.price }} * {{ item.num }}</van-col
                   >
                 </van-row>
                 <van-row class="info">
@@ -161,37 +160,10 @@ export default {
         brandid_s: shop.brandid_s,
         merchatid_s: shop.merchatid_s,
       };
+      console.log(this.info, "info");
     }, 500);
   },
-  onLoad(query) {
-    // if (query.id !== "-1") {
-    //   this.goods = [
-    //     {
-    //       id: 1,
-    //       name:
-    //         "实木沙发北欧组合现代简约新中式客厅简约新中式约新中式客厅简约新中约新中式客厅简约新中约新中式客厅简约新中客厅简约新中式客厅简约新中式客厅家具组",
-    //       money: 999.0,
-    //       num: 1,
-    //       goodNumber: 30,
-    //       specifications: "75757575",
-    //       model: "SFIP99200U990",
-    //       type: "爆炸签",
-    //       number: 2,
-    //     },
-    //     {
-    //       id: 2,
-    //       name: "实木沙发北欧组合现代简约新中式客厅家具组",
-    //       money: 999.0,
-    //       num: 1,
-    //       goodNumber: 30,
-    //       specifications: "75757575",
-    //       model: "SFIP99200U990",
-    //       type: "标准价签",
-    //       number: 1,
-    //     },
-    //   ];
-    // }
-  },
+  onLoad(query) {},
   methods: {
     handleSelectGoodShow() {
       this.isSelectGoodShow = !this.isSelectGoodShow;

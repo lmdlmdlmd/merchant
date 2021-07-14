@@ -1,7 +1,7 @@
 <template>
   <view class="standardOrderDetailBox">
     <zz-nav-bar
-      title="标准订单详情"
+      title="标准开单详情"
       leftIcon="back"
       @click-right="rightClick"
     ></zz-nav-bar>
@@ -17,7 +17,7 @@
                 src="../../../static/img/imgs/code.png"
                 class="code_img"
               ></image>
-              <p class="mato18">订单号：XSDH-202103010002</p>
+              <p class="mato18">订单号：{{ info.orderno }}</p>
             </view>
           </view>
         </view>
@@ -26,28 +26,42 @@
         <view class="customer_info">
           <p class="ci_title">顾客信息</p>
           <view class="ci_con">
-            <van-field class="br" readonly v-model="shops" label="商铺" />
+            <van-field
+              class="br"
+              readonly
+              v-model="info.shopid_s"
+              label="商铺"
+            />
             <van-field
               class="bg"
               readonly
-              v-model="brandName"
+              v-model="info.brandid_s"
               label="品牌名称"
             />
             <van-field v-model="cardNumber" readonly label="会员卡号" />
-            <van-field class="bg" v-model="name" readonly label="顾客姓名" />
-            <van-field v-model="phone" readonly label="联系电话" />
+            <van-field
+              class="bg"
+              v-model="info.customer"
+              readonly
+              label="顾客姓名"
+            />
+            <van-field
+              v-model="info.customermobile"
+              readonly
+              label="联系电话"
+            />
             <van-field
               class="bg"
               readonly
               :clickable="true"
-              v-model="currentDate"
+              v-model="info.deliveryday"
               label="送货日期"
             />
-            <van-field readonly v-model="currenTypeAdd" label="送货方式" />
+            <van-field readonly v-model="info.deliveryway" label="送货方式" />
             <van-field
               readonly
               class="br bg"
-              v-model="currentAddName"
+              v-model="info.customeraddr"
               label="送货地址"
             />
           </view>
@@ -61,17 +75,13 @@
               <p class="good_name">{{ item.name }}</p>
               <van-row class="good_money_box">
                 <van-col span="12">
-                  <p class="good_money">
-                    ¥{{ item.money ? item.money.toFixed(2) : 0 + ".00" }}*{{
-                      item.number
-                    }}
-                  </p>
+                  <p class="good_money">¥{{ item.price }} * {{ item.num }}</p>
                 </van-col>
               </van-row>
               <van-row class="info">
                 <van-col span="12">规格</van-col>
                 <van-col span="12" class="info_right">{{
-                  item.specifications
+                  item.specification
                 }}</van-col>
               </van-row>
               <van-row class="info">
@@ -88,20 +98,22 @@
           <view class="ci_con">
             <view class="ci_con_box">
               <van-row class="info">
-                <van-col span="12">整单金额"</van-col>
-                <van-col span="12" class="info_right">{{ allMoney }}</van-col>
+                <van-col span="12">整单金额</van-col>
+                <van-col span="12" class="info_right"
+                  >¥{{ info.amount }}</van-col
+                >
               </van-row>
               <van-row class="info">
                 <van-col span="12">整单优惠</van-col>
-                <van-col span="12" class="info_right">{{
-                  allPreferential
-                }}</van-col>
+                <van-col span="12" class="info_right"
+                  >¥{{ info.discountamount }}</van-col
+                >
               </van-row>
               <van-row class="info">
                 <van-col span="12">应收金额</van-col>
-                <van-col span="12" class="info_right">{{
-                  receivableMoney
-                }}</van-col>
+                <van-col span="12" class="info_right"
+                  >¥{{ info.realamount }}</van-col
+                >
               </van-row>
             </view>
           </view>
@@ -109,7 +121,7 @@
       </view>
       <p class="ci_title">备注信息</p>
       <van-field
-        v-model="askremark"
+        v-model="info.note"
         autosize
         type="textarea"
         rows="2"
@@ -125,6 +137,8 @@
 import zzNavBar from "../../../components/zz-nav-bar";
 import Footer from "../../../components/footer-nav";
 import Anchor from "../../components/anchor";
+import { formatDecimal } from "../../../utils/index.js";
+
 export default {
   components: {
     zzNavBar,
@@ -133,46 +147,36 @@ export default {
   },
   data() {
     return {
-      shops: "DS1-001-002",
-      brandName: "HT2232323323",
-      cardNumber: "212121212",
-      name: "王立伟",
-      phone: "15515569201",
-      money: "¥999",
-      currentDate: this.formatDate(new Date()),
-      currentAdd: "220382",
-      currentAddName: "上海市闵行区集心路168号5号楼301",
-      currenTypeAdd: "上门提货",
-      goods: [
-        {
-          id: 1,
-          name:
-            "实木沙发北欧组合现代简约新中式客厅简约新中式约新中式客厅简约新中约新中式客厅简约新中约新中式客厅简约新中客厅简约新中式客厅简约新中式客厅家具组",
-          money: 999.0,
-          number: 1,
-          goodNumber: 30,
-          specifications: "75757575",
-          model: "SFIP99200U990",
-        },
-        {
-          id: 2,
-          name: "实木沙发北欧组合现代简约新中式客厅家具组",
-          money: 999.0,
-          number: 1,
-          goodNumber: 30,
-          specifications: "75757575",
-          model: "SFIP99200U990",
-        },
-      ],
-      allMoney: "¥999.00",
-      allPreferential: "¥999.00",
-      receivableMoney: "¥999.00",
-      askremark:
-        "备注信息整段文字备注信息整段文字备注信息整段文字备注信息整段文字备注信息整段文字",
+      info: {},
+      cardNumber: "212121212", //bug
       anchor: ["二维码信息", "顾客信息", "商品信息", "金额信息"],
+      goods: [],
     };
   },
-  onLoad() {},
+  onLoad(query) {
+    if (query.id) {
+      this.$api
+        .post("mall/saleorder/view", {
+          id: query.id,
+        })
+        .then((res) => {
+          this.info = res;
+          this.info.price = formatDecimal(res.price, 2);
+        });
+      this.$api
+        .post("mall/saleordercommo/search", {
+          orderid: query.id,
+          page: 1,
+          rows: 100,
+        })
+        .then((res) => {
+          console.log(res);
+          this.goods = res.data;
+        });
+    } else {
+      uni.navigateBack();
+    }
+  },
   methods: {},
 };
 </script>

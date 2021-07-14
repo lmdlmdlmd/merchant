@@ -298,20 +298,13 @@ export default {
       }
       this.loading = true;
       this.$api.post(url, params).then((res) => {
+        console.log(res);
         this.$toast.toast({
           icon: "success",
           title: this.id == "-1" ? "新增成功！" : "修改成功！",
           success: () => {
             //根据跳进来地址判断是商品列表还是其他 如果是其他直接back
-            if (this.address) {
-              uni.navigateTo({
-                url: `/pages/navigation/commodityManagement/list`,
-              });
-            } else {
-              uni.navigateBack({
-                delta: 1,
-              });
-            }
+            this.leftClick();
           },
         });
       });
@@ -329,9 +322,18 @@ export default {
       });
     },
     leftClick() {
-      if (this.address) {
+      console.log(this.address, this.address == "good");
+      if (this.address == "good") {
         uni.navigateTo({
           url: `/pages/navigation/commodityManagement/list`,
+        });
+      } else if (this.address == "standard") {
+        // uni.navigateTo({
+        //   url: `/pages/navigation/standard/standardOrder`,
+        // });
+        //防止页面刷新
+        uni.navigateBack({
+          delta: 1,
         });
       } else {
         uni.navigateBack({

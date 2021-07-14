@@ -17,7 +17,7 @@
               src="../../../static/img/imgs/code.png"
               class="code_img"
             ></image>
-            <p>订单号：XSDH-202103010002</p>
+            <p>订单号：{{ info.orderno }}</p>
           </view>
         </view>
       </view>
@@ -25,18 +25,28 @@
         <view class="customer_info">
           <p class="ci_title">顾客信息</p>
           <view class="ci_con">
-            <van-field class="br" v-model="shops" label="商铺" readonly />
+            <van-field
+              class="br"
+              v-model="info.shopid_s"
+              label="商铺"
+              readonly
+            />
             <van-field
               class="bg"
-              v-model="brandName"
+              v-model="info.brandid_s"
               label="品牌名称"
               readonly
             />
             <van-field v-model="cardNumber" label="会员卡号" readonly />
-            <van-field class="bg" v-model="name" label="顾客姓名" readonly />
+            <van-field
+              class="bg"
+              v-model="info.customer"
+              label="顾客姓名"
+              readonly
+            />
             <van-field
               class="br phone"
-              v-model="phone"
+              v-model="info.customermobile"
               label="联系电话"
               readonly
             />
@@ -47,7 +57,11 @@
         <view class="deposit_info pad_64">
           <p class="ci_title">定金信息</p>
           <view class="ci_con">
-            <van-field class="br money" v-model="money" label="定金金额" />
+            <van-field
+              class="br money"
+              v-model="info.amount"
+              label="定金金额"
+            />
           </view>
         </view>
       </view>
@@ -68,16 +82,25 @@ export default {
   },
   data() {
     return {
-      shops: "DS1-001-002",
-      brandName: "HT2232323323",
-      cardNumber: "3434343435",
-      name: "王立伟",
-      phone: "15515569201",
-      money: "¥999.00",
+      info: {},
+      cardNumber: "3434343435", //bug
       anchor: ["二维码信息", "顾客信息", "定金信息"],
     };
   },
-  onLoad() {},
+  onLoad(query) {
+    if (query.id) {
+      this.$api
+        .post("mall/saleorder/view", {
+          id: query.id,
+        })
+        .then((res) => {
+          console.log(res);
+          this.info = res;
+        });
+    } else {
+      uni.navigateBack();
+    }
+  },
   methods: {},
 };
 </script>

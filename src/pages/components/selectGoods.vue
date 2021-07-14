@@ -12,7 +12,10 @@
           <van-col span="16" class="title"> {{ title }} </van-col>
           <van-col span="4"></van-col>
         </van-row>
-        <van-row class="all_select" v-show="operation !== 'uPriceTag'">
+        <van-row
+          class="all_select"
+          v-show="operation == 'selectGoods' || operation == 'staSelectGoods'"
+        >
           <van-col span="6" class="select_box">
             <van-checkbox
               @click.native="handleAllChange()"
@@ -34,8 +37,8 @@
             ></image>
           </van-col>
         </van-row>
-        <view class="orn_body">
-          <van-row class="orn_box" v-show="operation == 'uPriceTag'">
+        <view class="orn_body" v-show="operation == 'uPriceTag'">
+          <van-row class="orn_box">
             <van-col span="8" class="orn_title"> 价签打印单号 </van-col>
             <van-col span="16" class="opr_sh">
               <input
@@ -46,7 +49,7 @@
             </van-col>
           </van-row>
         </view>
-        <view class="operBox">
+        <view class="operBox" v-show="priceTypeShow">
           <view class="opreBody">
             <Operate
               :number="number"
@@ -57,7 +60,12 @@
             />
           </view>
         </view>
-        <view class="goods_body" v-show="operation == 'uPriceTag'">
+        <view
+          class="goods_body"
+          v-show="
+            operation == 'uPriceTag' || operation == 'staSelectGoodsUpdate'
+          "
+        >
           <view class="goods_div">
             <van-row class="goods_box">
               <van-col span="2">
@@ -71,28 +79,50 @@
                 {{ dataSource.name }}
               </van-col>
             </van-row>
-            <van-row class="goods_box">
+            <!-- <van-row class="goods_box">
               <van-col span="4" class="good_lable"> 价格 </van-col>
               <van-col span="20" class="good_val">
                 ¥{{ dataSource.price }}
               </van-col>
-            </van-row>
-            <van-row class="goods_box">
+            </van-row> -->
+            <van-field
+              class="priceInput"
+              v-model="dataSource.price"
+              placeholder="请输入价格"
+              label="价格"
+              @blur="handleBlur"
+            />
+            <!-- <van-row class="goods_box">
               <van-col span="4" class="good_lable"> 规格 </van-col>
               <van-col span="20" class="good_val">
                 {{ dataSource.specification }}
               </van-col>
-            </van-row>
-            <van-row class="goods_box">
+            </van-row> -->
+            <van-field
+              class="priceInput"
+              v-model="dataSource.specification"
+              placeholder="请输入规格"
+              label="规格"
+            />
+            <!-- <van-row class="goods_box">
               <van-col span="4" class="good_lable"> 型号 </van-col>
               <van-col span="20" class="good_val">
                 {{ dataSource.model }}
               </van-col>
-            </van-row>
+            </van-row> -->
+            <van-field
+              class="priceInput"
+              v-model="dataSource.model"
+              placeholder="请输入型号"
+              label="型号"
+            />
           </view>
         </view>
         <div
-          v-show="list.data.length && operation !== 'uPriceTag'"
+          v-show="
+            list.data.length &&
+            (operation == 'selectGoods' || operation == 'staSelectGoods')
+          "
           class="goods_body"
         >
           <mescroll-uni
@@ -145,14 +175,13 @@
             <van-button
               type="primary"
               class="reset"
-              v-show="operation !== 'uPriceTag'"
+              v-show="
+                operation == 'selectGoods' || operation == 'staSelectGoods'
+              "
               @click="handleAllChange('search')"
               >重置</van-button
             >
-            <van-button
-              type="primary"
-              class="determine"
-              @click.stop="handleSubmit"
+            <van-button type="primary" class="determine" @click="handleSubmit"
               >确定</van-button
             >
           </view>
@@ -180,10 +209,20 @@ export default {
     },
     operation: {
       type: String,
-      default: "",
+      default: "selectGoods",
     },
     detailId: {
       type: Number,
+    },
+    priceTypeShow: {
+      //是否显示类型与数量
+      type: Boolean,
+      default: true,
+    },
+    data: {
+      //用于修改商品
+      // type: Object,
+      // default: {},
     },
   },
   watch: {
@@ -195,6 +234,11 @@ export default {
       }
     },
     detailId: function (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.getDetail();
+      }
+    },
+    data: function (newVal, oldVal) {
       if (newVal !== oldVal) {
         this.getDetail();
       }
@@ -250,21 +294,32 @@ export default {
           e.endErr();
         });
     },
+
     getDetail() {
-      this.$api
-        .post("mall/pricetag/view", {
-          id: this.detailId,
-        })
-        .then((res) => {
-          console.log(res);
-          this.dataSource = res;
-          // this.data = res;
-          this.dataSource.checked = true;
-          this.tagType.text = res.tagsize_s;
-          this.tagType.id = res.tagsize;
-          this.number = parseInt(res.num);
-          console.log(this.num);
-        });
+      if (this.operation === "staSelectGoodsUpdate") {
+        this.dataSource = this.data;
+        this.dataSource.checked = true;
+        // this.dataSource.price = "¥ " + this.data.price;
+        this.number = parseInt(this.data.number);
+      } else if (this.operation === "uPriceTag") {
+        this.$api
+          .post("mall/pricetag/view", {
+            id: this.detailId,
+          })
+          .then((res) => {
+            console.log(res);
+            this.dataSource = res;
+            // this.data = res;
+            this.dataSource.checked = true;
+            this.tagType.text = res.tagsize_s;
+            this.tagType.id = res.tagsize;
+            this.number = parseInt(res.num);
+            // console.log(this.num);
+          });
+      }
+    },
+    handleBlur() {
+      // this.dataSource.price = "¥ " + this.dataSource.price;
     },
     //获取到价签类型
     handleConfirm(tagType) {
@@ -292,6 +347,7 @@ export default {
     //关闭
     handleClose() {
       // this.$emit("handleIsShow");
+      this.scroll.setBounce(true);
       this.show = false;
     },
     //全选
@@ -333,12 +389,15 @@ export default {
         //   Toast("操作成功");
         this.handleClose();
         // });
-      } else if (this.operation == "selectGoods") {
+      } else if (
+        this.operation == "selectGoods" ||
+        this.operation == "staSelectGoods"
+      ) {
         if (this.number == 0) {
           Toast("请至少选择打印一条");
           return;
         }
-        if (!this.tagType.id) {
+        if (!this.tagType.id && this.operation == "selectGoods") {
           Toast("请选择类型");
           return;
         }
@@ -347,7 +406,10 @@ export default {
           if (item.checked) {
             dataArr.push({
               name: item.name,
-              price: item.price,
+              price:
+                item && item.price && item.price
+                  ? item.price.toFixed(2)
+                  : 0 + ".00",
               specification: item.specification,
               model: item.model,
               commoid: item.id,
@@ -386,6 +448,8 @@ export default {
           //   this.checked = false;
           // });
         }
+      } else if (this.operation == "staSelectGoodsUpdate") {
+        this.handleClose();
       }
     },
   },
@@ -498,6 +562,9 @@ export default {
           font-size: 12px;
           color: #1e1e1e;
         }
+        .col189 {
+          color: #1890ff;
+        }
       }
     }
     .sub_body {
@@ -535,9 +602,25 @@ export default {
   .opreBody {
     margin-left: 16px;
   }
+  .priceInput {
+    padding: 0;
+    color: #1e1e1e;
+    font-size: 12px;
+    margin-top: 6px;
+  }
 }
 </style>
 <style lang="less">
+/deep/ .van-field__label {
+  color: #1e1e1e;
+}
+/deep/ .priceInput .van-field__control {
+  color: #1890ff;
+}
+
+/deep/ .priceInput::after {
+  border: none;
+}
 /deep/ .searchBox .uni-input-placeholder {
   color: rgba(0, 0, 0, 0.65);
   font-size: 14px;

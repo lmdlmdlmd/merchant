@@ -31,6 +31,8 @@
         @up="upCallback"
         :top="top"
         @init="scroll = $event"
+        :up="upOption"
+        @emptyclick="handleEdiTag('-1')"
       >
         <view
           class="deposit_info"
@@ -129,17 +131,16 @@ export default {
       top: 0,
       list: {},
       tabs: ["查看全部", "申请中", "已通过", "草稿与驳回"],
-      // typeMap: {
-      //   1: "申请中",
-      //   2: "已通过",
-      //   3: "草稿与驳回",
-      // },
-      // tabs: [
-      //   { title: "查看全部", active: 0 },
-      //   { title: "申请中", active: 1 },
-      //   { title: "已通过", active: 2 },
-      //   { title: "草稿与驳回", active: 3 },
-      // ],
+      upOption: {
+        auto: true,
+        textNoMore: "不要再拉了，已经到底了~",
+        empty: {
+          use: true,
+          icon: "../../../static/img/imgs/no_data.png",
+          tip: "很遗憾，暂无数据~",
+          btnText: "新增申请",
+        },
+      },
       show: false,
       delId: "",
       detailId: null,
@@ -169,7 +170,8 @@ export default {
       this.list.params =
         value != 0
           ? {
-              approvestatus: value,
+              approvestatus: 22,
+              aa: 11,
             }
           : {};
       this.scroll.resetUpScroll();
@@ -177,6 +179,9 @@ export default {
     },
   },
   methods: {
+    emptyclick() {
+      console.log(111);
+    },
     downCallback(e) {
       // console.log('刷新');
       e.resetUpScroll();
@@ -228,11 +233,6 @@ export default {
         });
       });
       this.show = false;
-    },
-    handleEdiTag(id) {
-      // uni.navigateTo({
-      //   url: `/pages/navigation/priceTag/edit?id=${id}`,
-      // });
     },
     //新增申请
     handleEdiTag(id) {

@@ -55,6 +55,7 @@ Auth.prototype = {
 			authHandler.saveShopid(shopid);
 			authHandler.saveRoleorg(roleorg);
 			this.init();
+			// console.log(data)
 			this.restoreRole(roleorg)
 			this.restoreShop(shopid);
 		})

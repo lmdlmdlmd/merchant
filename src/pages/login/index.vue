@@ -89,8 +89,8 @@ export default {
       });
     },
     login(params) {
-      console.log("store cookie");
-      console.log(params);
+      // console.log("store cookie");
+      // console.log(params);
       if (params) {
         this.isRotate = true;
         this.$store
@@ -117,9 +117,15 @@ export default {
       const params = {
         // mobile: "18637152523",
         // password: "99999999",
-        code: "LMD",
-        mobile: "13838435531",
-        password: "12345678901",
+        // code: "LMD",
+        // mobile: "13838435531",
+        // password: "1234567890",
+        // mobile: "13385325335",
+        // password: "1234567890",
+        // code: "GLQH",
+        code: this.code,
+        mobile: this.mobile,
+        password: this.password,
       };
       this.$auth
         .login(params)

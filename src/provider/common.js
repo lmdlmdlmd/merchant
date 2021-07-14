@@ -76,22 +76,22 @@ export default {
 		// 交互函数传参
 		// par1 ios
 		// par2 android
-		Vue.prototype.params = function (par1, par2, functionName) {
-			let ua = navigator.userAgent.toLowerCase();
-			if (par1 == '') {
-				if (/iphone|ipad|ipod|macintosh/i.test(ua)) {
-					window.webkit.messageHandlers[functionName].postMessage(null)
-				} else if (/android/i.test(ua)) {
-					window.AndroidToast[functionName]("success")
-				}
-			} else {
-				if (/iphone|ipad|ipod|macintosh/i.test(ua)) {
-					window.webkit.messageHandlers[functionName].postMessage(par1)
-				} else if (/android/i.test(ua)) {
-					window.AndroidToast[functionName](par2)
-				}
-			}
-		},
+		// Vue.prototype.params = function (par1, par2, functionName) {
+		// 	let ua = navigator.userAgent.toLowerCase();
+		// 	if (par1 == '') {
+		// 		if (/iphone|ipad|ipod|macintosh/i.test(ua)) {
+		// 			window.webkit.messageHandlers[functionName].postMessage(null)
+		// 		} else if (/android/i.test(ua)) {
+		// 			window.AndroidToast[functionName]("success")
+		// 		}
+		// 	} else {
+		// 		if (/iphone|ipad|ipod|macintosh/i.test(ua)) {
+		// 			window.webkit.messageHandlers[functionName].postMessage(par1)
+		// 		} else if (/android/i.test(ua)) {
+		// 			window.AndroidToast[functionName](par2)
+		// 		}
+		// 	}
+		// },
 			//会员昵称加密
 			Vue.prototype.nicknameHandle = function ($name) {
 				if ($name.length <= 0) {
