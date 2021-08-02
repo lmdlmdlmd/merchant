@@ -85,7 +85,7 @@
 // import checkbox from "../../wxcomponents/checkbox/index";
 import zzNavBar from "../../components/zz-nav-bar";
 import zzInput from "../../components/zz-input";
-import Toast from "../../wxcomponents/toast/index";
+import Toast from "../../wxcomponents/toast/toast";
 export default {
   components: {
     // checkbox,
@@ -111,6 +111,24 @@ export default {
         title: options.errorMsg,
         icon: "none",
       });
+    }
+  },
+  mounted() {
+    const user = uni.getStorageSync("_user");
+    console.log(user);
+    // let params={
+    //   mobile: user.mobile,
+    //     password: user.password,
+    //     code: user.code,
+    // }
+    // this.startLogin(params)
+    this.code = user.code;
+    this.mobile = user.mobile;
+    this.password = user.password;
+    if (this.code && this.mobile && this.password) {
+      setTimeout(() => {
+        this.startLogin();
+      }, 200);
     }
   },
   methods: {
@@ -161,22 +179,30 @@ export default {
     },
     startLogin() {
       console.log(this.code, this.mobile, this.password);
-      // if (!this.code) {
-      //   uni.showToast({
-      //     icon: "none",
-      //     position: "bottom",
-      //     title: "企业代码不能为空",
-      //   });
-      //   return;
-      // }
-      // if (!this.mobile) {
-      //   uni.showToast({
-      //     icon: "none",
-      //     position: "bottom",
-      //     title: "账号不能为空",
-      //   });
-      //   return;
-      // }
+      if (!this.code) {
+        uni.showToast({
+          icon: "none",
+          position: "bottom",
+          title: "企业代码不能为空",
+        });
+        return;
+      }
+      if (!this.mobile) {
+        uni.showToast({
+          icon: "none",
+          position: "bottom",
+          title: "账号不能为空",
+        });
+        return;
+      }
+      if (!this.password) {
+        uni.showToast({
+          icon: "none",
+          position: "bottom",
+          title: "密码不能为空",
+        });
+        return;
+      }
       const params = {
         // mobile: "18637152523",
         // password: "99999999",
@@ -185,28 +211,29 @@ export default {
         // password: "1234567890",
         // mobile: "13385325335",
         // password: "1234567890",
-        mobile: "13576048657",
-        password: "13576048657",
+        // mobile: "13576048657",
+        // password: "13576048657",
         // mobile: "15838087409",
         // password: "15838087409",
-        code: "GLQH",
-        // code: this.code,
-        // mobile: this.mobile,
-        // password: this.password,
+        // code: "GLQH",
+        code: this.code,
+        mobile: this.mobile,
+        password: this.password,
       };
 
       this.$auth
-        .login(params)
+        .login(params, this.checked)
         .then((res) => {
           console.log(res, "111-----");
 
           if (res == "notPermission") {
             // return this.$toast.toast({
-            //   icon: "",
             //   title: "不是商家角色,请切换账号",
             // });
-            console.log(111122);
-            return Toast("不是商家角色,请切换账号~");
+            return uni.showToast({
+              title: "不是商家角色,请切换账号",
+              icon: "none",
+            });
           }
           //  request.setRequestHeader("Authorization", token);
           // sessionStorage.setItem("mobile", res.mobile);
@@ -229,15 +256,6 @@ export default {
         //判断是否加载中，避免重复点击请求
         return false;
       }
-
-      // if (this.password.length < 5) {
-      //   uni.showToast({
-      //     icon: "none",
-      //     position: "bottom",
-      //     title: "密码不正确",
-      //   });
-      //   return;
-      // }
 
       // 网络请求
       // const params = {

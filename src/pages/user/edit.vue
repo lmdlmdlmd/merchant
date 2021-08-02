@@ -16,59 +16,62 @@
       <van-row>
         <van-col span="5" class="input_lable"> 原密码 </van-col>
         <van-col span="19">
-          <!-- <van-field
-            v-model="password"
+          <van-field
+            :value="password"
             type="password"
             placeholder="请输入原密码"
-          /> -->
-          <input
+            @input="password = $event.mp.detail"
+          />
+          <!-- <input
             type="password"
             class="input_text"
             :value="password"
             placeholder="请输入原密码"
             @change="handleChangePassword"
-          />
+          /> -->
         </van-col>
       </van-row>
       <van-row>
         <van-col span="5" class="input_lable"> 新密码 </van-col>
         <van-col span="19">
-          <!-- <van-field
-            v-model="new_password"
+          <van-field
+            :value="new_password"
             type="password"
             placeholder="填写新密码"
-          /> -->
-          <input
+            @input="new_password = $event.mp.detail"
+          />
+          <!-- <input
             type="password"
             class="input_text"
             :value="new_password"
             placeholder="填写新密码"
             @change="handleChangeNewP"
-          />
+          /> -->
         </van-col>
       </van-row>
       <van-row>
         <van-col span="5" class="input_lable"> 确认密码 </van-col>
         <van-col span="19">
-          <!-- <van-field
-            v-model="rep_new_password"
+          <van-field
+            :value="rep_new_password"
             type="password"
             placeholder="再次填写确认"
-          /> -->
-          <input
+            @input="rep_new_password = $event.mp.detail"
+          />
+          <!-- <input
             type="password"
             class="input_text"
             :value="rep_new_password"
             placeholder="再次填写确认"
             @change="handleChangeRepNewP"
-          />
+          /> -->
         </van-col>
       </van-row>
       <van-row>
         <van-col span="16" class="pwd_rules"> 密码为数字或字母组合 </van-col>
         <van-col span="8" class="forge_pwd">
-          <span @click="handleEdit()">忘记原密码？</span></van-col
-        >
+          <!-- <span @click="handleEdit()">忘记原密码？</span> -->
+        </van-col>
       </van-row>
       <van-button type="primary" class="login_out" @click="handleOut()"
         >确定</van-button
@@ -109,7 +112,6 @@ export default {
       this.rep_new_password = e.target.value;
     },
     handleEdit() {
-      console.log(1111);
       uni.navigateTo({
         url: `/pages/user/forgotPassword`,
       });
@@ -133,7 +135,7 @@ export default {
             title: "修改成功",
           });
           uni.navigateTo({
-            url: `/pages/login/index`,
+            url: `/pages/user/index`,
           });
         });
     },

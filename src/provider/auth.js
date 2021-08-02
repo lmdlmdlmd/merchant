@@ -44,11 +44,10 @@ Auth.prototype = {
 			// this.restoreShop(this.shopid);
 		}
 	},
-	login(params) {
+	login(params,checked) {
 		return api.post(CONFIG.tokenApi, params).then(data => {
-		
 			const {token,roleorg,roles} = data;
-			
+			console.log( params,'-----',data)
 		const shopid = roles.filter((item)=>item.id==roleorg)[0].shopid;
 		if(!shopid){
 			//不是商家角色
@@ -57,7 +56,8 @@ Auth.prototype = {
 			// console.log(data)
 			// this.shopid = shopid; 
 			// this.roleorg = roleorg;
-			authHandler.saveUser(data);
+			let dataUser = checked ?  {...data,...params} : {...data}
+			authHandler.saveUser(dataUser);
 			authHandler.saveToken(token);
 			authHandler.saveShopid(shopid);
 			authHandler.saveRoleorg(roleorg);
