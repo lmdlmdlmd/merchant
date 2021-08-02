@@ -2,33 +2,49 @@
   <view class="operate" :style="{ marginLeft: maLe }">
     <view>
       <van-field
-        v-model="priceTagType.text"
+        :value="priceTagType.text"
         placeholder="请选择价签打印类型"
         label="价签打印类型"
         :required="isRequire"
         right-icon="arrow"
-        @click-right-icon="typeShow = true"
+        input-align="right"
+        @clickIcon="typeShow = true"
       />
     </view>
-    <van-row class="good_money_box">
-      <van-col span="12">
-        <p :class="isRequire ? 'good_money_be' : 'good_money'">
-          {{ title }}
-        </p>
-      </van-col>
-      <van-col span="12" class="opr_sh">
-        <view>
-          <text class="add_sh" @click="handleAdd">+</text>
-          <text class="add_num">{{ number }}</text>
-          <text class="de_sh" @click="handleDel">-</text>
-        </view>
-      </van-col>
-    </van-row>
-    <van-action-sheet v-model="typeShow" title="" class="addSheet">
-      <van-row class="add_opr">
-        <van-col span="12" class="can" @click="typeShow = false">取消</van-col>
-        <van-col span="12" class="con" @click="handleSubmit">确定</van-col>
+    <view class="good_money_box">
+      <van-row>
+        <van-col span="12">
+          <p :class="isRequire ? 'good_money_be' : 'good_money'">
+            {{ title }}
+          </p>
+        </van-col>
+        <van-col span="12">
+          <view class="opr_sh">
+            <text class="add_sh" @click="handleAdd">+</text>
+            <text class="add_num">{{ number }}</text>
+            <text class="de_sh" @click="handleDel">-</text>
+          </view>
+        </van-col>
       </van-row>
+    </view>
+    <van-action-sheet
+      v-bind:show="typeShow"
+      title="请选择价签"
+      class="addSheet"
+      close-icon-position="top-right"
+      @click-overlay="onClose"
+      @close="onClose"
+    >
+      <view class="add_opr">
+        <van-row>
+          <van-col span="12"
+            ><view class="can" @click="typeShow = false">取消</view></van-col
+          >
+          <van-col span="12"
+            ><view class="con" @click="handleSubmit">确定</view></van-col
+          >
+        </van-row>
+      </view>
       <van-picker
         :show-toolbar="false"
         :columns="columns"
@@ -85,6 +101,9 @@ export default {
   onLoad() {},
 
   methods: {
+    onClose() {
+      this.typeShow = false;
+    },
     handleDict() {
       this.$api
         .post("base/dict/search", {
@@ -104,10 +123,13 @@ export default {
     },
     //价签change
     handleConfirm(value, data) {
-      this.priceTagType = data;
+      const { detail: da } = value || {};
+      console.log(da);
+      this.priceTagType = da.value;
     },
     //确定
     handleSubmit() {
+      console.log(this.priceTagType, 111);
       this.typeShow = false;
       this.priceTagType = this.priceTagType.id
         ? this.priceTagType
@@ -160,12 +182,12 @@ export default {
   /* padding: 1px 5px; */
   /* line-height: 20px; */
   /* height: 24px; */
-  padding: 4upx 10upx;
+  padding: 0upx 12upx;
 }
 .add_num {
   color: #333;
   font-size: 30upx;
-  padding: 4upx 10upx;
+  padding: 0upx 12upx;
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
   line-height: 48upx;
@@ -194,6 +216,7 @@ export default {
   color: #0091ff;
   padding-bottom: 10px;
   margin-top: 20px;
+  z-index: 9;
   .con {
     text-align: right;
   }

@@ -25,31 +25,81 @@
         <view class="customer_info">
           <p class="ci_title">顾客信息</p>
           <view class="ci_con">
-            <van-field
+            <view class="bg_fff">
+              <van-row class="ci_content">
+                <van-col span="6"><text class="file_text">商铺</text></van-col>
+                <van-col span="18"
+                  ><view class="file_val">{{ info.shopid_s }}</view></van-col
+                >
+              </van-row>
+            </view>
+            <!-- <van-field
               class="br"
               v-model="info.shopid_s"
               label="商铺"
               readonly
-            />
-            <van-field
+            /> -->
+            <view class="bg_fa">
+              <van-row class="ci_content">
+                <van-col span="6"
+                  ><text class="file_text">品牌名称</text></van-col
+                >
+                <van-col span="18"
+                  ><view class="file_val">{{ info.brandid_s }}</view></van-col
+                >
+              </van-row>
+            </view>
+            <!-- <van-field
               class="bg"
               v-model="info.brandid_s"
               label="品牌名称"
               readonly
-            />
-            <van-field v-model="cardNumber" label="会员卡号" readonly />
-            <van-field
+            /> -->
+            <view class="bg_fff">
+              <van-row class="ci_content">
+                <van-col span="6"
+                  ><text class="file_text">会员卡号</text></van-col
+                >
+                <van-col span="18"
+                  ><view class="file_val">{{ cardNumber }}</view></van-col
+                >
+              </van-row>
+            </view>
+            <!-- <van-field v-model="cardNumber" label="会员卡号" readonly /> -->
+            <view class="bg_fa">
+              <van-row class="ci_content">
+                <van-col span="6"
+                  ><text class="file_text">顾客姓名</text></van-col
+                >
+                <van-col span="18"
+                  ><view class="file_val">{{ info.customer }}</view></van-col
+                >
+              </van-row>
+            </view>
+            <!-- <van-field
               class="bg"
               v-model="info.customer"
               label="顾客姓名"
               readonly
-            />
-            <van-field
+            /> -->
+            <view class="bg_fff">
+              <van-row class="ci_content">
+                <van-col span="6"
+                  ><text class="file_text">联系电话</text></van-col
+                >
+                <van-col span="18"
+                  ><view class="file_val phone">{{
+                    info.customermobile
+                  }}</view></van-col
+                >
+              </van-row>
+            </view>
+            <!-- <van-field
               class="br phone"
               v-model="info.customermobile"
               label="联系电话"
               readonly
-            />
+            /> -->
           </view>
         </view>
       </view>
@@ -57,11 +107,23 @@
         <view class="deposit_info pad_64">
           <p class="ci_title">定金信息</p>
           <view class="ci_con">
-            <van-field
+            <view class="bg_fff">
+              <van-row class="ci_content">
+                <van-col span="6"
+                  ><text class="file_text">定金金额</text></van-col
+                >
+                <van-col span="18"
+                  ><view class="file_val money"
+                    >¥{{ info.amount }}</view
+                  ></van-col
+                >
+              </van-row>
+            </view>
+            <!-- <van-field
               class="br money"
               v-model="info.amount"
               label="定金金额"
-            />
+            /> -->
           </view>
         </view>
       </view>
@@ -186,6 +248,26 @@ export default {
   background: #f5f5f5;
   min-height: 100vh;
 }
+.bg_fff {
+  background-color: #fff;
+  height: 40px;
+  margin: 0 auto;
+  width: 99%;
+}
+.file_text,
+.file_val {
+  font-size: 13px;
+  color: #1e1e1e;
+}
+.file_val {
+  text-align: right;
+}
+.bg_fa {
+  background-color: #f4f5f5;
+  height: 40px;
+  margin: 0 auto;
+  width: 99%;
+}
 .footer {
   position: fixed;
   bottom: 0;
@@ -205,5 +287,10 @@ export default {
 }
 /deep/ .money .van-field__control {
   color: #1890ff;
+}
+/deep/ .ci_content .van-row {
+  width: calc(100% - 20px);
+  margin: 0 auto;
+  padding: 10px 5px;
 }
 </style>

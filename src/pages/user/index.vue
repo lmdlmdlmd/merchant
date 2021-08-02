@@ -51,25 +51,34 @@
             </van-col>
           </van-row>
         </view>
-        <van-row class="edit_pwd" @click="handleEdit">
+
+        <van-row class="edit_pwd">
           <van-col span="12">修改密码</van-col>
           <van-col span="12" class="icon_call"
             ><img
+              @click="handleEdit()"
               class="icon_call_img"
               src="../../static/img/icon/icon_call.png"
           /></van-col>
         </van-row>
         <p>密码为数字或字母组合</p>
-        <van-button type="primary" class="login_out" @click="show = true"
-          >退出登录</van-button
-        >
+        <div type="primary" class="login_out" @click="handleOutLogin">
+          退出登录
+        </div>
       </view>
     </view>
-    <van-popup v-model="show" position="bottom" :style="{ height: '30%' }">
+    <van-popup
+      :show="show"
+      position="bottom"
+      custom-style="width:100%;height:40%;"
+      close-icon-position="top-right"
+      @click-overlay="onClose"
+      @close="onCloseBtnClicked"
+    >
       <view class="footer_box">
         <p>确定要退出登录吗?</p>
         <p class="confirm" @click="handleOut()">退出登录</p>
-        <p class="concal" @click="show = false">取消</p>
+        <p class="concal" @click="handleCancel">取消</p>
       </view>
     </van-popup>
   </view>
@@ -107,6 +116,20 @@ export default {
     }, 300);
   },
   methods: {
+    onClose() {
+      console.log("onClick methods function");
+      this.addShow = false;
+    },
+    onCloseBtnClicked() {
+      console.log("close button clicked");
+      this.addShow = false;
+    },
+    handleCancel() {
+      this.show = false;
+    },
+    handleOutLogin() {
+      this.show = true;
+    },
     handleEdit() {
       console.log(1);
       uni.navigateTo({
@@ -147,10 +170,7 @@ export default {
       font-size: 12px;
       color: rgba(0, 0, 0, 0.85);
     }
-    .lable {
-      text-align: right;
-      color: rgba(0, 0, 0, 0.6);
-    }
+
     .value {
       text-indent: 14px;
       text-align: left;
@@ -162,13 +182,6 @@ export default {
     .author_text {
       font-size: 16px;
       color: #1e1e18;
-    }
-    .edit_pwd {
-      margin-top: 45px;
-      padding-bottom: 8px;
-      color: #1e1e18;
-      font-size: 14px;
-      border-bottom: 1px solid #f0f0f0;
     }
     .icon_call {
       text-align: right;
@@ -191,6 +204,9 @@ export default {
       border: none;
       outline: none;
       display: block;
+      text-align: center;
+      color: #fff;
+      line-height: 32px;
     }
   }
 }
@@ -209,5 +225,27 @@ export default {
     font-size: 16px;
     padding: 30px 0;
   }
+}
+</style>
+<style lang="less">
+/deep/ .van-overlay {
+  width: 100%;
+  height: 60%;
+}
+/deep/ .detail .van-col {
+  margin-top: 5px;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.85);
+}
+/deep/ .lable .van-col {
+  text-align: right;
+  color: rgba(0, 0, 0, 0.6);
+}
+/deep/ .edit_pwd .van-col {
+  margin-top: 45px;
+  padding-bottom: 8px;
+  color: #1e1e18;
+  font-size: 14px;
+  border-bottom: 1px solid #f0f0f0;
 }
 </style>

@@ -72,26 +72,6 @@ export default {
 				}
 				return true;
 			}
-
-		// 交互函数传参
-		// par1 ios
-		// par2 android
-		// Vue.prototype.params = function (par1, par2, functionName) {
-		// 	let ua = navigator.userAgent.toLowerCase();
-		// 	if (par1 == '') {
-		// 		if (/iphone|ipad|ipod|macintosh/i.test(ua)) {
-		// 			window.webkit.messageHandlers[functionName].postMessage(null)
-		// 		} else if (/android/i.test(ua)) {
-		// 			window.AndroidToast[functionName]("success")
-		// 		}
-		// 	} else {
-		// 		if (/iphone|ipad|ipod|macintosh/i.test(ua)) {
-		// 			window.webkit.messageHandlers[functionName].postMessage(par1)
-		// 		} else if (/android/i.test(ua)) {
-		// 			window.AndroidToast[functionName](par2)
-		// 		}
-		// 	}
-		// },
 			//会员昵称加密
 			Vue.prototype.nicknameHandle = function ($name) {
 				if ($name.length <= 0) {
@@ -109,55 +89,13 @@ export default {
 				}
 				return $name;
 			},
-			// 判断当前设备是否是IphoneX
-			Vue.prototype.isIphoneX = function () {
-				let isiOS1 = /iphone/gi.test(navigator.userAgent) && (screen.height == 812 && screen.width == 375);
-				let isiOS2 = /iphone/gi.test(navigator.userAgent) && (screen.height == 896 && screen.width == 414);
-				let isiOS = isiOS1 || isiOS2;
-				return isiOS;
-			},
+
 			//数字小于10补0  (6=>06)
 			Vue.prototype.checkTime = function (i) {
 				if (i < 10) {
 					i = "0" + i
 				}
 				return i
-			},
-			Vue.prototype.openApp = function (type, code, parmSrc) {
-				var u = navigator.userAgent;
-				//var isWeixin = u.toLowerCase().indexOf('micromessenger') !== -1; // 微信内
-				var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //android终端
-				var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-				//android端
-				if (isAndroid) {
-					//安卓app的scheme协议
-					window.location.href = 'xblife://' + parmSrc;
-					setTimeout(function () {
-						let hidden = window.document.hidden || window.document.mozHidden || window.document.msHidden || window.document.webkitHidden
-						if (typeof hidden == "undefined" || hidden == false) {
-							if (type == 'register') {
-								window.location.href = "/share?" + code;
-							} else {
-								window.location.href = "/load";
-							}
-						}
-					}, 2000);
-				}
-				//ios端
-				if (isIOS) {
-					//ios的scheme协议
-					window.location.href = 'ShallBuyLife123://' + parmSrc
-					setTimeout(function () {
-						let hidden = window.document.hidden || window.document.mozHidden || window.document.msHidden || window.document.webkitHidden
-						if (typeof hidden == "undefined" || hidden == false) {
-							if (type == 'register') {
-								window.location.href = "/share?" + code;
-							} else {
-								window.location.href = "/load";
-							}
-						}
-					}, 2000);
-				}
 			},
 			// 二维数组
 			Vue.prototype.arrTrans = function (num, arr) {

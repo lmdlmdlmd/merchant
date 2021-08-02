@@ -46,7 +46,14 @@ Auth.prototype = {
 	},
 	login(params) {
 		return api.post(CONFIG.tokenApi, params).then(data => {
-			const {token,shopid,roleorg} = data;
+		
+			const {token,roleorg,roles} = data;
+			
+		const shopid = roles.filter((item)=>item.id==roleorg)[0].shopid;
+		if(!shopid){
+			//不是商家角色
+			return 'notPermission'
+		}
 			// console.log(data)
 			// this.shopid = shopid; 
 			// this.roleorg = roleorg;
@@ -62,7 +69,7 @@ Auth.prototype = {
 	},
 	//商铺信息
  	restoreShop(shopid) {
-		this.shPending = api.post(CONFIG.shopApi,{id:shopid}).then(shop => {
+		this.shPending = api.post(CONFIG.shopApi,{id:shopid=='0' ? 0 : shopid}).then(shop => {
 			console.log(shop)
 			this.shop = shop;
 			this.shPending = null;

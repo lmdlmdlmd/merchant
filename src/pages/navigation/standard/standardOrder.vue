@@ -12,60 +12,207 @@
         <view class="customer_info">
           <p class="ci_title">顾客信息</p>
           <view class="ci_con">
+            <!-- <view class="bg_fff">
+              <van-row class="ci_content">
+                <van-col span="6"><text class="file_text">商铺</text></van-col>
+                <van-col span="18"
+                  ><view class="file_val">
+                    <input
+                      type="text"
+                      class="input_text"
+                      :value="name"
+                      placeholder="请输入商铺"
+                    /> </view
+                ></van-col>
+              </van-row>
+            </view> -->
             <van-field
-              class="br"
+              class="br fileText"
               placeholder="请输入商铺"
-              v-model="name"
+              :value="name"
               label="商铺"
+              readonly
+              @input="name = $event.mp.detail"
             />
+            <!-- <view class="bg_fa">
+              <van-row class="ci_content">
+                <van-col span="6"
+                  ><text class="file_text">品牌名称</text></van-col
+                >
+                <van-col span="18"
+                  ><view class="file_val">
+                    <input
+                      type="text"
+                      class="input_text"
+                      :value="info.customercode"
+                      placeholder="请输入品牌名称"
+                    /> </view
+                ></van-col>
+              </van-row>
+            </view> -->
             <van-field
-              class="bg"
+              class="bg fileText"
               placeholder="请输入品牌名称"
-              v-model="brandid_s"
+              :value="brandid_s"
               label="品牌名称"
+              readonly
+              @input="brandid_s = $event.mp.detail"
             />
+            <!-- <view class="bg_fff">
+              <van-row class="ci_content">
+                <van-col span="6"
+                  ><text class="file_text">会员卡号</text></van-col
+                >
+                <van-col span="18"
+                  ><view class="file_val">
+                    <input
+                      type="text"
+                      class="input_text"
+                      :value="info.customercode"
+                      placeholder="请输入会员号或手机号"
+                    /> </view
+                ></van-col>
+              </van-row>
+            </view> -->
             <van-field
-              v-model="info.customercode"
+              class="fileText"
+              :value="info.customercode"
               placeholder="请输入会员号或手机号"
               label="会员卡号"
-              right-icon="search"
+              @input="info.customercode = $event.mp.detail"
             />
-            <!-- @click-right-icon="handleRightSearch" 预留查询 -->
+            <!-- @click-right-icon="handleRightSearch"   right-icon="search"预留查询 -->
+            <!-- <view class="bg_fa">
+              <van-row class="ci_content">
+                <van-col span="6"
+                  ><text class="file_text">顾客姓名</text></van-col
+                >
+                <van-col span="18"
+                  ><view class="file_val">
+                    <input
+                      type="text"
+                      class="input_text"
+                      :value="info.customer"
+                      placeholder="请输入顾客姓名"
+                    /> </view
+                ></van-col>
+              </van-row>
+            </view> -->
             <van-field
-              class="bg"
-              v-model="info.customer"
+              class="bg fileText"
+              :value="info.customer"
               placeholder="请输入顾客姓名"
               label="顾客姓名"
+              @input="info.customer = $event.mp.detail"
             />
+            <!-- <view class="bg_fff">
+              <van-row class="ci_content">
+                <van-col span="6"
+                  ><text class="file_text">联系电话</text></van-col
+                >
+                <van-col span="18"
+                  ><view class="file_val">
+                    <input
+                      type="text"
+                      class="input_text"
+                      :value="info.customermobile"
+                      placeholder="请输入联系电话"
+                    /> </view
+                ></van-col>
+              </van-row>
+            </view> -->
             <van-field
-              v-model="info.customermobile"
+              class="fileText"
+              :value="info.customermobile"
               placeholder="请输入联系电话"
               label="联系电话"
               type="tel"
+              @input="info.customermobile = $event.mp.detail"
             />
+            <!-- <view class="bg_fa">
+              <van-row class="ci_content">
+                <van-col span="6"
+                  ><text class="file_text">送货日期</text></van-col
+                >
+                <van-col span="18"
+                  ><view class="file_val">
+                    <input
+                      type="text"
+                      class="input_text"
+                      :value="info.deliveryday"
+                      placeholder="请选择送货日期"
+                    /> </view
+                ></van-col>
+              </van-row>
+            </view> -->
             <van-field
-              class="bg"
+              class="bg fileText"
               :clickable="true"
-              v-model="info.deliveryday"
+              :value="info.deliveryday"
               placeholder="请选择送货日期"
               label="送货日期"
               right-icon="arrow"
-              @click-right-icon="dataShow = true"
+              @clickIcon="dataShow = true"
+              @input="info.deliveryday = $event.mp.detail"
             />
+            <!-- <view class="bg_fff">
+              <van-row class="ci_content">
+                <van-col span="6"
+                  ><text class="file_text">送货方式</text></van-col
+                >
+                <van-col span="18"
+                  ><view class="file_val">
+                    <input
+                      type="text"
+                      class="input_text"
+                      :value="info.deliverywayId"
+                      placeholder="请输入送货方式"
+                    /> </view
+                ></van-col>
+              </van-row>
+            </view> -->
+
             <van-field
-              v-model="info.deliverywayId"
+              class="fileText"
+              :value="info.deliverywayId"
               placeholder="请输入送货方式"
               label="送货方式"
               right-icon="arrow"
-              @click-right-icon="addTypeShow = true"
+              @clickIcon="addTypeShow = true"
+              @input="info.deliverywayId = $event.mp.detail"
             />
-            <van-field
+            <!-- <view class="bg_fa">
+              <van-row class="ci_content">
+                <van-col span="6"
+                  ><text class="file_text">送货地址</text></van-col
+                >
+                <van-col span="18"
+                  ><view class="file_val">
+                    <input
+                      type="text"
+                      class="input_text"
+                      :value="info.customeraddr"
+                      placeholder="请输入送货地址"
+                    /> </view
+                ></van-col>
+              </van-row>
+            </view> -->
+            <!-- <van-field
               class="br bg"
               placeholder="请输入送货地址"
               v-model="info.customeraddr"
               label="送货地址"
               right-icon="arrow"
               @click-right-icon="addShow = true"
+            /> -->
+            <van-field
+              class="br bg fileText"
+              placeholder="请输入送货地址"
+              :value="info.customeraddr"
+              label="送货地址"
+              right-icon="arrow"
+              @clickIcon="addShow = true"
+              @input="info.customeraddr = $event.mp.detail"
             />
           </view>
         </view>
@@ -80,7 +227,7 @@
         <van-button
           type="primary"
           class="determine_goods"
-          @click.prevent="handleSelectGoodShow('select')"
+          @click="handleSelectGoodShow('select')"
           >选择商品</van-button
         >
       </view>
@@ -92,33 +239,42 @@
               <p class="good_name">
                 {{ item.name }}
               </p>
-              <van-row class="good_money_box">
-                <van-col span="12">
-                  <p class="good_money">
-                    ¥ {{ item.price }}
-                    *
-                    {{ item.number }}
-                  </p>
-                </van-col>
-                <van-col span="12" class="opr_sh">
-                  <view>
-                    <text class="add_sh" @click="handleAdd(item)">+</text>
-                    <text class="add_num">{{ item.number }}</text>
-                    <text class="de_sh" @click="handleDel(item)">-</text>
-                  </view>
-                </van-col>
-              </van-row>
-
-              <van-row class="info">
-                <van-col span="12">规格</van-col>
-                <van-col span="12" class="info_right">{{
-                  item.specification
-                }}</van-col>
-              </van-row>
-              <van-row class="info">
-                <van-col span="12">型号</van-col>
-                <van-col span="12" class="info_right">{{ item.model }}</van-col>
-              </van-row>
+              <view class="good_money_box">
+                <van-row>
+                  <van-col span="12">
+                    <p class="good_money">
+                      ¥ {{ item.price }}
+                      *
+                      {{ item.number }}
+                    </p>
+                  </van-col>
+                  <van-col span="12">
+                    <view class="opr_sh">
+                      <text class="add_sh" @click="handleAdd(item)">+</text>
+                      <text class="add_num">{{ item.number }}</text>
+                      <text class="de_sh" @click="handleDel(item)">-</text>
+                    </view>
+                  </van-col>
+                </van-row>
+              </view>
+              <view class="info">
+                <van-row>
+                  <van-col span="12">规格</van-col>
+                  <van-col span="12"
+                    ><view class="info_right">{{
+                      item.specification
+                    }}</view></van-col
+                  >
+                </van-row>
+              </view>
+              <view class="info">
+                <van-row>
+                  <van-col span="12">型号</van-col>
+                  <van-col span="12"
+                    ><view class="info_right">{{ item.model }}</view></van-col
+                  >
+                </van-row>
+              </view>
             </view>
           </view>
           <view class="good_opr">
@@ -142,36 +298,102 @@
           <p class="ci_title">金额信息</p>
           <view class="ci_con">
             <view class="ci_con_box">
+              <!-- <view class="bg_fff">
+                <van-row class="ci_content">
+                  <van-col span="6"
+                    ><text class="file_text">整单金额</text></van-col
+                  >
+                  <van-col span="18"
+                    ><view class="file_val">
+                      <input
+                        type="text"
+                        class="input_text allPriceInput"
+                        :value="info.amount"
+                        placeholder="请输入整单金额"
+                      /> </view
+                  ></van-col>
+                </van-row>
+              </view> -->
               <van-field
-                class="allPriceInput"
-                readonly
-                v-model="info.amount"
+                class="allPriceInput fileText"
+                :value="info.amount"
                 label="整单金额"
+                readonly
               />
+              <!-- <view class="bg_fa">
+                <van-row class="ci_content">
+                  <van-col span="6"
+                    ><text class="file_text">整单优惠</text></van-col
+                  >
+                  <van-col span="18"
+                    ><view class="file_val">
+                      <input
+                        type="text"
+                        class="input_text priceInput"
+                        :value="info.discountamount"
+                        placeholder="请输入整单优惠"
+                      /> </view
+                  ></van-col>
+                </van-row>
+              </view> -->
               <van-field
-                class="priceInput"
-                v-model="info.discountamount"
+                class="priceInput fileText"
+                :value="info.discountamount"
                 placeholder="请输入整单优惠"
                 label="整单优惠"
+                :readonly="info.amount == '0.00'"
+                @input="info.discountamount = $event.mp.detail"
               />
+              <!-- <view class="bg_fff">
+                <van-row class="ci_content">
+                  <van-col span="6"
+                    ><text class="file_text">应收金额</text></van-col
+                  >
+                  <van-col span="18"
+                    ><view class="file_val">
+                      <input
+                        type="text"
+                        class="input_text priceInput"
+                        :value="info.realamount"
+                        placeholder="请输入应收金额"
+                      /> </view
+                  ></van-col>
+                </van-row>
+              </view> -->
               <van-field
-                class="priceInput"
-                v-model="info.realamount"
+                class="priceInput fileText"
+                :value="info.realamount"
                 placeholder="请输入应收金额"
                 label="应收金额"
+                :readonly="info.amount == '0.00'"
+                @input="info.realamount = $event.mp.detail"
               />
             </view>
           </view>
         </view>
         <p class="ci_title">备注信息</p>
+        <!-- <view class="bg_fff">
+          <van-row class="ci_content">
+            <van-col span="24"
+              ><view class="file_val">
+                <input
+                  type="textarea"
+                  class="input_text textAreaRemark"
+                  :value="info.note"
+                  placeholder="请输入备注信息"
+                /> </view
+            ></van-col>
+          </van-row>
+        </view> -->
         <van-field
-          v-model="info.note"
+          :value="info.note"
           autosize
           type="textarea"
           rows="2"
           maxlength="100"
           show-word-limit
-          class="textAreaRemark"
+          class="textAreaRemark fileText"
+          @input="info.note = $event.mp.detail"
         />
       </view>
       <view id="screens4">
@@ -191,14 +413,18 @@
       </view>
     </view>
     <view class="footer"> <Footer active="navigation"></Footer></view>
-    <van-popup v-model="dataShow" position="bottom" :style="{ height: '30%' }">
+    <van-popup
+      v-bind:show="dataShow"
+      position="bottom"
+      custom-style="width:100%;height:60%;"
+    >
       <view>
         <van-datetime-picker
-          v-model="info.deliveryday"
+          :value="info.deliveryday"
           type="date"
           title="请选择日期"
           :min-date="minDate"
-          visible-item-count="3"
+          visible-item-count="5"
           confirm-button-text="确定"
           cancel-button-text="取消"
           :formatter="formatter"
@@ -208,13 +434,13 @@
       </view>
     </van-popup>
     <van-popup
-      v-model="addTypeShow"
+      v-bind:show="addTypeShow"
       position="bottom"
       :style="{ height: '30%' }"
     >
       <view>
         <van-picker
-          title=""
+          title="送货方式"
           show-toolbar
           :columns="columns"
           @confirm="onAddTypeConfirm"
@@ -222,7 +448,11 @@
         />
       </view>
     </van-popup>
-    <van-popup v-model="addShow" position="bottom" :style="{ height: '30%' }">
+    <van-popup
+      v-bind:show="addShow"
+      position="bottom"
+      :style="{ height: '30%' }"
+    >
       <view>
         <van-area
           title=""
@@ -241,7 +471,7 @@
       @isShow="isSelectGoodShow = false"
       @handleSelectGoods="handleSelectGoods"
     /> -->
-    <van-dialog v-model="show" :showConfirmButton="false">
+    <van-dialog use-slot v-bind:show="show" :showConfirmButton="false">
       <view class="dialog_box">
         <image
           class="warning"
@@ -254,6 +484,9 @@
         >
       </view>
     </van-dialog>
+    <!-- <van-dialog use-slot title="标题" v-bind:show="show" show-cancel-button>
+      <image src="https://img.yzcdn.cn/1.jpg" />
+    </van-dialog> -->
     <selectGoods
       :title="operation === 'staSelectGoods' ? '选择商品' : '修改商品'"
       :operation="operation"
@@ -263,17 +496,19 @@
       @isShow="isSelectGoodShow = false"
       @handleSelectGoods="handleSelectGoods"
       @touchmove="handleTouchMove"
+      @handleUpdateSelectGoods="handleUpdateSelectGoods"
     />
   </view>
 </template>
 
 <script>
 import zzNavBar from "../../../components/zz-nav-bar";
-
+import moment from "moment";
 import Footer from "../../../components/footer-nav";
 import selectGoods from "../../components/selectGoods";
 import Anchor from "../../components/anchor";
 import { areaList } from "@vant/area-data";
+import Toast from "../../../wxcomponents/toast/toast";
 export default {
   components: {
     zzNavBar,
@@ -294,7 +529,7 @@ export default {
       isSelectGoodShow: false,
       show: false,
       areaList, //地址数据
-      minDate: new Date(), //最小时间
+      minDate: new Date().getTime(), //最小时间
       loading: false, //提交缓冲
       columns: [], //送货方式数据源
       // currenTypeAdd: "",
@@ -305,8 +540,7 @@ export default {
         customercode: "",
         customer: "",
         // customermobile: "",
-        deliveryday: "",
-        deliveryday: this.formatDate(new Date()),
+        deliveryday: null, // this.formatDate(new Date().getTime()),
         deliveryway: "",
         deliverywayId: "",
         customeraddr: "",
@@ -323,16 +557,27 @@ export default {
   created() {
     setTimeout(() => {
       const { shop = {} } = this.$auth;
+      console.log(shop);
       //基本信息
       this.name = shop && shop.name;
       this.brandid_s = shop.brandid_s;
     }, 500);
     //获取送货方式
     this.handleDict();
+
+    this.info.deliveryday = this.handleDefaultTime();
   },
   onLoad() {},
   methods: {
     handleTouchMove() {},
+    //设置默认值
+    handleDefaultTime() {
+      const dateSource = new Date();
+      let year = dateSource.getFullYear() + "年";
+      let month = dateSource.getMonth() + 1 + "月";
+      let date = dateSource.getDate() + "日";
+      return [year, month, date].join("-");
+    },
     handleDict() {
       this.$api
         .post("base/dict/search", {
@@ -390,6 +635,17 @@ export default {
       }
       this.handlePrice();
       // console.log(this.goods, "-----", totalPrice);
+    },
+    handleUpdateSelectGoods(data) {
+      console.log(this.goods, data);
+      this.goods.map((item) => {
+        if (item.dataObj.id == data.id) {
+          console.log(222);
+          item.price = data.price;
+          item.specification = data.specification;
+          item.model = data.model;
+        }
+      });
     },
     handlePrice() {
       let totalPrice = 0;
@@ -451,7 +707,11 @@ export default {
     },
     //日期
     onDataConfirm(value) {
-      this.info.deliveryday = this.formatDate(value);
+      console.log(value);
+      const { detail: da } = value || {};
+      this.info.deliveryday = moment(parseInt(da)).format("YYYY-MM-DD");
+      console.log(this.info.deliveryday);
+      // this.info.deliveryday = this.formatDate(value);
       this.dataShow = false;
     },
 
@@ -469,13 +729,20 @@ export default {
     },
     //送货地址
     onAddConfirm(value) {
-      // console.log(value);
+      console.log(value);
+      const { detail } = value;
+      const { values: valueArr } = detail;
+      console.log(detail, valueArr);
       // this.currentAdd = value[2].code;
-      this.info.customeraddr = value[0].name + value[1].name + value[2].name;
+      this.info.customeraddr =
+        valueArr[0].name + valueArr[1].name + valueArr[2].name;
       this.addShow = false;
     },
     //送货方式
-    onAddTypeConfirm(value, index) {
+    onAddTypeConfirm(call) {
+      console.log(call);
+      const { detail } = call;
+      const { value } = detail;
       console.log(value);
       this.info.deliverywayId = value.text;
       this.info.deliveryway = value.id;
@@ -483,7 +750,10 @@ export default {
     },
     //提交
     handleSubmit() {
-      // console.log(this.info, this.goods);
+      console.log(this.info, this.goods);
+      if (this.goods.lenhth <= 0) {
+        return Toast("请选择商品~");
+      }
       this.loading = true;
       delete this.info.deliverywayId;
       this.$api.post("mall/saleorder/add", this.info).then((res) => {
@@ -504,34 +774,42 @@ export default {
           .post("mall/saleordercommo/multiadd", params)
           .then((respones) => {
             const { data } = respones;
-            this.$toast.toast({
-              icon: "",
-              title: "添加成功",
-              success: () => {
-                // uni.navigateBack();
-                // this.scroll.resetUpScroll();
-              },
-            });
+
+            Toast("操作成功~");
+            this.info = {
+              amount: "0.00",
+              discountamount: "0.00",
+              realamount: "0.00",
+              deliveryday: this.handleDefaultTime(),
+            };
+            this.handleReset();
+            this.goods = [];
+            // this.$toast.toast({
+            //   icon: "",
+            //   title: "添加成功",
+            //   success: () => {
+            //     // uni.navigateBack();
+            //     // this.scroll.resetUpScroll();
+            //   },
+            // });
             // uni.showToast({
             //   icon: "none",
             //   position: "bottom",
             //   title: "添加成功",
             // });
             //data.ids
-            // uni.navigateTo({
-            //   url: `/pages/navigation/standard/standardOrderDetail`,
-            // });
+            uni.navigateTo({
+              url: `/pages/navigation/standard/standardOrderDetail?id=${data.ids}`,
+            });
           });
-        this.handleReset();
-        this.goods = [];
       });
       setTimeout(() => {
         this.loading = false;
       }, 500);
       //提交之后有个id要传到详情页去查询详情
-      // uni.navigateTo({
-      //   url: `/pages/navigation/standard/standardOrderDetail`,
-      // });
+      uni.navigateTo({
+        url: `/pages/navigation/standard/standardOrderDetail?id=${11}`,
+      });
     },
     //重置
     handleReset() {
@@ -580,52 +858,8 @@ export default {
     text-align: right;
     margin: 12px auto;
     width: calc(100% - 20px);
-    .reset,
-    .determine {
-      color: rgba(0, 0, 0, 0.5);
-      background: #dddddd;
-      border: none;
-      outline: none;
-      padding: 3px 23px;
-      border-radius: 4px;
-      margin-right: 22px;
-      height: 32px;
-    }
-    .determine {
-      background: #1890ff;
-      margin-right: 0px;
-      color: #fff;
-    }
   }
-  .operation_goods,
-  .good_opr {
-    .reset_goods,
-    .determine_goods {
-      background: rgba(24, 144, 255, 0.1);
-      border: 1px solid #1890ff;
-      color: #1890ff;
-      font-size: 14px;
-      padding: 6px 16px;
-      border-radius: 20px;
-      margin-right: 22px;
-      height: 32px;
-    }
-    .determine_goods {
-      background: #1890ff;
-      color: #fff;
-      border: none;
-      margin-right: 0px;
-    }
-  }
-  .good_opr {
-    .reset_goods,
-    .determine_goods {
-      background: #fff;
-    }
-    .determine_goods {
-      background: #e02020;
-    }
-  }
+
   .add_sh,
   .de_sh {
     color: #333333;
@@ -751,10 +985,46 @@ export default {
   font-size: 12px;
   margin-top: 6px;
 }
+.bg_fa {
+  background-color: #f4f5f5;
+  height: 40px;
+  margin: 0 auto;
+  width: 99%;
+  border-bottom: 1px solid #fafafa;
+}
+.bg_fff {
+  background-color: #fff;
+  height: 40px;
+  margin: 0 auto;
+  width: 99%;
+  border-bottom: 1px solid #fafafa;
+}
+
+.file_text,
+.file_val {
+  font-size: 13px;
+  color: #1e1e1e;
+}
+.file_val {
+  text-align: right;
+}
+.input_text {
+  // border-bottom: 1px solid #f0f0f0;
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  color: #1e1e18;
+}
 </style>
 <style lang="less">
 /deep/ .van-field__label {
   color: #1e1e1e;
+}
+/deep/ .bg .van-cell {
+  background-color: #f4f5f5;
+}
+/deep/ .fileText .van-field__control {
+  text-align: right;
 }
 /deep/ .priceInput .van-field__control {
   color: #1890ff;
@@ -770,24 +1040,78 @@ export default {
   color: #1e1e1e;
   text-align: right;
 }
-/deep/ .textAreaRemark .van-field__control {
+/deep/ .textAreaRemark .van-cell {
   height: 80px !important;
   background: #fff;
-  border-radius: 10px;
-  width: 100%;
   padding: 0 20px;
-  text-align: left;
   box-sizing: border-box;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  font-size: 12px;
+  color: #1e1e1e;
+  text-align: right;
+  width: calc(100% - 20px);
+  margin: 0 auto;
 }
 /deep/ .textAreaRemark .van-field__value {
   border-radius: 10px;
   border: 1px solid #ccc;
 }
-/deep/ .textAreaRemark .van-field__word-limit {
-  margin-right: 10px;
-  margin-bottom: 10px;
+/deep/ .textAreaRemark .van-field__body--textarea {
+  height: 53px;
 }
 /deep/.van-dialog {
   width: 260px;
+}
+/deep/ .ci_content .van-row {
+  width: calc(100% - 20px);
+  margin: 0 auto;
+  padding: 5px;
+}
+/deep/ .reset_goods .van-button {
+  // background: rgba(24, 144, 255, 0.1);
+  border: 1px solid #1890ff;
+  color: #1890ff;
+  font-size: 14px;
+  padding: 6px 16px;
+  border-radius: 20px;
+  margin-right: 22px;
+  height: 32px;
+  background: #fff;
+}
+
+/deep/ .determine_goods .van-button {
+  font-size: 14px;
+  padding: 6px 16px;
+  border-radius: 20px;
+  height: 32px;
+  // background: #1890ff;
+  color: #fff;
+  border: none;
+  margin-right: 0px;
+  background: #e02020;
+}
+
+/deep/ .reset .van-button {
+  color: rgba(0, 0, 0, 0.5);
+  background: #dddddd;
+  border: none;
+  outline: none;
+  padding: 3px 23px;
+  border-radius: 4px;
+  margin-right: 22px;
+  height: 32px;
+}
+/deep/ .determine .van-button {
+  border: none;
+  outline: none;
+  padding: 3px 23px;
+  border-radius: 4px;
+  height: 32px;
+  background: #1890ff;
+  margin-right: 0px;
+  color: #fff;
 }
 </style>

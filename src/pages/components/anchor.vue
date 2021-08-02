@@ -32,9 +32,23 @@ export default {
   methods: {
     handleAnchor(id) {
       this.isSelect = id;
+      // FIXME: 小程序中没有虚拟dom，不支持getElementById。
+      // 解决思路：既然获取不到，就控制screens的显示，
+      // 如点击1，就给1加一个active标签，
+      // 在这里hidden2和3，每次点击遍历所有元素，只显示一个，其他隐藏
+
+      // 其他几个页面的getelementbyid也要改
+      // const query = wx.createSelectorQuery();
+      // let anchorEle = query
+      //   .select("#screens" + (parseInt(id) + 1))
+      //   .boundingClientRect();
       let anchorEle = document.getElementById("screens" + (parseInt(id) + 1));
+      console.log(anchorEle);
       anchorEle &&
         anchorEle.scrollIntoView({ behavior: "auto", block: "center" });
+    },
+    test() {
+      console.log("test fonction");
     },
   },
 };

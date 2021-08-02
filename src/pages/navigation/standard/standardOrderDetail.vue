@@ -1,7 +1,7 @@
 <template>
   <view class="standardOrderDetailBox">
     <zz-nav-bar
-      title="标准开单详情"
+      title="标准订单详情"
       leftIcon="back"
       @click-right="rightClick"
     ></zz-nav-bar>
@@ -25,45 +25,121 @@
       <view id="screens2">
         <view class="customer_info">
           <p class="ci_title">顾客信息</p>
-          <view class="ci_con">
-            <van-field
-              class="br"
-              readonly
-              v-model="info.shopid_s"
-              label="商铺"
-            />
-            <van-field
+          <view class="ci_content_box">
+            <view class="bg_fff">
+              <van-row class="ci_content">
+                <van-col span="6"><text class="file_text">商铺</text></van-col>
+                <van-col span="18"
+                  ><view class="file_val">{{ info.shopid_s }}</view></van-col
+                >
+              </van-row>
+            </view>
+            <view class="bg_fa">
+              <van-row class="ci_content">
+                <van-col span="6"
+                  ><text class="file_text">品牌名称</text></van-col
+                >
+                <van-col span="18"
+                  ><view class="file_val">{{ info.brandid_s }}</view></van-col
+                >
+              </van-row>
+            </view>
+            <!-- <van-field
               class="bg"
               readonly
               v-model="info.brandid_s"
               label="品牌名称"
-            />
-            <van-field v-model="cardNumber" readonly label="会员卡号" />
-            <van-field
+            /> -->
+            <view class="bg_fff">
+              <van-row class="ci_content">
+                <van-col span="6"
+                  ><text class="file_text">会员卡号</text></van-col
+                >
+                <van-col span="18"
+                  ><view class="file_val">{{ cardNumber }}</view></van-col
+                >
+              </van-row>
+            </view>
+            <!-- <van-field v-model="cardNumber" readonly label="会员卡号" /> -->
+            <view class="bg_fa">
+              <van-row class="ci_content">
+                <van-col span="6"
+                  ><text class="file_text">顾客姓名</text></van-col
+                >
+                <van-col span="18"
+                  ><view class="file_val">{{ info.customer }}</view></van-col
+                >
+              </van-row>
+            </view>
+            <!-- <van-field
               class="bg"
               v-model="info.customer"
               readonly
               label="顾客姓名"
-            />
-            <van-field
+            /> -->
+            <view class="bg_fff">
+              <van-row class="ci_content">
+                <van-col span="6"
+                  ><text class="file_text">联系电话</text></van-col
+                >
+                <van-col span="18"
+                  ><view class="file_val">{{
+                    info.customermobile
+                  }}</view></van-col
+                >
+              </van-row>
+            </view>
+            <!-- <van-field
               v-model="info.customermobile"
               readonly
               label="联系电话"
-            />
-            <van-field
+            /> -->
+            <view class="bg_fa">
+              <van-row class="ci_content">
+                <van-col span="6"
+                  ><text class="file_text">送货日期</text></van-col
+                >
+                <van-col span="18"
+                  ><view class="file_val">{{ info.deliveryday }}</view></van-col
+                >
+              </van-row>
+            </view>
+            <!-- <van-field
               class="bg"
               readonly
               :clickable="true"
               v-model="info.deliveryday"
               label="送货日期"
-            />
-            <van-field readonly v-model="info.deliveryway" label="送货方式" />
-            <van-field
+            /> -->
+            <view class="bg_fff">
+              <van-row class="ci_content">
+                <van-col span="6"
+                  ><text class="file_text">送货方式</text></van-col
+                >
+                <van-col span="18"
+                  ><view class="file_val">{{ info.deliveryway }}</view></van-col
+                >
+              </van-row>
+            </view>
+            <!-- <van-field readonly v-model="info.deliveryway" label="送货方式" /> -->
+            <view class="bg_fa">
+              <van-row class="ci_content">
+                <van-col span="6"
+                  ><text class="file_text">送货地址</text></van-col
+                >
+                <van-col span="18"
+                  ><view class="file_val">{{
+                    info.customeraddr
+                  }}</view></van-col
+                >
+              </van-row>
+            </view>
+            <!-- <van-field
               readonly
               class="br bg"
               v-model="info.customeraddr"
               label="送货地址"
-            />
+            /> -->
           </view>
         </view>
       </view>
@@ -73,21 +149,31 @@
           <view class="ci_con">
             <view class="ci_con_box">
               <p class="good_name">{{ item.name }}</p>
-              <van-row class="good_money_box">
-                <van-col span="12">
-                  <p class="good_money">¥{{ item.price }} * {{ item.num }}</p>
-                </van-col>
-              </van-row>
-              <van-row class="info">
-                <van-col span="12">规格</van-col>
-                <van-col span="12" class="info_right">{{
-                  item.specification
-                }}</van-col>
-              </van-row>
-              <van-row class="info">
-                <van-col span="12">型号</van-col>
-                <van-col span="12" class="info_right">{{ item.model }}</van-col>
-              </van-row>
+              <view class="good_money_box">
+                <van-row>
+                  <van-col span="12">
+                    <p class="good_money">¥{{ item.price }} * {{ item.num }}</p>
+                  </van-col>
+                </van-row>
+              </view>
+              <view class="info">
+                <van-row>
+                  <van-col span="12">规格</van-col>
+                  <van-col span="12"
+                    ><view class="info_right">{{
+                      item.specification
+                    }}</view></van-col
+                  >
+                </van-row>
+              </view>
+              <view class="info">
+                <van-row>
+                  <van-col span="12">型号</van-col>
+                  <van-col span="12"
+                    ><view class="info_right">{{ item.model }}</view></van-col
+                  >
+                </van-row>
+              </view>
             </view>
           </view>
         </view>
@@ -97,37 +183,44 @@
           <p class="ci_title">金额信息</p>
           <view class="ci_con">
             <view class="ci_con_box">
-              <van-row class="info">
-                <van-col span="12">整单金额</van-col>
-                <van-col span="12" class="info_right"
-                  >¥{{ info.amount }}</van-col
-                >
+              <van-row>
+                <view class="info">
+                  <van-col span="12">整单金额</van-col>
+                  <van-col span="12" class="info_right"
+                    >¥{{ info.amount }}</van-col
+                  >
+                </view>
               </van-row>
-              <van-row class="info">
-                <van-col span="12">整单优惠</van-col>
-                <van-col span="12" class="info_right"
-                  >¥{{ info.discountamount }}</van-col
-                >
+              <van-row>
+                <view class="info">
+                  <van-col span="12">整单优惠</van-col>
+                  <van-col span="12" class="info_right"
+                    >¥{{ info.discountamount }}</van-col
+                  >
+                </view>
               </van-row>
-              <van-row class="info">
-                <van-col span="12">应收金额</van-col>
-                <van-col span="12" class="info_right"
-                  >¥{{ info.realamount }}</van-col
-                >
+              <van-row>
+                <view class="info">
+                  <van-col span="12">应收金额</van-col>
+                  <van-col span="12" class="info_right"
+                    >¥{{ info.realamount }}</van-col
+                  >
+                </view>
               </van-row>
             </view>
           </view>
         </view>
       </view>
       <p class="ci_title">备注信息</p>
-      <van-field
+      <!-- <van-field
         v-model="info.note"
         autosize
         type="textarea"
         rows="2"
         show-word-limit
         class="textAreaRemark"
-      />
+      /> -->
+      <view class="textAreaRemark">{{ info.note }}</view>
     </view>
     <view class="footer"> <Footer active="navigation"></Footer></view>
   </view>
@@ -334,6 +427,32 @@ export default {
   background: #f5f5f5;
   min-height: 100vh;
 }
+.file_text,
+.file_val {
+  font-size: 13px;
+  color: #1e1e1e;
+}
+.file_val {
+  text-align: right;
+}
+.bg_fff {
+  background-color: #fff;
+  height: 40px;
+  margin: 0 auto;
+  width: 99%;
+}
+.bg_fa {
+  background-color: #f4f5f5;
+  height: 40px;
+  margin: 0 auto;
+  width: 99%;
+}
+.ci_content_box {
+  width: calc(100% - 20px);
+  margin: 10px auto;
+  border: 1px solid #eee;
+  border-radius: 6px;
+}
 .footer {
   position: fixed;
   bottom: 0;
@@ -358,5 +477,10 @@ export default {
 }
 /deep/.van-dialog {
   width: 260px;
+}
+/deep/ .ci_content .van-row {
+  width: calc(100% - 20px);
+  margin: 0 auto;
+  padding: 5px;
 }
 </style>

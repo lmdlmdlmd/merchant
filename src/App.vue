@@ -32,4 +32,5 @@ export default {
 
 <style>
 /*每个页面公共css */
+@import "./wxcomponents/common/index.wxss";
 </style>

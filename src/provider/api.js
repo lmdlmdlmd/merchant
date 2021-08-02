@@ -34,6 +34,7 @@ Api.prototype = {
 		})
 
 	},
+	
 	request(method, url, options = {}, mask = true) {
 		let _url = url;
 		if (/^\/?([\w-]+\/?)+(\?(\w+(=.*)?&?)+)?$/.test(_url)) {
@@ -137,7 +138,7 @@ function errorHandler(err, url) {
 					toast.text(key && temp.data[key][0] || temp.message);
 				}
 			} else {
-				toast.text(temp.message);
+				toast.text(temp.message || '操作失败');
 			}
 		}
 	}

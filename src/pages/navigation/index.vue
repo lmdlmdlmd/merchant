@@ -10,8 +10,8 @@
           <text class="title">{{ items.name }}</text>
           <view class="nav_body">
             <view
-              v-for="(item, index) of items.child"
-              :key="index"
+              v-for="(item, i) of items.child"
+              :key="i"
               class="nav_box"
               @click="handleClick(item.path)"
             >
@@ -112,6 +112,7 @@ export default {
       uni.navigateTo({
         url: path,
       });
+      console.log("no error");
     },
   },
 };

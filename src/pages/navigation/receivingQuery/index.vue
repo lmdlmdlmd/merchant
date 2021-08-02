@@ -12,6 +12,16 @@
           <view class="selling_period">
             <p class="se_title">选择查询日期</p>
             <van-row class="data_select">
+              <van-col span="11" class="timebox">
+                <input
+                  class="timeInput"
+                  @click="hanleUpdateDate"
+                  :value="dateStart"
+                />
+                <van-icon name="notes-o" class="input_icon" />
+              </van-col>
+            </van-row>
+            <!-- <van-row class="data_select">
               <van-col>
                 <van-field
                   readonly
@@ -26,7 +36,7 @@
                   class="startData"
                 />
               </van-col>
-            </van-row>
+            </van-row> -->
           </view>
           <view class="data_select_box">
             <view class="se_number">
@@ -61,6 +71,16 @@
           <view class="selling_period">
             <p class="se_title">选择查询日期</p>
             <van-row class="data_select">
+              <van-col span="11" class="timebox">
+                <input
+                  class="timeInput"
+                  @click="hanleUpdateDate"
+                  :value="dateStart"
+                />
+                <van-icon name="notes-o" class="input_icon" />
+              </van-col>
+            </van-row>
+            <!-- <van-row class="data_select">
               <van-col>
                 <van-field
                   readonly
@@ -75,19 +95,21 @@
                   class="startData"
                 />
               </van-col>
-            </van-row>
+            </van-row> -->
           </view>
           <view class="data_select_box">
             <view class="se_number">
-              <van-row class="data_select">
-                <van-col span="12">
-                  <span class="mark bg_org"></span>
-                  <text class="mark_title">收款金额</text>
-                </van-col>
-                <van-col span="12">
-                  <p class="number text_right">¥500，000.00</p>
-                </van-col></van-row
-              >
+              <view class="data_select">
+                <van-row>
+                  <van-col span="12">
+                    <span class="mark bg_org"></span>
+                    <text class="mark_title">收款金额</text>
+                  </van-col>
+                  <van-col span="12">
+                    <p class="number text_right">¥500，000.00</p>
+                  </van-col></van-row
+                >
+              </view>
             </view>
           </view>
           <view class="con_box">
@@ -99,20 +121,23 @@
               >
                 <view class="da_con_body">
                   <p class="da_title">{{ item.date }}</p>
-                  <van-row class="da_sn mato_20">
-                    <van-col span="20">单 号：{{ item.sn }}</van-col>
-                    <van-col
-                      span="4"
-                      class="more_img_box"
-                      @click="handleDetail(item.id)"
-                    >
-                      <img
-                        class="more_img"
-                        src="../../../static/img/icon/icon_call.png"
-                        alt="navigation"
-                      />
-                    </van-col>
-                  </van-row>
+                  <view class="da_sn mato_20">
+                    <van-row>
+                      <van-col span="20">单 号：{{ item.sn }}</van-col>
+                      <van-col span="4">
+                        <view
+                          class="more_img_box"
+                          @click="handleDetail(item.id)"
+                        >
+                          <img
+                            class="more_img"
+                            src="../../../static/img/icon/icon_call.png"
+                            alt="navigation"
+                          />
+                        </view>
+                      </van-col>
+                    </van-row>
+                  </view>
                   <p class="da_sn">销售金额：{{ item.salesAmount }}</p>
                   <p class="da_sn">交款金额：{{ item.returnsAmount }}</p>
                 </view>
@@ -122,15 +147,19 @@
         </van-tab>
       </van-tabs>
     </view>
-    <van-popup v-model="show" position="bottom" :style="{ height: '30%' }">
+    <van-popup
+      v-bind:show="show"
+      position="bottom"
+      custom-style="width:100%;height:40%;"
+    >
       <view>
         <van-datetime-picker
-          v-model="currentDate"
+          :value="currentDate"
           type="date"
-          title=""
+          title="请选择日期"
           :min-date="minDate"
           :max-date="maxDate"
-          visible-item-count="3"
+          visible-item-count="6"
           confirm-button-text="确定"
           cancel-button-text="取消"
           :formatter="formatter"
@@ -157,9 +186,9 @@ export default {
       active: 0,
       show: false,
       dateStart: "",
-      minDate: new Date(1900, 0, 1),
-      maxDate: new Date(2999, 10, 1),
-      currentDate: new Date(),
+      minDate: new Date(1900, 0, 1).getTime(),
+      maxDate: new Date(2999, 10, 1).getTime(),
+      currentDate: new Date().getTime(),
       cloums: [
         { title: "现金金额", money: "100.00" },
         { title: "微信支付", money: "100.00" },
@@ -199,11 +228,16 @@ export default {
         url: `/pages/navigation/receivingQuery/detail?id=${id}`,
       });
     },
+    hanleUpdateDate() {
+      this.show = true;
+    },
     onConfirm(value, index) {
-      const da = value;
-      var year = da.getFullYear() + "年";
-      var month = da.getMonth() + 1 + "月";
-      var date = da.getDate() + "日";
+      // const da = value;
+      const { detail: da } = value || {};
+      const data = new Date(da);
+      var year = data.getFullYear() + "年";
+      var month = data.getMonth() + 1 + "月";
+      var date = data.getDate() + "日";
       this.dateStart = [year, month, date].join("-");
       //查询数据...
       this.show = false;
@@ -313,6 +347,21 @@ export default {
       padding-bottom: 10px;
     }
   }
+  .timeInput {
+    overflow: revert;
+    padding: 3px;
+    border-radius: 3px;
+    color: rgba(0, 0, 0, 0.85);
+    font-size: 12px;
+    text-indent: 3px;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+  }
+  .input_icon {
+    position: relative;
+    top: -26px;
+    right: -116px;
+    color: rgba(0, 0, 0, 0.5);
+  }
   .text_right {
     text-align: right;
   }
@@ -373,5 +422,9 @@ export default {
 /deep/.van-tabs--line .van-tabs__wrap {
   height: 40px;
   border-bottom: 1px solid #eeeeee;
+}
+/deep/.data_select .van-field__control {
+  font-size: 12px;
+  text-indent: 3px;
 }
 </style>

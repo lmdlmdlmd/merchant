@@ -11,52 +11,92 @@
         <view class="orderNoBox">
           <view class="sn_title">单号</view>
           <view class="sn">XSDH-202103010001</view>
-          <van-row class="data_select">
-            <van-col span="6" class="title">商铺/品牌</van-col>
-            <van-col span="18" class="val">DS01-01-04-001/喜临门床垫</van-col>
-          </van-row>
-          <van-row class="data_select">
-            <van-col span="6" class="title">销售金额</van-col>
-            <van-col span="18" class="val co_black">¥1000.00</van-col>
-          </van-row>
-          <van-row class="data_select">
-            <van-col span="6" class="title">应收金额</van-col>
-            <van-col span="18" class="val co_black">¥1000.00</van-col>
-          </van-row>
-          <van-row class="data_select newTime">
-            <van-col span="6" class="title new_title">本次交款金额</van-col>
-            <van-col span="18" class="val co_black">¥800.00</van-col>
-          </van-row>
+          <view class="data_select">
+            <van-row>
+              <van-col span="6"> <view class="title">商铺/品牌</view></van-col>
+              <van-col span="18"
+                ><view class="val">DS01-01-04-001/喜临门床垫</view></van-col
+              >
+            </van-row>
+          </view>
+          <view class="data_select">
+            <van-row>
+              <van-col span="6"><view class="title">销售金额</view></van-col>
+              <van-col span="18"
+                ><view class="val co_black">¥1000.00</view></van-col
+              >
+            </van-row>
+          </view>
+          <view class="data_select">
+            <van-row>
+              <van-col span="6"><view class="title">应收金额</view></van-col>
+              <van-col span="18"
+                ><view class="val co_black">¥1000.00</view></van-col
+              >
+            </van-row>
+          </view>
+          <view class="data_select newTime">
+            <van-row>
+              <van-col span="6"
+                ><view class="title new_title">本次交款金额</view></van-col
+              >
+              <van-col span="18"
+                ><view class="val co_black">¥800.00</view></van-col
+              >
+            </van-row>
+          </view>
         </view>
       </view>
       <view class="orderNo">
         <view class="orderNoBox">
           <view class="record">支付记录</view>
           <view class="re_sn">信用卡</view>
-          <van-row class="re_data_select">
-            <van-col span="16" class="re_value">2021/04/07 17:32</van-col>
-            <van-col span="8" class="re_val_money">手续费：5元</van-col>
-          </van-row>
-
-          <van-row class="re_card re_data_select">
-            <van-col span="16" class="value_sn">卡号：1456*******732</van-col>
-            <van-col span="8" class="val_price">¥100.00</van-col>
-          </van-row>
+          <view class="re_data_select">
+            <van-row>
+              <van-col span="16"
+                ><view class="re_value">04/07 17:32</view></van-col
+              >
+              <van-col span="8"
+                ><view class="re_val_money">手续费：5元</view></van-col
+              >
+            </van-row>
+          </view>
+          <view class="re_card re_data_select">
+            <van-row>
+              <van-col span="16"
+                ><view class="value_sn">卡号：1456*******732</view></van-col
+              >
+              <van-col span="8"><view class="val_price">¥100.00</view></van-col>
+            </van-row>
+          </view>
           <view class="re_sn">支付宝</view>
-          <van-row class="re_data_select">
-            <van-col span="16" class="re_value">2021/04/07 17:32</van-col>
-            <van-col span="8" class="re_val_money">手续费：5元</van-col>
-          </van-row>
-
-          <van-row class="re_data_select re_card">
-            <van-col span="16" class="value_sn">账号：1456*******732</van-col>
-            <van-col span="8" class="val_price">¥100.00</van-col>
-          </van-row>
+          <view class="re_data_select">
+            <van-row>
+              <van-col span="16">
+                <view class="re_value">04/07 17:32</view></van-col
+              >
+              <van-col span="8"
+                ><view class="re_val_money">手续费：5元</view></van-col
+              >
+            </van-row>
+          </view>
+          <view class="re_data_select re_card">
+            <van-row>
+              <van-col span="16"
+                ><view class="value_sn">账号：1456*******732</view></van-col
+              >
+              <van-col span="8"><view class="val_price">¥100.00</view></van-col>
+            </van-row>
+          </view>
           <view class="re_sn">现金</view>
-          <van-row class="re_data_select re_card">
-            <van-col span="16" class="re_value">2021/04/07 17:32</van-col>
-            <van-col span="8" class="val_price">¥100.00</van-col>
-          </van-row>
+          <view class="re_data_select re_card">
+            <van-row>
+              <van-col span="16"
+                ><view class="re_value">04/07 17:32</view></van-col
+              >
+              <van-col span="8"><view class="val_price">¥100.00</view></van-col>
+            </van-row>
+          </view>
         </view></view
       >
     </view>
@@ -161,4 +201,7 @@ export default {
 }
 </style>
 <style lang="less">
+/deep/ .van-tabs__line {
+  bottom: 8px !important;
+}
 </style>

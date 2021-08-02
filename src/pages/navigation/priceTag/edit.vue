@@ -13,22 +13,34 @@
           <p class="ci_title">基本信息</p>
           <view class="ci_con">
             <view class="ci_con_box">
-              <van-row class="info">
-                <van-col span="12">商铺</van-col>
-                <van-col span="12" class="info_right">{{ info.name }}</van-col>
-              </van-row>
-              <van-row class="info">
-                <van-col span="12">主营品牌</van-col>
-                <van-col span="12" class="info_right">{{
-                  info.brandid_s
-                }}</van-col>
-              </van-row>
-              <van-row class="info">
-                <van-col span="12">商户</van-col>
-                <van-col span="12" class="info_right">{{
-                  info.merchatid_s
-                }}</van-col>
-              </van-row>
+              <view class="info">
+                <van-row>
+                  <van-col span="12">商铺</van-col>
+                  <van-col span="12"
+                    ><view class="info_right">{{ info.name }}</view></van-col
+                  >
+                </van-row>
+              </view>
+              <view class="info">
+                <van-row>
+                  <van-col span="12">主营品牌</van-col>
+                  <van-col span="12"
+                    ><view class="info_right">{{
+                      info.brandid_s
+                    }}</view></van-col
+                  >
+                </van-row>
+              </view>
+              <view class="info">
+                <van-row>
+                  <van-col span="12">商户</van-col>
+                  <van-col span="12"
+                    ><view class="info_right">{{
+                      info.merchid_s
+                    }}</view></van-col
+                  >
+                </van-row>
+              </view>
             </view>
           </view>
           <view class="operation_goods">
@@ -52,24 +64,34 @@
             <view class="ci_con">
               <view class="ci_con_box">
                 <p class="good_name">{{ item.name }}</p>
-                <van-row class="info">
-                  <van-col span="12">金额</van-col>
-                  <van-col span="12" class="info_right">
-                    ¥{{ item.price }} * {{ item.num }}</van-col
-                  >
-                </van-row>
-                <van-row class="info">
-                  <van-col span="12">规格</van-col>
-                  <van-col span="12" class="info_right">{{
-                    item.specification
-                  }}</van-col>
-                </van-row>
-                <van-row class="info">
-                  <van-col span="12">型号</van-col>
-                  <van-col span="12" class="info_right">{{
-                    item.model
-                  }}</van-col>
-                </van-row>
+                <view class="info">
+                  <van-row>
+                    <van-col span="12">金额</van-col>
+                    <van-col span="12">
+                      <view class="info_right">
+                        ¥{{ item.price }} * {{ item.num }}</view
+                      ></van-col
+                    >
+                  </van-row>
+                </view>
+                <view class="info">
+                  <van-row>
+                    <van-col span="12">规格</van-col>
+                    <van-col span="12"
+                      ><view class="info_right">{{
+                        item.specification
+                      }}</view></van-col
+                    >
+                  </van-row>
+                </view>
+                <view class="info">
+                  <van-row>
+                    <van-col span="12">型号</van-col>
+                    <van-col span="12"
+                      ><view class="info_right">{{ item.model }}</view></van-col
+                    >
+                  </van-row>
+                </view>
               </view>
               <view class="opeBody">
                 <Operate
@@ -109,7 +131,7 @@
       @isShow="isSelectGoodShow = false"
       @handleSelectGoods="handleSelectGoods"
     />
-    <van-dialog v-model="show" :showConfirmButton="false">
+    <van-dialog v-bind:show="show" use-slot :showConfirmButton="false">
       <view class="dialog_box">
         <image
           class="warning"
@@ -146,7 +168,18 @@ export default {
       isSelectGoddShow: false,
       show: false,
       delId: "",
-      goods: [],
+      goods: [
+        {
+          name: "1111",
+          num: "2",
+          price: "222",
+          specification: "212121",
+          model: "21212",
+          number: "21",
+          type: "222",
+          commoid: "2",
+        },
+      ],
       anchor: ["基本信息", "商品信息"],
       isSelectGoodShow: false,
     };
@@ -158,7 +191,7 @@ export default {
       this.info = {
         name: shop && shop.name,
         brandid_s: shop.brandid_s,
-        merchatid_s: shop.merchatid_s,
+        merchid_s: shop.merchid_s,
       };
       console.log(this.info, "info");
     }, 500);
@@ -321,42 +354,11 @@ export default {
     text-align: right;
     margin-top: 12px;
     width: calc(100% - 20px);
-    .determine_goods,
-    .del_goods {
-      font-size: 14px;
-      padding: 6px 16px;
-      border-radius: 20px;
-      height: 32px;
-      border: none;
-      color: #fff;
-    }
-    .determine_goods {
-      background: #1890ff;
-    }
-    .del_goods {
-      width: auto;
-      background: #e02020;
-    }
   }
   .sub_box {
     text-align: right;
     margin: 12px auto 0;
     width: calc(100% - 20px);
-    .determine {
-      color: #000;
-      background: #dddddd;
-      border: none;
-      outline: none;
-      padding: 3px 23px;
-      border-radius: 4px;
-      margin-right: 22px;
-      height: 32px;
-    }
-    .determine {
-      background: #1890ff;
-      margin-right: 0;
-      color: #fff;
-    }
   }
 }
 .dialog_box {
@@ -397,5 +399,57 @@ export default {
 <style lang="less">
 /deep/.van-dialog {
   width: 260px;
+}
+/deep/ .determine_goods .van-button {
+  font-size: 14px;
+  padding: 6px 16px;
+  border-radius: 20px;
+  height: 32px;
+  border: none;
+  color: #fff;
+  background: #1890ff;
+}
+/deep/ .del_goods .van-button {
+  font-size: 14px;
+  padding: 6px 16px;
+  border-radius: 20px;
+  height: 32px;
+  border: none;
+  color: #fff;
+  width: auto;
+  background: #e02020;
+}
+// /deep/ .determine .van-button {
+//   color: #000;
+//   background: #dddddd;
+//   border: none;
+//   outline: none;
+//   padding: 3px 23px;
+//   border-radius: 4px;
+//   margin-right: 22px;
+//   height: 32px;
+//   background: #1890ff;
+//   margin-right: 0;
+//   color: #fff;
+// }
+/deep/ .reset .van-button {
+  color: rgba(0, 0, 0, 0.5);
+  background: #dddddd;
+  border: none;
+  outline: none;
+  padding: 3px 23px;
+  border-radius: 4px;
+  margin-right: 22px;
+  height: 32px;
+}
+/deep/ .determine .van-button {
+  border: none;
+  outline: none;
+  padding: 3px 23px;
+  border-radius: 4px;
+  height: 32px;
+  background: #1890ff;
+  margin-right: 0px;
+  color: #fff;
 }
 </style>

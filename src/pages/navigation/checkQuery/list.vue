@@ -4,73 +4,95 @@
       <view class="orderBox">
         <zz-empty v-if="!dataSource.length" title="还没有账单哦～"></zz-empty>
         <view v-for="(item, index) of dataSource" :key="index" class="orderDiv">
-          <van-row class="dataHeader">
-            <van-col span="18" class="order_title"
-              >对账单号：<text class="sn">{{ item.sn }}</text></van-col
-            >
-            <van-col span="6" class="tel_right">
-              <span
-                class="mark"
-                :style="{
-                  background: item.status == 1 ? '#ff4c0f' : '#52C41A',
-                }"
-              ></span>
-              <text class="order_type">{{ handleStatus(item.status) }}</text>
-            </van-col>
-          </van-row>
+          <view class="dataHeader">
+            <van-row>
+              <van-col span="18"
+                ><view class="order_title"
+                  >对账单号：<text class="sn">{{ item.sn }}</text></view
+                ></van-col
+              >
+              <van-col span="6">
+                <view class="tel_right">
+                  <span
+                    class="mark"
+                    :style="{
+                      background: item.status == 1 ? '#ff4c0f' : '#52C41A',
+                    }"
+                  ></span>
+                  <text class="order_type">{{
+                    handleStatus(item.status)
+                  }}</text></view
+                >
+              </van-col>
+            </van-row>
+          </view>
           <!-- :class="isShow ? 'shadow' : ''" -->
-          <van-row class="dataCon">
-            <van-col span="6" class="lavelBox"
-              ><p class="lavel">对账日期</p>
-              <p class="val">{{ item.checkDate }}</p></van-col
-            >
-            <van-col span="6" class="lavelBox"
-              ><p class="lavel">货款截止日期</p>
-              <p class="val">{{ item.expirationDate }}</p></van-col
-            >
-            <van-col span="6" class="lavelBox"
-              ><p class="lavel">实返金额</p>
-              <p class="val">{{ item.money }}</p></van-col
-            >
-            <van-col span="6" class="lavelBox moreBox">
-              <van-dropdown-menu>
-                <van-dropdown-item title="展开" ref="item">
-                  <view class="moreBody">
-                    <van-row class="moreDiv">
-                      <van-col span="8">
-                        <p class="lavel">货款金额</p>
-                        <p class="val">¥{{ item.loanAmount }}</p>
-                      </van-col>
-                      <van-col span="8">
-                        <p class="lavel">扣费金额</p>
-                        <p class="val">¥{{ item.deductionAmount }}</p>
-                      </van-col>
-                      <van-col span="8">
-                        <p class="lavel">货款金额</p>
-                        <p class="val">¥{{ item.refundAmount }}</p>
-                      </van-col>
-                    </van-row>
-                    <van-row class="moreDiv">
-                      <van-col span="8">
-                        <p class="lavel">退货金额</p>
-                        <p class="val">¥{{ item.returnsAmount }}</p>
-                      </van-col>
-                      <van-col span="8">
-                        <p class="lavel">费用金额</p>
-                        <p class="val">¥{{ item.costAmount }}</p>
-                      </van-col>
-                      <van-col span="8">
-                        <p class="lavel">垫付金额</p>
-                        <p class="val">¥{{ item.paymentAmount }}</p>
-                      </van-col>
-                    </van-row>
-                  </view>
-                </van-dropdown-item>
-              </van-dropdown-menu>
-              <!-- <text class="more">明细</text>
+          <view class="dataCon">
+            <van-row>
+              <van-col span="6"
+                ><view class="lavelBox"
+                  ><p class="lavel">对账日期</p>
+                  <p class="val">{{ item.checkDate }}</p></view
+                ></van-col
+              >
+              <van-col span="6"
+                ><view class="lavelBox"
+                  ><p class="lavel">货款截止日期</p>
+                  <p class="val">{{ item.expirationDate }}</p></view
+                ></van-col
+              >
+              <van-col span="6"
+                ><view class="lavelBox"
+                  ><p class="lavel">实返金额</p>
+                  <p class="val">{{ item.money }}</p></view
+                ></van-col
+              >
+              <van-col span="6">
+                <view class="lavelBox moreBox">
+                  <van-dropdown-menu>
+                    <van-dropdown-item title="展开" ref="item">
+                      <view class="moreBody">
+                        <view class="moreDiv">
+                          <van-row>
+                            <van-col span="8">
+                              <p class="lavel">货款金额</p>
+                              <p class="val">¥{{ item.loanAmount }}</p>
+                            </van-col>
+                            <van-col span="8">
+                              <p class="lavel">扣费金额</p>
+                              <p class="val">¥{{ item.deductionAmount }}</p>
+                            </van-col>
+                            <van-col span="8">
+                              <p class="lavel">货款金额</p>
+                              <p class="val">¥{{ item.refundAmount }}</p>
+                            </van-col>
+                          </van-row>
+                        </view>
+                        <view class="moreDiv">
+                          <van-row>
+                            <van-col span="8">
+                              <p class="lavel">退货金额</p>
+                              <p class="val">¥{{ item.returnsAmount }}</p>
+                            </van-col>
+                            <van-col span="8">
+                              <p class="lavel">费用金额</p>
+                              <p class="val">¥{{ item.costAmount }}</p>
+                            </van-col>
+                            <van-col span="8">
+                              <p class="lavel">垫付金额</p>
+                              <p class="val">¥{{ item.paymentAmount }}</p>
+                            </van-col>
+                          </van-row>
+                        </view>
+                      </view>
+                    </van-dropdown-item>
+                  </van-dropdown-menu>
+                  <!-- <text class="more">明细</text>
               <van-icon class="arrow-down" name="arrow-down" /> -->
-            </van-col>
-          </van-row>
+                </view>
+              </van-col>
+            </van-row>
+          </view>
         </view>
       </view>
     </view>
@@ -310,5 +332,8 @@ export default {
 }
 /deep/.van-dropdown-item__content {
   padding-bottom: 20px;
+}
+/deep/ .van-tabs__line {
+  bottom: 8px !important;
 }
 </style>

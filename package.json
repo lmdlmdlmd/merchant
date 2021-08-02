@@ -58,6 +58,7 @@
     "@dcloudio/uni-quickapp-webview": "^2.0.0-31820210406002",
     "@dcloudio/uni-stat": "^2.0.0-31820210406002",
     "@vant/area-data": "^1.1.1",
+    "@vant/weapp": "^1.7.1",
     "@vue/shared": "^3.0.0",
     "core-js": "^3.6.5",
     "flyio": "^0.6.2",
@@ -66,7 +67,6 @@
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "regenerator-runtime": "^0.12.1",
-    "vant": "^2.12.15",
     "vue": "^2.6.11",
     "vuex": "^3.2.0"
   },
@@ -102,5 +102,17 @@
   ],
   "uni-app": {
     "scripts": {}
-  }
+  },
+  "description": "------",
+  "main": "babel.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lmdlmdlmd/merchant.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lmdlmdlmd/merchant/issues"
+  },
+  "homepage": "https://github.com/lmdlmdlmd/merchant#readme"
 }

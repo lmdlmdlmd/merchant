@@ -9,28 +9,34 @@
       @click-left1="isSelectGoodShow = true"
     ></zz-nav-bar> -->
     <view class="header">
-      <van-row class="heaser_box">
-        <van-col span="6">
-          <image
-            @click="handleBack"
-            class="back"
-            src="../../../static/img/icon/icon-back-black.png"
-          ></image>
-          <image
-            @click="handleSelectGoodShow"
-            class="other"
-            src="../../../static/img/icon/screening.png"
-          ></image>
-        </van-col>
-        <van-col span="12" class="header_title"> 商品管理 </van-col>
-        <van-col span="6" class="header_right" @click="handleAddGoods('-1')">
-          <image
-            class="right-icon"
-            src="../../../static/img/icon/add.png"
-          ></image>
-          <span>新增商品</span>
-        </van-col>
-      </van-row>
+      <view class="heaser_box">
+        <van-row>
+          <van-col span="6">
+            <image
+              @click="handleBack"
+              class="back"
+              src="../../../static/img/icon/icon-back-black.png"
+            ></image>
+            <image
+              @click="handleSelectGoodShow"
+              class="other"
+              src="../../../static/img/icon/screening.png"
+            ></image>
+          </van-col>
+          <van-col span="12"
+            ><view class="header_title"> 商品管理 </view></van-col
+          >
+          <van-col span="6"
+            ><view class="header_right" @click="handleAddGoods('-1')">
+              <image
+                class="right-icon"
+                src="../../../static/img/icon/add.png"
+              ></image>
+              <span>新增商品</span></view
+            >
+          </van-col>
+        </van-row>
+      </view>
     </view>
     <view class="content">
       <view class="searchBox">
@@ -47,64 +53,79 @@
           ></image>
         </view>
       </view>
-      <mescroll-uni
-        @down="downCallback"
-        @up="upCallback"
-        :top="top"
-        @init="scroll = $event"
-        class="dataList"
-      >
-        <view
-          class="deposit_info"
-          v-for="(item, index) of list.data"
-          :key="index"
+      <view style="margintop: -20px">
+        <mescroll-uni
+          @down="downCallback"
+          @up="upCallback"
+          :top="top"
+          :up="upOption"
+          @init="scroll = $event"
+          class="dataList"
         >
-          <!-- <p class="ci_title" v-show="index == 0">商品信息</p> -->
+          <view
+            class="deposit_info"
+            v-for="(item, index) of list.data"
+            :key="index"
+          >
+            <!-- <p class="ci_title" v-show="index == 0">商品信息</p> -->
 
-          <view class="ci_con">
-            <view class="ci_con_box">
-              <p class="good_name">{{ item.name }}</p>
-              <van-row class="info">
-                <van-col span="12">金额</van-col>
-                <van-col span="12" class="info_right">
-                  ¥{{ item.price }}</van-col
-                >
-              </van-row>
-              <van-row class="info">
-                <van-col span="12">规格</van-col>
-                <van-col span="12" class="info_right">{{
-                  item.specification
-                }}</van-col>
-              </van-row>
-              <van-row class="info">
-                <van-col span="12">型号</van-col>
-                <van-col span="12" class="info_right">{{ item.model }}</van-col>
-              </van-row>
+            <view class="ci_con">
+              <view class="ci_con_box">
+                <p class="good_name">{{ item.name }}</p>
+                <view class="info">
+                  <van-row>
+                    <van-col span="12">金额</van-col>
+                    <van-col span="12">
+                      <view class="info_right">
+                        ¥{{ item.price }}</view
+                      ></van-col
+                    >
+                  </van-row>
+                </view>
+                <view class="info">
+                  <van-row>
+                    <van-col span="12">规格</van-col>
+                    <van-col span="12">
+                      <view class="info_right">{{
+                        item.specification
+                      }}</view></van-col
+                    >
+                  </van-row>
+                </view>
+                <view class="info">
+                  <van-row>
+                    <van-col span="12">型号</van-col>
+                    <van-col span="12"
+                      ><view class="info_right">{{ item.model }}</view></van-col
+                    >
+                  </van-row>
+                </view>
+              </view>
+            </view>
+            <view class="good_opr">
+              <van-button
+                type="primary"
+                class="reset_goods"
+                @click="handleAddGoods(item.id)"
+                >修改商品</van-button
+              >
+              <van-button
+                type="primary"
+                class="determine_goods"
+                @click="handleDelete(item.id)"
+                >删除商品</van-button
+              >
             </view>
           </view>
-          <view class="good_opr">
-            <van-button
-              type="primary"
-              class="reset_goods"
-              @click="handleAddGoods(item.id)"
-              >修改商品</van-button
-            >
-            <van-button
-              type="primary"
-              class="determine_goods"
-              @click.stop="handleDelete(item.id)"
-              >删除商品</van-button
-            >
-          </view>
-        </view>
-      </mescroll-uni>
+        </mescroll-uni>
+      </view>
       <view class="footer"> <Footer active="navigation"></Footer></view>
       <!-- <selectGoods
         :showGood="isSelectGoodShow"
         @isShow="isSelectGoodShow = false"
       /> -->
       <!-- @goods="handleSelectGood" -->
-      <van-dialog v-model="show" :showConfirmButton="false">
+      <van-dialog use-slot v-bind:show="show" :showConfirmButton="false">
         <view class="dialog_box">
           <image
             class="warning"
@@ -144,6 +165,16 @@ export default {
       isSelectGoodShow: false,
       show: false,
       delId: "",
+      upOption: {
+        auto: true,
+        textNoMore: "不要再拉了，已经到底了~",
+        empty: {
+          use: true,
+          icon: "../../../static/img/imgs/no_data.png",
+          tip: "很遗憾，暂无数据~",
+          btnText: "新增申请",
+        },
+      },
     };
   },
   onLoad() {},
@@ -268,6 +299,7 @@ export default {
     height: 32px;
     text-indent: 19px;
     font-size: 14px;
+    padding-left: 10px;
   }
   .search_img {
     position: absolute;
@@ -275,38 +307,15 @@ export default {
     height: 13px;
     top: 9px;
     right: 22px;
+    z-index: 999;
   }
   .good_opr {
     margin-top: 12px;
     text-align: right;
-    .reset_goods,
-    .determine_goods {
-      background: rgba(24, 144, 255, 0.1);
-      border: 1px solid #1890ff;
-      color: #1890ff;
-      font-size: 14px;
-      padding: 6px 16px;
-      border-radius: 20px;
-      margin-right: 22px;
-      height: 32px;
-    }
-    .determine_goods {
-      background: #1890ff;
-      color: #fff;
-      border: none;
-      margin-right: 0px;
-    }
   }
   .good_opr {
     margin: 12px auto 0;
     width: calc(100% - 20px);
-    .reset_goods,
-    .determine_goods {
-      background: #fff;
-    }
-    .determine_goods {
-      background: #e02020;
-    }
   }
   .good_name {
     font-size: 12px;
@@ -463,5 +472,31 @@ export default {
   color: rgba(0, 0, 0, 0.65);
   font-size: 14px;
   // display: none;
+}
+/deep/ .reset_goods .van-button {
+  // background: rgba(24, 144, 255, 0.1);
+  border: 1px solid #1890ff;
+  color: #1890ff;
+  font-size: 14px;
+  padding: 6px 16px;
+  border-radius: 20px;
+  margin-right: 22px;
+  height: 32px;
+  background: #fff;
+}
+/deep/ .determine_goods .van-button {
+  // background: rgba(24, 144, 255, 0.1);
+  border: 1px solid #1890ff;
+  // color: #1890ff;
+  font-size: 14px;
+  padding: 6px 16px;
+  border-radius: 20px;
+  margin-right: 22px;
+  height: 32px;
+  // background: #1890ff;
+  color: #fff;
+  border: none;
+  margin-right: 0px;
+  background: #e02020;
 }
 </style>

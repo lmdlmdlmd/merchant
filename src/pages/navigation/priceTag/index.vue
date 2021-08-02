@@ -1,26 +1,34 @@
 <template>
   <view class="priceTagBox">
     <view class="header">
-      <van-row class="heaser_box">
-        <van-col span="6">
-          <image
-            @click="handleBack"
-            class="back"
-            src="../../../static/img/icon/icon-back-black.png"
-          ></image>
-        </van-col>
-        <van-col span="12" class="header_title">价签打印管理 </van-col>
-        <van-col span="6" class="header_right" @click="handleEdiTag('-1')">
-          <image
-            class="right-icon"
-            src="../../../static/img/icon/add.png"
-          ></image>
-          <span>新增申请</span>
-        </van-col>
-      </van-row>
+      <view class="heaser_box">
+        <van-row>
+          <van-col span="6">
+            <image
+              @click="handleBack"
+              class="back"
+              src="../../../static/img/icon/icon-back-black.png"
+            ></image>
+          </van-col>
+          <van-col span="12"
+            ><view class="header_title">价签打印管理</view>
+          </van-col>
+          <van-col span="6">
+            <view class="header_right" @click="handleEdiTag('-1')">
+              <image
+                class="right-icon"
+                src="../../../static/img/icon/add.png"
+              ></image>
+              <span>新增申请</span>
+            </view>
+          </van-col>
+        </van-row>
+      </view>
     </view>
     <view class="content">
-      <zz-tabs :options="tabs" :active.sync="active"></zz-tabs>
+      <view class="priceTabs">
+        <zz-tabs :options="tabs" :active.sync="active"></zz-tabs>
+      </view>
       <!-- <van-tabs v-model="active" color="#0091FF">
         <van-tab :title="item.title" v-for="(item, index) of tabs" :key="index">
           <List :active="active" />
@@ -41,40 +49,52 @@
         >
           <view class="ci_con">
             <view class="ci_con_box">
-              <van-row class="info">
-                <van-col span="12">审批状态</van-col>
-                <van-col span="12" class="info_right">
-                  {{ item.approvestatus_s }}</van-col
-                >
-              </van-row>
-              <van-row class="info">
-                <van-col span="12">价签打印单号</van-col>
-                <van-col span="12" class="info_right">{{ item.code }}</van-col>
-              </van-row>
-              <van-row class="info">
-                <van-col span="12">商品数量</van-col>
-                <van-col span="12" class="info_right">{{ item.num }}</van-col>
-              </van-row>
+              <view class="info">
+                <van-row>
+                  <van-col span="12">审批状态</van-col>
+                  <van-col span="12">
+                    <view class="info_right">
+                      {{ item.approvestatus_s }}</view
+                    ></van-col
+                  >
+                </van-row>
+              </view>
+              <view class="info">
+                <van-row>
+                  <van-col span="12">价签打印单号</van-col>
+                  <van-col span="12"
+                    ><view class="info_right">{{ item.code }}</view></van-col
+                  >
+                </van-row>
+              </view>
+              <view class="info">
+                <van-row>
+                  <van-col span="12">商品数量</van-col>
+                  <van-col span="12"
+                    ><view class="info_right">{{ item.num }}</view></van-col
+                  >
+                </van-row>
+              </view>
             </view>
-          </view>
-          <view class="good_opr">
-            <van-button
-              v-show="item.approvestatus !== 2"
-              type="primary"
-              class="reset_goods"
-              @click="handleSelectGoodShow(item)"
-              >修改价签</van-button
-            >
-            <van-button
-              type="primary"
-              class="determine_goods"
-              @click.stop="handleDelete(item.id)"
-              >删除价签</van-button
-            >
+            <view class="good_opr">
+              <van-button
+                v-show="item.approvestatus !== 2"
+                type="primary"
+                class="reset_goods"
+                @click="handleSelectGoodShow(item)"
+                >修改价签</van-button
+              >
+              <van-button
+                type="primary"
+                class="determine_goods"
+                @click.stop="handleDelete(item.id)"
+                >删除价签</van-button
+              >
+            </view>
           </view>
         </view>
       </mescroll-uni>
-      <van-dialog v-model="show" :showConfirmButton="false">
+      <van-dialog v-bind:show="show" use-slot :showConfirmButton="false">
         <view class="dialog_box">
           <image
             class="warning"
@@ -279,34 +299,10 @@ export default {
   .good_opr {
     margin-top: 12px;
     text-align: right;
-    .reset_goods,
-    .determine_goods {
-      background: rgba(24, 144, 255, 0.1);
-      border: 1px solid #1890ff;
-      color: #1890ff;
-      font-size: 14px;
-      padding: 6px 16px;
-      border-radius: 20px;
-      margin-right: 22px;
-      height: 32px;
-    }
-    .determine_goods {
-      background: #1890ff;
-      color: #fff;
-      border: none;
-      margin-right: 0px;
-    }
   }
   .good_opr {
     margin: 12px auto 0;
     width: calc(100% - 20px);
-    .reset_goods,
-    .determine_goods {
-      background: #fff;
-    }
-    .determine_goods {
-      background: #e02020;
-    }
   }
 }
 .dialog_box {
@@ -398,6 +394,9 @@ export default {
 /deep/.van-dialog {
   width: 260px;
 }
+/deep/ .priceTabs .tabs__content {
+  padding: 10px;
+}
 // /deep/.van-tab {
 //   color: #333333;
 //   font-size: 28upx;
@@ -416,4 +415,28 @@ export default {
 // /deep/.van-tabs--line .van-tabs__wrap {
 //   height: 35px;
 // }
+/deep/ .reset_goods .van-button {
+  background: rgba(24, 144, 255, 0.1);
+  border: 1px solid #1890ff;
+  color: #1890ff;
+  font-size: 14px;
+  padding: 6px 16px;
+  border-radius: 20px;
+  margin-right: 22px;
+  height: 32px;
+  background: #fff;
+}
+
+/deep/ .determine_goods .van-button {
+  background: #e02020;
+  font-size: 14px;
+  padding: 6px 16px;
+  border-radius: 20px;
+  margin-right: 22px;
+  height: 32px;
+  // background: #1890ff;
+  color: #fff;
+  border: none;
+  margin-right: 0px;
+}
 </style>

@@ -10,6 +10,27 @@
       <view class="selling_period">
         <p class="se_title">销售期间</p>
         <van-row class="data_select">
+          <van-col span="10" class="timebox">
+            <input
+              class="timeInput"
+              @click="hanleUpdateDate('start')"
+              :value="dateStart"
+            />
+            <van-icon name="notes-o" class="input_icon" />
+          </van-col>
+          <van-col span="2" class="interval"
+            ><text class="interval_text">至</text></van-col
+          >
+          <van-col span="10" class="timebox">
+            <input
+              class="timeInput"
+              @click="hanleUpdateDate('end')"
+              :value="dateEnd"
+            />
+            <van-icon name="notes-o" class="input_icon" />
+          </van-col>
+        </van-row>
+        <!-- <van-row class="data_select">
           <van-col span="11">
             <van-field
               readonly
@@ -39,7 +60,7 @@
               class="startData"
             />
           </van-col>
-        </van-row>
+        </van-row> -->
       </view>
       <view class="orderBox">
         <zz-empty
@@ -98,15 +119,19 @@
       </view>
       <view class="footer"> <Footer active="navigation"></Footer></view>
     </view>
-    <van-popup v-model="show" position="bottom" :style="{ height: '30%' }">
+    <van-popup
+      v-bind:show="show"
+      position="bottom"
+      custom-style="width:100%;height:40%;"
+    >
       <view>
         <van-datetime-picker
-          v-model="currentDate"
+          :value="currentDate"
           type="date"
-          title=""
+          title="请选择日期"
           :min-date="minDate"
           :max-date="maxDate"
-          visible-item-count="3"
+          visible-item-count="5"
           confirm-button-text="确定"
           cancel-button-text="取消"
           :formatter="formatter"
@@ -142,9 +167,9 @@ export default {
       type: "",
       dateStart: null,
       dateEnd: null,
-      minDate: new Date(1900, 0, 1),
-      maxDate: new Date(2999, 10, 1),
-      currentDate: new Date(),
+      minDate: new Date(1900, 0, 1).getTime(),
+      maxDate: new Date(2999, 10, 1).getTime(),
+      currentDate: new Date().getTime(),
       start: "",
       end: "",
     };
@@ -215,16 +240,21 @@ export default {
       this.show = true;
     },
 
-    onConfirm(value, index) {
-      const da = value;
-      var year = da.getFullYear() + "年";
-      var month = da.getMonth() + 1 + "月";
-      var date = da.getDate() + "日";
+    onConfirm(value) {
+      // const da = value;
+      const { detail: da } = value || {};
+      const data = new Date(da);
+      var year = data.getFullYear() + "年";
+      var month = data.getMonth() + 1 + "月";
+      var date = data.getDate() + "日";
       if (this.type == "start") {
-        this.start = value;
+        // this.dateStart = moment(parseInt(da)).format("YYYY-MM-DD");
+        this.start = da;
         this.dateStart = [year, month, date].join("-");
       } else {
-        this.end = value;
+        this.end = da;
+        // this.dateEnd = moment(parseInt(da)).format("YYYY-MM-DD");
+
         this.dateEnd = [year, month, date].join("-");
       }
       console.log(this.start, this.end);
@@ -296,12 +326,7 @@ export default {
     padding-bottom: 10px;
     margin-top: 10px;
   }
-  .dataHeader {
-    margin: 10px auto 6px;
-    width: calc(100% - 40px);
-    font-size: 14px;
-    color: #000;
-  }
+
   .tel_right {
     text-align: right;
   }
@@ -313,23 +338,9 @@ export default {
     border-radius: 20px;
     margin-right: 8px;
   }
-  .dataCon {
-    font-size: 12px;
+  .file_text {
     color: #1e1e1e;
-    text-align: center;
-    border: 1px solid #eeeeee;
-    margin: 10px auto 6px;
-    width: calc(100% - 20px);
-    padding: 10px 0;
-    border-radius: 6px;
-    .val {
-      margin-top: 7px;
-      color: #9a9a9a;
-    }
-    .lavelBox {
-      text-align: center;
-      // padding-right: 10px;
-    }
+    font-size: 13px;
   }
 }
 
@@ -340,10 +351,69 @@ export default {
   right: 0;
   z-index: 999;
 }
+.data_select {
+  margin-bottom: 8px;
+}
+.timeInput {
+  overflow: revert;
+  padding: 3px;
+  border-radius: 3px;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 12px;
+  text-indent: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+}
+.input_icon {
+  position: relative;
+  top: -26px;
+  right: -116px;
+  color: rgba(0, 0, 0, 0.5);
+}
+.interval {
+  text-align: center;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 12px;
+}
+.interval_text {
+  margin-top: 5px;
+  display: block;
+}
 </style>
 <style lang="less">
 /deep/.data_select .van-field__control {
   font-size: 12px;
   text-indent: 3px;
+}
+/deep/.data_select .van-field__control {
+  font-size: 12px;
+  text-indent: 3px;
+}
+/deep/ .dataHeader .van-row {
+  margin: 10px auto 6px;
+  width: calc(100% - 20px);
+  // padding: 10px 0;
+  font-size: 14px;
+  color: #1e1e1e;
+}
+/deep/ .dataCon .van-row {
+  font-size: 12px;
+  color: #1e1e1e;
+  text-align: center;
+  border: 1px solid #eeeeee;
+  margin: 10px auto 6px;
+  width: calc(100% - 20px);
+  padding: 10px 0;
+  border-radius: 6px;
+  .val {
+    margin-top: 7px;
+    color: #9a9a9a;
+  }
+  .lavelBox {
+    text-align: center;
+    // padding-right: 10px;
+  }
+}
+/deep/ .timebox .van-col {
+  height: 25px;
 }
 </style>

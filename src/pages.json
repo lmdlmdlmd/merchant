@@ -10,15 +10,6 @@
 			}
 		},
 		{
-			"path": "pages/login/index",
-			"style": {
-				"app-plus": {
-					"bounce": "none",
-					"titleNView": false
-				}
-			}
-		},
-		{
 			"path": "pages/home/index",
 			"style": {
 				"navigationBarTextStyle": "white",
@@ -150,9 +141,9 @@
 		"backgroundColor": "#ffffff",
 		"borderStyle": "black",
 		"height": "56px",
-		"fontSize":"10px",
-		"iconWidth": "20px",
-		"iconHeight": "20px",
+		"fontSize":"20px",
+		"iconWidth": "16px",
+		"iconHeight": "16px",
 		"list": [{
 				"text": "首页",
 				"pagePath": "pages/home/index",
@@ -173,10 +164,28 @@
 			}
 		]
 	},
-	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
+	"globalStyle":{
+		"usingComponents":{
+			"van-button": "./wxcomponents/button/index",
+			"van-popup":"./wxcomponents/popup/index",
+			"van-checkbox":"./wxcomponents/checkbox/index",
+			"van-overlay":"./wxcomponents/overlay/index",
+			"van-row": "./wxcomponents/row/index",
+			"van-col": "./wxcomponents/col/index",
+			"van-icon": "./wxcomponents/icon/index",
+			"van-field": "./wxcomponents/field/index",
+			"van-datetime-picker": "./wxcomponents/datetime-picker/index",
+			"van-action-sheet": "./wxcomponents/action-sheet/index",
+			"van-picker": "./wxcomponents/picker/index",
+			"van-tabs": "./wxcomponents/tabs/index",
+			"van-tab": "./wxcomponents/tab/index",
+			"van-dropdown-menu": "./wxcomponents/dropdown-menu/index",
+			"van-dropdown-item": "./wxcomponents/dropdown-item/index",
+			"van-dialog": "./wxcomponents/dialog/index",
+			"van-area": "./wxcomponents/area/index",
+			"van-toast": "./wxcomponents/toast/index",
+			"van-tree-select": "./wxcomponents/tree-select/index",
+			"van-cell-group":"./wxcomponents/cell-group/index"
+		}
 	}
 }

@@ -76,7 +76,7 @@ export default {
   border-bottom: none;
 }
 /deep/.van-tabs__line {
-  bottom: 20px;
+  bottom: 8px;
   width: 40px;
   height: 2px;
 }

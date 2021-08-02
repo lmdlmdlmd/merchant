@@ -7,10 +7,14 @@
     ></zz-nav-bar>
 
     <view class="content">
-      <van-field v-model="phone" placeholder="请输入手机号" />
+      <input
+        type="password"
+        class="input_text"
+        :value="phone"
+        placeholder="请输入手机号"
+      />
       <van-button
         type="primary"
-        :disabled="!phone"
         class="retPassword"
         @click="handleRetPassword()"
         >找回密码</van-button
@@ -45,21 +49,19 @@ export default {
 .content {
   margin: 38px auto;
   width: calc(100% - 60px);
-  .retPassword {
-    width: calc(100% - 30px);
-    margin: 37px auto;
-    height: 32px;
-    background: #1890ff;
-    border-radius: 3px;
-    border: none;
-    outline: none;
-    display: block;
-  }
+
   p {
     color: #1e1e18;
     font-size: 14px;
     margin-top: 20px;
     text-align: right;
+  }
+  .input_text {
+    border-bottom: 1px solid #f0f0f0;
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    color: #1e1e18;
   }
 }
 </style>
@@ -67,5 +69,16 @@ export default {
 /deep/.van-field {
   border-bottom: 1px solid #f0f0f0;
   padding: 10px 0;
+}
+/deep/ .retPassword .van-button {
+  width: calc(100% - 30px);
+  margin: 37px auto;
+  height: 32px;
+  background: #1890ff;
+  border-radius: 3px;
+  border: none;
+  outline: none;
+  display: block;
+  line-height: 32px;
 }
 </style>

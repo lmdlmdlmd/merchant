@@ -4,10 +4,7 @@
       <view class="content">
         <van-row class="cl_title">
           <van-col span="4" @click="handleClose">
-            <image
-              src="@/static/img/icon/close.png"
-              class="close_img"
-            ></image>
+            <image src="@/static/img/icon/close.png" class="close_img"></image>
           </van-col>
           <van-col span="16" class="title"> 选择商品 </van-col>
           <van-col span="4"></van-col>
@@ -97,7 +94,7 @@
 
 <script>
 import Operate from "../../pages/components/operate";
-import { Toast } from "vant";
+// import Toast from "../../wxcomponents/toast/index";
 export default {
   name: "SelectGoods",
   props: {
@@ -107,13 +104,13 @@ export default {
     },
   },
   watch: {
-    showGood: function(newVal, oldVal) {
-      if(newVal !== oldVal) {
-        this.show = true
+    showGood: function (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.show = true;
       } else {
-        this.show = false
+        this.show = false;
       }
-    }
+    },
   },
   components: {
     Operate,
@@ -128,8 +125,7 @@ export default {
       data: [
         {
           id: 1,
-          name:
-            "Greatpal北极光车载家用桌面空气雾化器加湿器加送USB风扇和LED灯条GP0909",
+          name: "Greatpal北极光车载家用桌面空气雾化器加湿器加送USB风扇和LED灯条GP0909",
           spec: "2038450",
           money: "999.00 ",
           model: "SFIP99200U990",
@@ -194,11 +190,11 @@ export default {
     handleSubmit() {
       if (this.number == 0) {
         console.log(uni.showToast);
-        Toast("请至少选择打印一条");
+        // Toast("请至少选择打印一条");
         return;
       }
       if (!this.type) {
-        Toast("请选择类型");
+        // Toast("请选择类型");
         return;
       }
       let dataArr = [];
@@ -209,7 +205,7 @@ export default {
         }
       });
       if (dataArr.length == 0) {
-        Toast("请至少选择一条数据");
+        // Toast("请至少选择一条数据");
         return;
       } else {
         this.$emit("goods", dataArr);
