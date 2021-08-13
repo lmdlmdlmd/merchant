@@ -1,14 +1,7 @@
 <script>
-import Vue from "vue";
-import api from "./provider/api.js";
-import auth from "./provider/auth.js";
-import toast from "./provider/toast.js";
 export default {
   onLaunch: function () {
-    console.log("App Launch", Vue.prototype);
-    Vue.prototype.$toast = toast;
-    Vue.prototype.$api = api;
-    Vue.prototype.$auth = auth;
+    // console.log('App OnLaunch');
     // 自动登录检测
     // this.autoLogin();
   },
@@ -30,7 +23,8 @@ export default {
 };
 </script>
 
-<style>
+<style lang="less">
 /*每个页面公共css */
 @import "./wxcomponents/common/index.wxss";
+@import "./common/css/index.less";
 </style>

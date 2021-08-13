@@ -3,6 +3,7 @@
 		{
 			"path": "pages/login/index",
 			"style": {
+        "navigationBarTitleText": "登录",
 				"app-plus": {
 					"bounce": "none",
 					"titleNView": false
@@ -12,14 +13,16 @@
 		{
 			"path": "pages/home/index",
 			"style": {
-				"navigationBarTextStyle": "white",
+        "navigationBarTitleText": "首页",
+        "navigationBarTextStyle": "black",
 				"titleNView": false
 			}
 		},
 		{
 			"path": "pages/user/index",
 			"style": {
-				"navigationBarTextStyle": "white",
+        "navigationBarTitleText": "我的",
+				"navigationBarTextStyle": "black",
 				"app-plus": {
 					"bounce": "none",
 					"titleNView": false
@@ -29,7 +32,8 @@
 		{
 			"path": "pages/user/edit",
 			"style": {
-				"navigationBarTextStyle": "white",
+        "navigationBarTitleText": "修改密码",
+				"navigationBarTextStyle": "black",
 				"titleNView": false
 			}
 		},
@@ -165,6 +169,8 @@
 		]
 	},
 	"globalStyle":{
+		"navigationBarBackgroundColor": "#FFFFFF",
+    "navigationBarTextStyle": "black",
 		"usingComponents":{
 			"van-button": "./wxcomponents/button/index",
 			"van-popup":"./wxcomponents/popup/index",

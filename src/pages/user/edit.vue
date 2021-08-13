@@ -1,210 +1,111 @@
 <template>
-  <view class="editPwBox">
-    <zz-nav-bar
+  <view class="wh-100s relative">
+    <!-- <zz-nav-bar
       title="修改密码"
       leftIcon="back"
       @click-right="rightClick"
-    ></zz-nav-bar>
+    ></zz-nav-bar> -->
+    <view class="padding-20">
+      <view class="form">
+        <view class="row">
+          <view class="reg-label">原密码</view>
+          <wx-input
+            :eye="true"
+            type="password"
+            placeholder="请输入企业代码"
+            :value.sync="password"
+            class="reg-input"
+          ></wx-input>
+        </view>
+        <view class="row">
+          <view class="reg-label">新密码</view>
+          <wx-input
+            :eye="true"
+            type="password"
+            placeholder="请输入账号"
+            :value.sync="new_password"
+            class="reg-input"
+          ></wx-input>
+        </view>
+        <view class="row">
+          <view class="reg-label">确认密码</view>
+          <wx-input
+            :eye="true"
+            type="password"
+            placeholder="请输入密码"
+            :value.sync="rep_new_password"
+            class="reg-input"
+          ></wx-input>
+        </view>
+      </view>
+      <view>
+        <span class="sub-text"> 密码为数字或字母组合 </span>
+      </view>
+    </view>
 
-    <view class="content">
-      <van-row class="userMobile">
-        <van-col span="5"> 登录账号 </van-col>
-        <van-col span="19">
-          <text>{{ mobile }}</text>
-        </van-col>
-      </van-row>
-      <van-row>
-        <van-col span="5" class="input_lable"> 原密码 </van-col>
-        <van-col span="19">
-          <van-field
-            :value="password"
-            type="password"
-            placeholder="请输入原密码"
-            @input="password = $event.mp.detail"
-          />
-          <!-- <input
-            type="password"
-            class="input_text"
-            :value="password"
-            placeholder="请输入原密码"
-            @change="handleChangePassword"
-          /> -->
-        </van-col>
-      </van-row>
-      <van-row>
-        <van-col span="5" class="input_lable"> 新密码 </van-col>
-        <van-col span="19">
-          <van-field
-            :value="new_password"
-            type="password"
-            placeholder="填写新密码"
-            @input="new_password = $event.mp.detail"
-          />
-          <!-- <input
-            type="password"
-            class="input_text"
-            :value="new_password"
-            placeholder="填写新密码"
-            @change="handleChangeNewP"
-          /> -->
-        </van-col>
-      </van-row>
-      <van-row>
-        <van-col span="5" class="input_lable"> 确认密码 </van-col>
-        <van-col span="19">
-          <van-field
-            :value="rep_new_password"
-            type="password"
-            placeholder="再次填写确认"
-            @input="rep_new_password = $event.mp.detail"
-          />
-          <!-- <input
-            type="password"
-            class="input_text"
-            :value="rep_new_password"
-            placeholder="再次填写确认"
-            @change="handleChangeRepNewP"
-          /> -->
-        </van-col>
-      </van-row>
-      <van-row>
-        <van-col span="16" class="pwd_rules"> 密码为数字或字母组合 </van-col>
-        <van-col span="8" class="forge_pwd">
-          <!-- <span @click="handleEdit()">忘记原密码？</span> -->
-        </van-col>
-      </van-row>
-      <van-button type="primary" class="login_out" @click="handleOut()"
-        >确定</van-button
-      >
+    <view class="padding-20 absolute bottom-0 right-0 left-0">
+      <button class="wx-m w-100s wx-primary" @click="handleOut">确定</button>
     </view>
   </view>
 </template>
 
 <script>
-import zzNavBar from "../../components/zz-nav-bar";
+import wxInput from "@/components/Form/wx-input.vue";
 export default {
   components: {
-    zzNavBar,
+    wxInput
   },
   data() {
     return {
       password: "",
       new_password: "",
-      rep_new_password: "",
-      mobile: "",
+      rep_new_password: ""
     };
   },
-  created() {
-    setTimeout(() => {
-      const { user = {} } = this.$auth;
-      this.mobile = user.mobile;
-    }, 300);
-    console.log(this.mobile);
-  },
   methods: {
-    handleChangePassword(e) {
-      this.password = e.target.value;
-    },
-    handleChangeNewP(e) {
-      this.new_password = e.target.value;
-    },
-    handleChangeRepNewP(e) {
-      this.rep_new_password = e.target.value;
-    },
-    handleEdit() {
-      uni.navigateTo({
-        url: `/pages/user/forgotPassword`,
-      });
-    },
     handleOut() {
-      const { user = {} } = this.$auth;
-      this.$api
-        .post("base/shopuser/go", {
-          action: "modify",
-          form: {
-            password: this.password,
-            new_password: this.new_password,
-            rep_new_password: this.rep_new_password,
-          },
-          id: user.id,
-        })
-        .then((res) => {
-          uni.showToast({
-            icon: "none",
-            position: "bottom",
-            title: "修改成功",
-          });
-          uni.navigateTo({
-            url: `/pages/user/index`,
-          });
+      const { data } = this.$auth;
+      this.$api.post("base/shopuser/go", {
+        action: "modify",
+        form: {
+          password: this.password,
+          new_password: this.new_password,
+          rep_new_password: this.rep_new_password
+        },
+        id: data.id
+      }).then((res) => {
+        debugger;
+        uni.showToast({
+          icon: "none",
+          position: "bottom",
+          title: "修改成功",
         });
-    },
-  },
+        uni.navigateTo({
+          url: `/pages/user/index`,
+        });
+      });
+    }
+  }
 };
 </script>
 
 <style lang="less" scoped>
-.content {
-  margin: 38px auto;
-  width: calc(100% - 60px);
-  .input_lable {
-    color: rgba(30, 30, 24, 1);
-    font-size: 14px;
-    margin-top: 12px;
+.form {
+  width: 100%;
+  padding: 20px 0 10px 0;
+  .row {
+    display: flex;
+    margin-bottom: 15px;
+    align-items: center;
+    .reg-label {
+      min-width: 70px;
+      text-align: left;
+    }
+    .reg-input {
+      flex: 1 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+
+    }
   }
-  .input_text {
-    border-bottom: 1px solid #f0f0f0;
-    width: 100%;
-    padding: 10px;
-    font-size: 14px;
-    color: #1e1e18;
-  }
-}
-</style>
-<style lang="less">
-/deep/.van-field {
-  border-bottom: 1px solid #f0f0f0;
-  padding: 10px 0;
-}
-/deep/.van-cell::after {
-  border: none;
-}
-/deep/.van-field__label {
-  color: #1e1e18;
-}
-/deep/.van-field__control {
-  color: #1e1e18;
-}
-/deep/.userMobile .van-row {
-  color: rgba(30, 30, 24, 0.25);
-  font-size: 14px;
-  margin-bottom: 16px;
-}
-/deep/ .input_lable .van-col {
-  color: #1e1e18;
-  font-size: 14px;
-  margin-top: 12px;
-}
-/deep/ .pwd_rules .van-col {
-  color: rgba(30, 30, 24, 0.5);
-  font-size: 12px;
-  margin-top: 18px;
-}
-/deep/ .forge_pwd .van-col {
-  color: #0f5cb6;
-  font-size: 14px;
-  margin-top: 18px;
-  text-align: right;
-}
-/deep/ .login_out .van-button {
-  width: calc(100% - 30px);
-  margin: 200px auto;
-  height: 32px;
-  background: #1890ff;
-  border-radius: 3px;
-  border: none;
-  outline: none;
-  line-height: 32px;
-  display: block;
 }
 </style>

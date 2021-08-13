@@ -1,138 +1,102 @@
 <template>
-  <view>
-    <!-- <van-button type="info" @click="handle">按钮</van-button> -->
-
-    <!-- TODO: custome-style里面的width和van-overlay加起来是100%，是为了控制关闭按钮的位置，能关闭了，但是叉号用不了 -->
-
-    <!-- <van-popup
-      position="bottom"
-      closeable
-      :show="addShow"
-      custom-style="width:100%;height:40%;"
-      close-icon-position="top-right"
-      @click-overlay="onClose"
-      @close="onCloseBtnClicked"
-    >
-
-    </van-popup> -->
-    <view class="content">
+  <view class="wh-100s">
+    <view class="padding-l-16 padding-r-16">
       <text class="name">{{ name }}</text>
-      <view @click="addShow = true">
-        <van-row class="store_box">
-          <van-col>
-            <text class="store_title">{{ addData }}</text>
-            <!-- <text class="store_title"
-            >大明宫钻石店<span class="identity">导购员</span></text
-          > -->
-            <image
-              src="../../static/img/imgs/more.png"
-              class="home_more_img"
-            ></image>
+      <view class="margin-t-10">
+        <van-row gutter="20">
+          <van-col span="16">
+            <text class="lh-20 text-12">{{ role.name || '--' }}</text>
+          </van-col>
+          <van-col span="8">
+            <button class="wx-primary wx-ghost wx-s" style="line-height: 18px; padding: 0 8px"  @click="showRoles = true">
+              切换身份
+              <van-icon class="margin-l-3" name="arrow-down" />
+            </button>
           </van-col>
         </van-row>
       </view>
-      <van-row class="data_analysis">
-        <van-col>
-          <image
-            src="../../static/img/imgs/datasource.png"
-            class="data_an_img"
-          ></image>
-          <text class="data_an_title">销售数据分析</text>
-        </van-col>
-      </van-row>
-      <van-row class="data_select">
-        <van-col span="10" class="timebox">
-          <!-- <van-field
-            readonly
-            clickable
-            name="datetimePicker"
-            :value="dateStart"
-            label=""
-            placeholder="开始时间"
-            @click="hanleUpdateDate('start')"
-            :label-width="0"
-            right-icon="notes-o"
-            class="startData"
-          /> -->
-
-          <input
-            class="timeInput"
-            @click="hanleUpdateDate('start')"
-            :value="dateStart"
-          />
-          <van-icon name="notes-o" class="input_icon" />
-        </van-col>
-        <van-col span="2" class="interval"
-          ><text class="interval_text">至</text></van-col
-        >
-        <van-col span="10" class="timebox">
-          <input
-            class="timeInput"
-            @click="hanleUpdateDate('end')"
-            :value="dateEnd"
-          />
-          <van-icon name="notes-o" class="input_icon" />
-          <!-- <van-field
-            readonly
-            clickable
-            name="datetimePicker"
-            :value="dateEnd"
-            label=""
-            placeholder="结束时间"
-            @click="hanleUpdateDate('end')"
-            :label-width="0"
-            right-icon="notes-o"
-            class="startData"
-          /> -->
-        </van-col>
-      </van-row>
-      <van-row gutter="20" class="statistical_box">
-        <van-col span="11" class="st_con1">
-          <text class="st_title">开单数 （单）</text>
-          <p class="st_con">20单</p>
-        </van-col>
-        <van-col span="2" class="view_pla"></van-col>
-        <van-col span="11" class="st_con2">
-          <text class="st_title">开单总金额（万）</text>
-          <p class="st_con">3.60%</p>
-        </van-col>
-      </van-row>
-      <van-row gutter="20" class="statistical_box">
-        <van-col span="11" class="st_con3">
-          <text class="st_title">客单价 （万）</text>
-          <p class="st_con">¥88，888.00万元</p>
-        </van-col>
-        <van-col span="2" class="view_pla"></van-col>
-        <van-col span="11" class="st_con4">
-          <text class="st_title">收款金额（万）</text>
-          <p class="st_con">¥88，888.00万元</p>
-        </van-col>
-      </van-row>
-    </view>
-    <!-- <van-popup v-bind:show="show" position="bottom" :style="{ height: '30%' }">
-   
-      <van-datetime-picker
-        :value="currentDate"
-        type="date"
-        data-type="date"
-        :min-date="minDate"
-        @confirm="onConfirm"
-        @cancel="onCancel"
-      />
+      <view class="padding-t-10 padding-b-10">
+        <van-row class="data_analysis">
+          <van-col>
+            <image
+              src="../../static/img/imgs/datasource.png"
+              mode="aspectFit"
+              class="data_an_img"
+            ></image>
+            <text class="data_an_title">销售数据分析</text>
+          </van-col>
+        </van-row>
+      </view>
+      <view class="padding-b-10">
+        <van-row>
+          <van-col span="11">
+            <view class="timebox">
+              <input
+                class="timeInput"
+                @click="hanleUpdateDate('start')"
+                :value="dateStart"
+              />
+              <van-icon name="notes-o" class="input_icon" />
+            </view>
+          </van-col>
+          <van-col span="2" class="interval">
+            <text class="interval_text">至</text>
+          </van-col>
+          <van-col span="11">
+            <view class="timebox">
+              <input
+                class="timeInput"
+                @click="hanleUpdateDate('end')"
+                :value="dateEnd"
+              />
+              <van-icon name="notes-o" class="input_icon" />
+            </view>
+          </van-col>
+        </van-row>
+      </view>
       
-    </van-popup> -->
+      <view>
+        <van-row gutter="20">
+          <van-col span="12">
+            <view class="st_con1">
+              <view class="st_title">开单数 （单）</view>
+              <view class="margin-t-10">{{ storeView.ordernum || 0 }}单</view>
+            </view>
+          </van-col>
+          <van-col span="12">
+            <view class="st_con2">
+              <view class="st_title">开单总金额（万）</view>
+              <view class="margin-t-10">{{ storeView.orderamount || 0 }} %</view>
+            </view>
+          </van-col>
+        </van-row>
+        <van-row gutter="20">
+          <van-col span="12">
+            <view class="st_con3">
+              <view class="st_title">客单价 （万）</view>
+              <view class="margin-t-10">¥ {{ storeView.unitprice || 0 }} 万元</view>
+            </view>
+          </van-col>
+          <van-col span="12">
+            <view class="st_con4">
+              <view class="st_title">收款金额（万）</view>
+              <view class="margin-t-10">¥ {{ storeView.receivedamount || 0 }} 万元</view>
+            </view>
+          </van-col>
+        </van-row>
+      </view>
+    </view>
     <van-popup
-      v-bind:show="show"
+      :show="show"
       position="bottom"
-      custom-style="width:100%;height:40%;"
     >
       <view>
         <van-datetime-picker
-          :value="currentDate"
+          :value="defaultDate"
           type="date"
           title="请选择日期"
-          :min-date="minDate"
-          :max-date="maxDate"
+          :min-date="new Date(1900, 0, 1).getTime()"
+          :max-date="new Date(2999, 10, 1).getTime()"
           visible-item-count="5"
           confirm-button-text="确定"
           cancel-button-text="取消"
@@ -142,196 +106,149 @@
         />
       </view>
     </van-popup>
-    <!-- <van-popup
-      v-model="addShow"
-      title=""
-      class="addSheet"
+    <van-popup
+      :show="showRoles"
       round
       position="bottom"
     >
-      <van-row class="add_opr">
-        <van-col span="12" class="can" @click="handleCancel">取消</van-col>
-        <van-col span="12" class="con" @click="handleCancel">确定</van-col>
-      </van-row>
       <van-picker
-        :show-toolbar="false"
+        :show-toolbar="true"
         :columns="columns"
-        @change="handleConfirm"
+        value-key="name"
+        :default-index="defaultIndex"
+        @cancel="onClickHide"
+        @confirm="handleConfirm"
       />
-    </van-popup> -->
-    <van-action-sheet
-      v-bind:show="addShow"
-      title="请选择店铺"
-      close-icon-position="top-right"
-      @click-overlay="onClose"
-      @close="onCloseBtnClicked"
-      class="addSheet"
-    >
-      <view class="add_opr">
-        <van-row>
-          <van-col span="12"
-            ><view class="can" @click="handleCancel">取消</view></van-col
-          >
-          <van-col span="12"
-            ><view class="con" @click="handleCancel('submit')"
-              >确定</view
-            ></van-col
-          >
-        </van-row>
-      </view>
-      <van-picker
-        :show-toolbar="false"
-        :columns="columns"
-        @change="handleConfirm"
-        :default-index="addIndex"
-      />
-    </van-action-sheet>
+    </van-popup>
   </view>
 </template>
 
 <script>
-import authHandler from "../../provider/auth.handler"; //'./auth.handler.js';
 import moment from "moment";
+
 export default {
   components: {},
   data() {
     return {
       name: "",
       show: false,
-      minDate: new Date(1900, 0, 1).getTime(),
-      maxDate: new Date(2999, 10, 1).getTime(),
-      currentDate: new Date().getTime(),
+      showRoles: false, // 显示切换用户身份列表
+      role: {}, //"大明宫店钻石店(DS1-A-001)-导购员",
+      defaultDate: new Date().getTime(),
       dateStart: null,
       dateEnd: null,
       type: "", //表示开始时间还是结束时间
-      addShow: false, //切换用户身份
-      columns: [
-        // "上海徐家汇店(DS1-A-001)-招商经理",
-        // "大明宫店钻石店(DS1-A-001)-导购员",
-        // "杭州滨江店(DS1-A-001)-客服经理",
-      ],
-      addData: "", //"大明宫店钻石店(DS1-A-001)-导购员",
-      addIndex: null,
-      addDataId: null,
-      isChooserole: false, //判断是否切换
-    }; //userinfo
+      columns: [],
+      storeView: {
+        receivedamount: 0,
+        unitprice: 0,
+        ordernum: 0,
+        orderamount: 0
+      }
+    };
   },
   onLoad() {
-    //地址弹出框选择默认值
-    setTimeout(() => {
-      const { user } = this.$auth;
-      console.log(this.$auth);
-      this.name = user.name;
-      // let addIndexs = authRo.role;
-      // this.addIndex = this.columns.findIndex((x) => x == this.addData);
-    }, 500);
-    // console.log(this.$auth);
-  },
-  mounted() {
-    this.$api.post("userinfo").then((res) => {
-      const { roles, roleorg } = res || {};
-      roles.map((item, index) => {
-        // console.log(addIndexs);
-        if (item.id === roleorg) {
-          this.addData = item.name;
-          this.addIndex = index;
-        }
-        this.columns.push({ text: item.name, value: item.id });
-      });
-    });
-  },
-  created() {
+    const { name } = this.$auth.data || {};
+    this.name = name;
     const dateSource = new Date();
-    let year = dateSource.getFullYear() + "年";
-    let month = dateSource.getMonth() + 1 + "月";
-    let date = dateSource.getDate() + "日";
-    this.dateStart = [year, month, date].join("-");
-    this.dateEnd = [year, month, date].join("-");
+    this.dateStart = moment(dateSource).format("YYYY-MM-DD");
+    this.dateEnd = moment(dateSource).format("YYYY-MM-DD");
+    this.getUserInfo();
+  },
+  onShow() {
+    this.getStoreView();
+  },
+  computed: {
+    defaultIndex() {
+      let index = 0
+      this.columns.forEach((item, i) => {
+        if (item.id == this.role.id) {
+          index = i;
+        }
+      });
+      return index;
+    }
   },
   methods: {
-    onClose() {
-      console.log("onClick methods function");
-      this.addShow = false;
+    getUserInfo() {
+      this.$api.post("userinfo").then((res) => {
+        const { roles, roleorg } = res || {};
+        roles.map((item, index) => {
+          if (item.id === roleorg) {
+            this.role = item;
+            this.$auth.update({ ...res, role: item });
+          }
+          this.columns.push(item);
+        });
+      });
     },
-    onCloseBtnClicked() {
-      console.log("close button clicked");
-      this.addShow = false;
-    },
-    // handle() {
-    //   console.log(11);
-    //   this.addShow = true;
-
-    //   // this.setData({ show: true });
-    // },
     onClickHide() {
-      console.log(22);
-      this.addShow = false;
+      this.showRoles = false;
     },
-    //地址筛选start
-    handleAddShow() {
-      this.addShow = true;
+    onCancel() {
+      this.show = false;
     },
     handleConfirm(value) {
-      console.log(value);
       const { detail } = value;
-      if (this.addDataId != detail.value.value) {
-        this.isChooserole = true;
-        this.addDataId = detail.value.value;
-        this.addData = detail.value.text;
-      }
+      this.role = detail.value;
+      this.changeRole();
     },
-    handleCancel(type) {
-      if ((type = "submit" && this.isChooserole)) {
-        this.$api.get("chooserole", { roleorg: this.addDataId }).then((res) => {
-          console.log(res);
-          const { token } = res;
-          // sessionStorage.setItem("token", token);
-          authHandler.saveToken(token);
-          this.isChooserole = false;
-        });
-      }
-      this.addShow = false;
+    changeRole() {
+      this.$api.get("chooserole", { roleorg: this.role.id }).then((res) => {
+        const { token, roleorg } = res;
+        this.$auth.update({ token, roleorg });
+        uni.reLaunch({url: '/pages/home/index'});
+      });
     },
     //地址筛选end
     //时间筛选start
     hanleUpdateDate(type) {
       this.type = type;
       this.show = true;
+      if (this.type === "start") {
+        this.defaultDate = moment(this.dateStart, "YYYY-MM-DD").valueOf();
+      } else {
+        this.defaultDate = moment(this.dateEnd, "YYYY-MM-DD").valueOf();
+      }
     },
     onConfirm(value) {
       const { detail: da } = value || {};
-      console.log(da);
-      // const da = value;
-      //    const data = new Date(da);
-      // var year = data.getFullYear() + "年";
-      // var month =data.getMonth() + 1 + "月";
-      // var date = data.getDate() + "日";
+      const date = moment(parseInt(da)).format("YYYY-MM-DD");
       if (this.type == "start") {
+        if ( date > this.dateEnd) {
+          return this.$toast.text("开始时间不能大于结束时间");
+        }
         this.dateStart = moment(parseInt(da)).format("YYYY-MM-DD");
-        // this.dateStart = [year, month, date].join("-");
       } else {
-        // this.dateEnd = [year, month, date].join("-");
+        if (date < this.dateStart) {
+          return this.$toast.text("结束时间不能小于开始时间");
+        }
         this.dateEnd = moment(parseInt(da)).format("YYYY-MM-DD");
       }
       this.show = false;
-      if (this.dateStart && this.dateEnd) {
-        uni.showToast({
-          icon: "none",
-          position: "bottom",
-          title: "查询成功",
-        });
+      this.getStoreView();
+    },
+    getStoreView() {
+      const params = {
+        tp: "merch",
+        ordertime: {
+          min: moment(this.dateStart, "YYYY-MM-DD").startOf('day').valueOf(),
+          max: moment(this.dateStart, "YYYY-MM-DD").endOf('day').valueOf()
+        }
       }
-      //开始时间结束时间同时存在刷新页面
-      // const params = {};
-      // Vue.prototype.$api.updateUser(params).then((res) => {
-      //   console.log(res);
-      //   this.$toast.text("操作成功");
-      // });
+      this.$api.post("mall/storder/view", params).then(res => {
+        res = {
+          "data": {
+              "receivedamount": 115,
+              "unitprice": 5460,
+              "ordernum": 56,
+              "orderamount": 1858
+          },
+          "code": 0
+        };
+        this.storeView = res.data;
+      });
     },
-    onCancel() {
-      this.show = false;
-    },
-
     formatter(type, val) {
       if (type === "year") {
         return val + "年";
@@ -343,78 +260,34 @@ export default {
         return val + "日";
       }
       return val;
-    },
-    //时间筛选end
-  },
+    }
+  }
 };
 </script>
 
 <style lang="less" scoped>
-.content {
-  width: calc(100% - 80upx);
-  margin: 30upx auto 68upx;
-  .name {
-    color: rgba(0, 0, 0, 0.8);
-    font-size: 16px;
-    font-weight: 600;
-  }
-  .store_title {
-    color: rgba(0, 0, 0, 0.85);
-    font-size: 12px;
-    margin-top: 10px;
-  }
-  .home_more_img {
-    width: 10px;
-    height: 6px;
-    margin-left: 6px;
-  }
-  .identity {
-    margin-left: 6px;
-  }
-  .data_analysis {
-    margin: 8px 0 14px;
-    display: block;
-  }
-  .data_select {
-    margin-bottom: 8px;
-  }
-  .data_an_img {
-    width: 16px;
-    height: 16px;
-    vertical-align: middle;
-  } //#e9f5fc #fbece8 #f1f9e8 #fbece8
-  .data_an_title {
-    color: #333333;
-    font-size: 13px;
-    font-weight: 600;
-    margin-left: 13px;
-  }
-  .startData {
-    border: 1px solid rgba(0, 0, 0, 0.25);
-    // padding: 3px;
-    border-radius: 3px;
-    color: rgba(0, 0, 0, 0.85);
-  }
-  .interval {
-    text-align: center;
-    color: rgba(0, 0, 0, 0.85);
-    font-size: 12px;
-  }
-  .interval_text {
-    margin-top: 5px;
-    display: block;
-  }
-
-  .st_con {
-    margin-top: 10px;
-  }
-
-  .timebox {
-    // position: relative;
-  }
+.name {
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 22px;
+}
+.data_an_img {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+}
+.data_an_title {
+  color: #333333;
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: bold;
+  margin-left: 13px;
+}
+.timebox {
+  position: relative;
   .timeInput {
     overflow: revert;
-    padding: 3px;
+    padding: 3px 20px 3px 8px;
     border-radius: 3px;
     color: rgba(0, 0, 0, 0.85);
     font-size: 12px;
@@ -422,63 +295,38 @@ export default {
     border: 1px solid rgba(0, 0, 0, 0.25);
   }
   .input_icon {
-    position: relative;
-    top: -26px;
-    right: -116px;
+    position: absolute;
+    top: 8px;
+    right: 8px;
     color: rgba(0, 0, 0, 0.5);
   }
 }
-</style>
-
-<style lang="less" >
-/deep/.data_select .van-field__control {
+.interval {
+  text-align: center;
   font-size: 12px;
-  text-indent: 3px;
+  line-height: 30px;
 }
-/deep/.addSheet .add_opr {
-  width: 60%;
-  margin: 0 auto;
-  font-size: 14px;
-  font-weight: 600;
-  color: #0091ff;
-  padding-bottom: 10px;
-  margin-top: 20px;
-  .con {
-    text-align: right;
-  }
-}
-/deep/.addSheet .van-picker-column__item--selected {
-  color: #0091ff;
-}
-
-// TODO: custome-style里面的width和van-overlay加起来是100%，是为了控制关闭按钮的位置
-/deep/ .van-overlay {
-  width: 100%;
-  height: 60%;
-}
-/deep/ .st_con1 .van-col,
-/deep/ .st_con2 .van-col,
-/deep/ .st_con3 .van-col,
-/deep/ .st_con4 .van-col {
+.st_con1,
+.st_con2,
+.st_con3,
+.st_con4 {
   border-left: 3px solid rgba(0, 145, 255, 1);
   border-radius: 5px;
   padding: 8px 10px;
   font-size: 13px;
-  color: #333333;
+  line-height: 18px;
+  color: #666;
   background: #e9f5fc;
   margin-top: 22px;
   display: block;
 }
-/deep/ .st_con2 .van-col,
-/deep/ .st_con4 .van-col {
+.st_con2,
+.st_con4 {
   background: #fbece8;
   border-left: 3px solid #ff4c0f;
 }
-/deep/ .st_con3 .van-col {
+.st_con3 {
   background: #f1f9e8;
   border-left: 3px solid #6dd400;
-}
-/deep/ .view_pla .van-col {
-  height: 10px;
 }
 </style>
