@@ -42,8 +42,8 @@ Api.prototype = {
 			_url = CONFIG.baseUrl + '/' + _url;
 		}
 
-		let header = authHandler.getAuthorization() ? {
-			authorization: authHandler.getAuthorization()
+		let header = authHandler.getToken() ? {
+			authorization: authHandler.getToken()
 		} : {};
 
 		if (mask) {

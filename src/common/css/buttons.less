@@ -1,0 +1,221 @@
+@import url("./vars.less");
+
+.button-s() {
+  font-size: @text-size;
+  line-height: @btn-s-line-height;
+  padding: 0 @btn-l-s-padding;
+  border-radius: @btn-s-line-height * 0.5;
+}
+
+.button-m() {
+  font-size: @content-size;
+  line-height: @btn-l-line-height;
+  padding: 0 @btn-l-m-padding;
+  border-radius: @btn-l-line-height * 0.5;
+}
+
+.button-l() {
+  font-size: @sub-title-size;
+  line-height: @btn-l-line-height;
+  padding: 0 @btn-l-l-padding;
+  border-radius: @btn-l-line-height * 0.5;
+  font-weight: bold;
+}
+
+button {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  margin: 0;
+  padding: 0 @btn-l-m-padding;
+  box-sizing: border-box;
+  color: @text-reverse-color;
+  font-size: @sub-title-size;
+  text-align: center;
+  text-decoration: none;
+  line-height: @btn-m-line-height;
+  word-break: keep-all;
+  border: none;
+  border-radius: @btn-m-line-height * 0.5;
+  overflow: hidden;
+  background-color: @info-color;
+  cursor: pointer;
+  &::after{
+    display: none;
+    border: none;
+    height: auto;
+  }
+  &.@{prefix}-primary {
+    background-color: @info-color;
+    color: @text-reverse-color;
+    &.@{prefix}-ghost {
+      line-height: @btn-m-line-height - 2px;
+      color: @info-color;
+      border: solid 1px @info-color;
+      background-color: transparent;
+      &[disabled],
+      &[disabled]:not([type]) {
+        color: @info-color;
+      }
+    }
+  }
+  &.@{prefix}-secondary {
+    background: @linear-gradient-goods-color;
+    color: @text-reverse-color;
+    &.@{prefix}-ghost {
+      line-height: @btn-m-line-height - 2px;
+      color: @danger-color;
+      border: solid 1px @danger-color;
+      background: transparent;
+      &[disabled],
+      &[disabled]:not([type]) {
+        color: @danger-color;
+      }
+    }
+  }
+  &.@{prefix}-wx {
+    background: @vx-pay-color;
+    color: @text-reverse-color;
+    &.@{prefix}-ghost {
+      line-height: @btn-m-line-height - 2px;
+      color: @vx-pay-color;
+      border: solid 1px @vx-pay-color;
+      background: transparent;
+      &[disabled],
+      &[disabled]:not([type]) {
+        color: @text-content-color;
+      }
+      &[disabled],
+      &[disabled]:not([type]) {
+        color: @vx-pay-color;
+      }
+    }
+  }
+  &.@{prefix}-general {
+    background-color: @text-disabled-color;
+    color: @text-reverse-color;
+    &.@{prefix}-ghost {
+      line-height: @btn-m-line-height - 2px;
+      color: @text-content-color;
+      border: solid 1px @text-tip-color;
+      background-color: transparent;
+      &[disabled],
+      &[disabled]:not([type]) {
+        color: @text-content-color;
+      }
+    }
+  }
+  &.@{prefix}-s {
+    .button-s;
+    &.@{prefix}-ghost {
+      line-height: @btn-s-line-height - 2px;
+    }
+  }
+  &.@{prefix}-m {
+    .button-m;
+    &.@{prefix}-ghost {
+      line-height: @btn-m-line-height - 2px;
+    }
+  }
+  &.@{prefix}-l {
+    .button-l;
+    &.@{prefix}-ghost {
+      line-height: @btn-l-line-height - 2px;
+    }
+  }
+  &.@{prefix}-l-l {
+    .button-l;
+    padding: 0 @btn-l-l-padding;
+    &.@{prefix}-ghost {
+      line-height: @btn-l-line-height - 2px;
+    }
+  }
+  &.@{prefix}-l-m {
+    .button-l;
+    padding: 0 @btn-l-m-padding;
+    &.@{prefix}-ghost {
+      line-height: @btn-l-line-height - 2px;
+    }
+  }
+  &.@{prefix}-l-s {
+    .button-l;
+    padding: 0 @btn-l-s-padding;
+    &.@{prefix}-ghost {
+      line-height: @btn-m-line-height - 2px;
+    }
+  }
+  &.@{prefix}-m-l {
+    .button-m;
+    padding: 0 @btn-m-l-padding;
+    &.@{prefix}-ghost {
+      line-height: @btn-m-line-height - 2px;
+    }
+  }
+  &.@{prefix}-m-m {
+    .button-m;
+    padding: 0 @btn-m-m-padding;
+    &.@{prefix}-ghost {
+      line-height: @btn-m-line-height - 2px;
+    }
+  }
+  &.@{prefix}-m-s {
+    .button-m;
+    padding: 0 @btn-m-s-padding;
+    &.@{prefix}-ghost {
+      line-height: @btn-m-line-height - 2px;
+    }
+  }
+  &.@{prefix}-s-l {
+    .button-s;
+    padding: 0 @btn-s-l-padding;
+    &.@{prefix}-ghost {
+      line-height: @btn-s-line-height - 2px;
+    }
+  }
+  &.@{prefix}-s-m {
+    .button-s;
+    padding: 0 @btn-s-m-padding;
+    &.@{prefix}-ghost {
+      line-height: @btn-s-line-height - 2px;
+    }
+  }
+  &.@{prefix}-s-s {
+    .button-s;
+    padding: 0 @btn-s-s-padding;
+    &.@{prefix}-ghost {
+      line-height: @btn-s-line-height - 2px;
+    }
+  }
+  &[disabled],
+  &[disabled]:not([type]) {
+    color: @text-reverse-color;
+    opacity: 0.3;
+  }
+}
+
+.clearStyle {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+  outline: none;
+  border-radius: 0;
+  background-color: transparent;
+  line-height: inherit;
+  text-align: inherit;
+  display: inline-block;
+  overflow: visible;
+  &::before{
+    content: " ";
+    border: none;
+    height: 0;
+    width: 0;
+  }
+  &::after{
+    content: " ";
+    border: none;
+    height: 0;
+    width: 0;
+  }
+}

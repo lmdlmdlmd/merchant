@@ -1,20 +1,16 @@
 import api from './api.js';
-// import MSG from './message.service.js';
 import CONFIG from './config.js';
 import authHandler from './auth.handler.js';
-// import {
-// 	encryptMobile
-// } from '@/common/js/utils.js';
 
 function Auth() {
-	this.user = undefined;
-	this.token = undefined;
-	this.pending = undefined;
-	this.shop = undefined;
-	this.shPending = undefined;
-	this.role = undefined;
-	this.roPending = undefined;
-
+  this.data = {};
+	// this.user = undefined;
+	// this.token = undefined;
+	// this.pending = undefined;
+	// this.shop = undefined;
+	// this.shPending = undefined;
+	// this.role = undefined;
+	// this.roPending = undefined;
 	this.init();
 }
 
@@ -25,61 +21,61 @@ Auth.prototype = {
 	constructor: Auth,
 	init() {
 		console.log(authHandler)
-		if (authHandler.user) {
-			this.user = authHandler.getUser();
-		}
-		if (authHandler.token) {
-			this.token = authHandler.getAuthorization();
-			// this.restoreRole(this.roleorg)
-			// this.restoreShop(this.shopid);
-		}
-		if (authHandler.shopid) {
-			this.shopid = authHandler.getShopid();
-			// this.restoreRole(this.roleorg)
-			this.restoreShop(this.shopid);
-		}
-		if (authHandler.roleorg) {
-			this.roleorg = authHandler.getRoleorg();
-			this.restoreRole(this.roleorg)
-			// this.restoreShop(this.shopid);
-		}
+    this.data = authHandler.data;
+		// if (authHandler.user) {
+		// 	this.user = authHandler.getUser();
+		// }
+		// if (authHandler.token) {
+		// 	this.token = authHandler.getAuthorization();
+		// 	// this.restoreRole(this.roleorg)
+		// 	// this.restoreShop(this.shopid);
+		// }
+		// if (authHandler.shopid) {
+		// 	this.shopid = authHandler.getShopid();
+		// 	// this.restoreRole(this.roleorg)
+		// 	this.restoreShop(this.shopid);
+		// }
+		// if (authHandler.roleorg) {
+		// 	this.roleorg = authHandler.getRoleorg();
+		// 	this.restoreRole(this.roleorg)
+		// 	// this.restoreShop(this.shopid);
+		// }
 	},
 	login(params,checked) {
 		return api.post(CONFIG.tokenApi, params).then(data => {
-			const {token,roleorg,roles} = data;
-			console.log( params,'-----',data)
-		const shopid = roles.filter((item)=>item.id==roleorg)[0].shopid;
-		if(!shopid){
-			//不是商家角色
-			return 'notPermission'
-		}
-			// console.log(data)
-			// this.shopid = shopid; 
-			// this.roleorg = roleorg;
-			let dataUser = checked ?  {...data,...params} : {...data}
-			authHandler.saveUser(dataUser);
-			authHandler.saveToken(token);
-			authHandler.saveShopid(shopid);
-			authHandler.saveRoleorg(roleorg);
+			const { token, roleorg, roles } = data;
+      const role = roles.filter((item) => item.id == roleorg)[0];
+      const shopid = role.shopid;
+      if(!shopid){
+        //不是商家角色
+        return 'notPermission'
+      }
+
+			let dataUser = checked ?  { ...data, ...params } : data
+      this.data = authHandler.saveData({ ...dataUser, role });
+			// authHandler.saveUser(dataUser);
+			// authHandler.saveToken(token);
+			// authHandler.saveShopid(shopid);
+			// authHandler.saveRoleorg(roleorg);
 			this.init();
-			// console.log(data)
-			this.restoreRole(roleorg)
-			this.restoreShop(shopid);
+			// this.restoreRole(roleorg);
+			// this.restoreShop(shopid);
+      return this.data;
 		})
 	},
+  update(data) {
+    this.data = authHandler.updateData(data);
+  },
 	//商铺信息
  	restoreShop(shopid) {
-		this.shPending = api.post(CONFIG.shopApi,{id:shopid=='0' ? 0 : shopid}).then(shop => {
-			console.log(shop)
+		api.post(CONFIG.shopApi, { id: shopid }).then(shop => {
 			this.shop = shop;
-			this.shPending = null;
 			return shop;
 		}).catch(err => {
-			// this.logout();
 			return false;
 		})
 	},
-	//角色信息
+	// //角色信息
 	restoreRole(roleOrg) {
 		return this.roPending = api.post(CONFIG.roleApi,{id:roleOrg}).then(role => {
 			console.log(role)
@@ -92,14 +88,7 @@ Auth.prototype = {
 		})
 	},
 	logout() {
-		// MSG.RY.logout();
-		this.user = null;
-		this.shop = null;
-		this.token = null;
-		this.role = null;
-		authHandler.clearToken();
-		authHandler.clearShopid();
-		authHandler.cleaRoleorg();
+    this.data = authHandler.clearData();
 		uni.reLaunch({
 			url: '/pages/login/index'
 		})

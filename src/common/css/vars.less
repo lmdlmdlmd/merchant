@@ -1,0 +1,100 @@
+/*==================== Themes Color ==================== */
+@theme-brand-color: #3177F4; // 品牌侧主色
+@theme-goods-color: #FC3F2D; // 商品侧主色
+
+/*==================== 标准渐变色 ==================== */
+@start-brand-color: #50B2FD;
+@end-brand-color: #225BEF;
+// 品牌渐变色
+@linear-gradient-brand-color: linear-gradient(142deg, @start-brand-color 0%, @end-brand-color 100%);
+.linear-gradient-brand {
+  background: linear-gradient(142deg, @start-brand-color 0%, @end-brand-color 100%);
+}
+
+@start-goods-color: #FE7359;
+@end-goods-color: #FC3F2D;
+// 商品渐变色
+@linear-gradient-goods-color: linear-gradient(142deg, @start-goods-color 0%, @end-goods-color 100%);
+.linear-gradient-goods {
+  background: linear-gradient(142deg, @start-goods-color 0%, @end-goods-color 100%);
+}
+
+/*==================== 辅助颜色 ==================== */
+@danger-color: #FC3F2D; // 报错
+@danger-fade-20-color: fade(@danger-color, 20%);
+@danger-fade-10-color: fade(@danger-color, 10%);
+@danger-fade-5-color: fade(@danger-color, 5%);
+
+@warn-color: #F99100; // 告警
+@warn-fade-20-color: fade(@warn-color, 20%);
+@warn-fade-10-color: fade(@warn-color, 10%);
+@warn-fade-5-color: fade(@warn-color, 5%);
+
+@success-color: #3FB127; // 成功
+@success-fade-20-color: fade(@success-color, 20%);
+@success-fade-10-color: fade(@success-color, 10%);
+@success-fade-5-color: fade(@success-color, 5%);
+
+@info-color: #3177F4; // 说明
+@info-fade-20-color: fade(@info-color, 20%);
+@info-fade-10-color: fade(@info-color, 10%);
+@info-fade-5-color: fade(@info-color, 5%);
+
+/*==================== 中性色 ==================== */
+// 文本颜色
+@text-title-color: #333;
+@text-content-color: #666;
+@text-tip-color: #999;
+@text-pre-color: #ccc;
+@text-disabled-color: #ddd;
+@text-reverse-color: #fff;
+
+// 分割颜色
+@split-color: #eee;
+@split-sub-color: #f2f2f2;
+
+// 背景色
+@globle-bg-color: #f5f5f5;
+@block-bg-color: #f8f8f8;
+@scope-bg-color: #fafafa;
+@card-bg-color: #fff;
+
+// 微信支付按钮
+@vx-pay-color: #07c160;
+
+/*==================== 字体大小 ==================== */
+@head-size: 42upx;
+@title-size: 36upx;
+@sub-title-size: 32upx;
+@content-size: 28upx;
+@text-size: 24upx;
+@secondary-size: 22upx;
+@tip-size: 20upx;
+@price-lg-size: 48upx;
+@price-md-size: 36upx;
+@price-mx-size: 36upx;
+@line-price-size: 26upx;
+
+/*==================== 行高大小 ==================== */
+@line-height-small: 1.4em;
+@line-height-middle: 1.45em;
+@line-height-large: 1.5em;
+@line-height-max: 1.6em;
+@line-height: 1em;
+
+/*==================== 按钮大小 ==================== */
+@btn-l-line-height: 78upx;
+@btn-m-line-height: 64upx;
+@btn-s-line-height: 52upx;
+@btn-l-l-padding: 80upx;
+@btn-l-m-padding: 60upx;
+@btn-l-s-padding: 30upx;
+@btn-m-l-padding: 48upx;
+@btn-m-m-padding: 36upx;
+@btn-m-s-padding: 24upx;
+@btn-s-l-padding: 36upx;
+@btn-s-m-padding: 24upx;
+@btn-s-s-padding: 20upx;
+
+/*==================== 前缀 ==================== */
+@prefix: wx;
