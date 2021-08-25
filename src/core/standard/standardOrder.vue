@@ -1,11 +1,5 @@
 <template>
-  <view class="depositOrderBox">
-    <zz-nav-bar
-      title="标准开单"
-      leftIcon="back"
-      @click-right="rightClick"
-    ></zz-nav-bar>
-
+  <view class="wh-100s">
     <view class="content">
       <Anchor :anchor="anchor" />
       <view id="screens1">
@@ -475,7 +469,7 @@
       <view class="dialog_box">
         <image
           class="warning"
-          src="../../../static/img/icon/warning.png"
+          src="@/static/img/icon/warning.png"
         ></image>
         <text class="dele_title">确定删除此商品？</text>
         <view class="dialog_btn">
@@ -502,16 +496,14 @@
 </template>
 
 <script>
-import zzNavBar from "../../../components/zz-nav-bar";
 import moment from "moment";
-import Footer from "../../../components/footer-nav";
-import selectGoods from "../../components/selectGoods";
-import Anchor from "../../components/anchor";
+import Footer from "@/components/footer-nav";
+import selectGoods from "@/components/selectGoods";
+import Anchor from "@/components/anchor";
 import { areaList } from "@vant/area-data";
-import Toast from "../../../wxcomponents/toast/toast";
+import Toast from "@/wxcomponents/toast/toast";
 export default {
   components: {
-    zzNavBar,
     Footer,
     selectGoods,
     Anchor,

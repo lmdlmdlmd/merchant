@@ -181,10 +181,10 @@
 </template>
 
 <script>
-import zzNavBar from "../../../components/zz-nav-bar";
-import Footer from "../../../components/footer-nav";
-import Anchor from "../../components/anchor";
-import Toast from "../../../wxcomponents/toast/toast";
+import zzNavBar from "@/components/zz-nav-bar";
+import Footer from "@/components/footer-nav";
+import Anchor from "@/components/anchor";
+import Toast from "@/wxcomponents/toast/toast";
 export default {
   components: {
     zzNavBar,

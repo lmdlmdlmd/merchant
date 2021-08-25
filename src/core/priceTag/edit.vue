@@ -135,7 +135,7 @@
       <view class="dialog_box">
         <image
           class="warning"
-          src="../../../static/img/icon/warning.png"
+          src="@/static/img/icon/warning.png"
         ></image>
         <span class="dele_title">确定删除此商品？</span>
         <view class="dialog_btn">
@@ -148,10 +148,10 @@
 </template>
 
 <script>
-import zzNavBar from "../../../components/zz-nav-bar";
-import Anchor from "../../components/anchor";
-import Operate from "../../components/operate";
-import selectGoods from "../../components/selectGoods";
+import zzNavBar from "@/components/zz-nav-bar";
+import Anchor from "@/components/anchor";
+import Operate from "@/components/operate";
+import selectGoods from "@/components/selectGoods";
 export default {
   components: {
     zzNavBar,

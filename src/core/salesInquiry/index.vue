@@ -144,13 +144,13 @@
 </template>
 
 <script>
-import zzNavBar from "../../../components/zz-nav-bar";
-import Footer from "../../../components/footer-nav";
-import zzEmpty from "../../../components/zz-empty";
+import zzNavBar from "@/components/zz-nav-bar";
+import Footer from "@/components/footer-nav";
+import zzEmpty from "@/components/zz-empty";
 import moment from "moment";
 import MescrollUni from "@/mescroll-uni/mescroll-uni.vue";
-import { EasyListService } from "../../../provider/list.service.js";
-import { formatDecimal } from "../../../utils/index.js";
+import { EasyListService } from "@/provider/list.service.js";
+import { formatDecimal } from "@/utils/index.js";
 export default {
   components: {
     zzNavBar,

@@ -100,7 +100,7 @@
 </template>
 
 <script>
-import zzEmpty from ".././../../components/zz-empty";
+import zzEmpty from "@/components/zz-empty";
 export default {
   name: "List",
   props: {

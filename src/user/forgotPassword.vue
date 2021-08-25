@@ -1,10 +1,10 @@
 <template>
   <view class="editPwBox">
-    <zz-nav-bar
+    <!-- <zz-nav-bar
       title="忘记密码"
       leftIcon="back"
       @click-right="rightClick"
-    ></zz-nav-bar>
+    ></zz-nav-bar> -->
 
     <view class="content">
       <input
@@ -24,11 +24,11 @@
 </template>
 
 <script>
-import zzNavBar from "../../components/zz-nav-bar";
+// import zzNavBar from "../../components/zz-nav-bar";
 export default {
-  components: {
-    zzNavBar,
-  },
+  // components: {
+  //   zzNavBar,
+  // },
   data() {
     return {
       phone: "",

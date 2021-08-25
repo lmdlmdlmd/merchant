@@ -1,16 +1,16 @@
 <template>
   <div class="footer-nav">
-    <div @click="go('/pages/home/index')">
+    <!-- <div @click="go('/pages/index/index')">
       <div>
         <img
           src="../static/img/tabbar/index.png"
           alt="home"
-          v-if="active != 'home'"
+          v-if="active != 'index'"
         />
         <img
           src="../static/img/tabbar/index_s.png"
           alt="home"
-          v-if="active == 'home'"
+          v-if="active == 'index'"
         />
       </div>
       <p>首页</p>
@@ -30,28 +30,28 @@
       </div>
       <p>导航</p>
     </div>
-    <div @click="go('/pages/user/index')">
+    <div @click="go('/pages/home/index')">
       <div>
         <img
           src="../static/img/tabbar/mine.png"
           alt="user"
-          v-if="active != 'user'"
+          v-if="active != 'home'"
         />
         <img
           src="../static/img/tabbar/mine_s.png"
           alt="user"
-          v-if="active == 'user'"
+          v-if="active == 'home'"
         />
       </div>
       <p>我的</p>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    active: { type: String, required: true, default: "home" }, //标识要选中那个
+    active: { type: String, required: true, default: "index" }, //标识要选中那个
   },
   data() {
     return {};

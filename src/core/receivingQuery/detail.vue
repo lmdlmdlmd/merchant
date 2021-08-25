@@ -104,7 +104,7 @@
 </template>
 
 <script>
-import zzNavBar from "../../../components/zz-nav-bar";
+import zzNavBar from "@/components/zz-nav-bar";
 export default {
   components: {
     zzNavBar,

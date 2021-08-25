@@ -129,7 +129,7 @@
         <view class="dialog_box">
           <image
             class="warning"
-            src="../../../static/img/icon/warning.png"
+            src="@/static/img/icon/warning.png"
           ></image>
           <text class="dele_title">确定删除此商品？</text>
           <view class="dialog_btn">
@@ -143,12 +143,12 @@
 </template>
 
 <script>
-import zzNavBar from "../../../components/zz-nav-bar";
-import Footer from "../../../components/footer-nav";
+import zzNavBar from "@/components/zz-nav-bar";
+import Footer from "@/components/footer-nav";
 import selectGoods from "../../components/selectGoods";
 import MescrollUni from "@/mescroll-uni/mescroll-uni.vue";
-import { EasyListService } from "../../../provider/list.service.js";
-import { formatDecimal } from "../../../utils/index.js";
+import { EasyListService } from "@/provider/list.service.js";
+import { formatDecimal } from "@/utils/index.js";
 export default {
   components: {
     zzNavBar,

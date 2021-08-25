@@ -236,11 +236,9 @@
 </template>
 
 <script>
-import Operate from "../components/operate";
-// import { Toast } from "vant";
-// import Toast from "../../wxcomponents/toast/index";
+import Operate from "./operate";
 import MescrollUni from "@/mescroll-uni/mescroll-uni.vue";
-import { EasyListService } from "../../provider/list.service.js";
+import { EasyListService } from "@/provider/list.service.js";
 export default {
   name: "selectGoods",
   props: {
@@ -717,7 +715,7 @@ export default {
 .van-checkbox__icon--checked .van-icon-success::before {
   content: "";
   display: inline-block;
-  background: url("../../static/img/icon/unselected.png");
+  background: url("@/static/img/icon/unselected.png");
   background-size: 100% 100%;
   width: 15px;
   height: 15px;
@@ -726,7 +724,7 @@ export default {
 .van-icon-success::before {
   content: "";
   display: inline-block;
-  background-image: url("../../static/img/icon/unselected.png");
+  background-image: url("@/static/img/icon/unselected.png");
   background-size: 100% 100%;
   width: 15px;
   height: 15px;

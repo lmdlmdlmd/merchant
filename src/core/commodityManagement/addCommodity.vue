@@ -295,7 +295,7 @@
 </template>
 
 <script>
-import zzNavBar from "../../../components/zz-nav-bar";
+import zzNavBar from "@/components/zz-nav-bar";
 import Anchor from "../../components/anchor";
 export default {
   components: {

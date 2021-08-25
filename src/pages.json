@@ -11,15 +11,26 @@
 			}
 		},
 		{
-			"path": "pages/home/index",
+			"path": "pages/index/index",
 			"style": {
         "navigationBarTitleText": "首页",
         "navigationBarTextStyle": "black",
 				"titleNView": false
 			}
 		},
+    {
+			"path": "pages/navigation/index",
+			"style": {
+        "navigationBarTitleText": "功能导航",
+				"navigationBarTextStyle": "black",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
+			}
+		},
 		{
-			"path": "pages/user/index",
+			"path": "pages/home/index",
 			"style": {
         "navigationBarTitleText": "我的",
 				"navigationBarTextStyle": "black",
@@ -28,117 +39,119 @@
 					"titleNView": false
 				}
 			}
-		},
-		{
-			"path": "pages/user/edit",
-			"style": {
-        "navigationBarTitleText": "修改密码",
-				"navigationBarTextStyle": "black",
-				"titleNView": false
-			}
-		},
-		{
-			"path": "pages/user/forgotPassword",
-			"style": {
-				"navigationBarTextStyle": "white",
-				"titleNView": false
-			}
-		},
-		{
-			"path": "pages/navigation/index",
-			"style": {
-				"navigationBarTextStyle": "white",
-				"app-plus": {
-					"bounce": "none",
-					"titleNView": false
-				}
-			}
-		},
-		{
-			"path": "pages/navigation/deposit/depositOrder",
-			"style": {
-				"navigationBarTextStyle": "white",
-				"titleNView": false
-			}
-		},
-		{
-			"path": "pages/navigation/deposit/depositOrderDetail",
-			"style": {
-				"navigationBarTextStyle": "white",
-				"titleNView": false
-			}
-		},
-		{
-			"path": "pages/navigation/standard/standardOrder",
-			"style": {
-				"navigationBarTextStyle": "white",
-				"titleNView": false
-			}
-		},
-		{
-			"path": "pages/navigation/standard/standardOrderDetail",
-			"style": {
-				"navigationBarTextStyle": "white",
-				"titleNView": false
-			}
-		},
-		{
-			"path": "pages/navigation/commodityManagement/addCommodity",
-			"style": {
-				"navigationBarTextStyle": "white",
-				"titleNView": false
-			}
-		},
-		{
-			"path": "pages/navigation/commodityManagement/list",
-			"style": {
-				"navigationBarTextStyle": "white",
-				"titleNView": false
-			}
-		},
-		{
-			"path": "pages/navigation/priceTag/index",
-			"style": {
-				"navigationBarTextStyle": "white",
-				"titleNView": false
-			}
-		},
-		{
-			"path": "pages/navigation/priceTag/edit",
-			"style": {
-				"navigationBarTextStyle": "white",
-				"titleNView": false
-			}
-		},
-		{
-			"path": "pages/navigation/salesInquiry/index",
-			"style": {
-				"navigationBarTextStyle": "white",
-				"titleNView": false
-			}
-		},
-		{
-			"path": "pages/navigation/checkQuery/index",
-			"style": {
-				"navigationBarTextStyle": "white",
-				"titleNView": false
-			}
-		},
-		{
-			"path": "pages/navigation/receivingQuery/index",
-			"style": {
-				"navigationBarTextStyle": "white",
-				"titleNView": false
-			}
-		},
-		{
-			"path": "pages/navigation/receivingQuery/detail",
-			"style": {
-				"navigationBarTextStyle": "white",
-				"titleNView": false
-			}
 		}
 	],
+  "subPackages": [
+    {
+      "root": "user",
+      "pages": [
+        {
+          "path": "edit",
+          "style": {
+            "navigationBarTitleText": "修改密码",
+            "navigationBarTextStyle": "black",
+            "titleNView": false
+          }
+        },
+        {
+          "path": "forgotPassword",
+          "style": {
+            "navigationBarTextStyle": "white",
+            "titleNView": false
+          }
+        }
+      ]
+    }, {
+      "root": "core",
+      "pages": [
+        {
+        	"path": "deposit/depositOrder",
+        	"style": {
+        		"navigationBarTextStyle": "white",
+        		"titleNView": false
+        	}
+        },
+        {
+        	"path": "deposit/depositOrderDetail",
+        	"style": {
+        		"navigationBarTextStyle": "white",
+        		"titleNView": false
+        	}
+        },
+        {
+        	"path": "standard/index",
+        	"style": {
+            "navigationBarTitleText": "标准开单",
+        		"navigationBarTextStyle": "black",
+        		"titleNView": false
+        	}
+        },
+        {
+        	"path": "standard/standardOrderDetail",
+        	"style": {
+        		"navigationBarTextStyle": "white",
+        		"titleNView": false
+        	}
+        },
+        {
+        	"path": "commodityManagement/addCommodity",
+        	"style": {
+        		"navigationBarTextStyle": "white",
+        		"titleNView": false
+        	}
+        },
+        {
+        	"path": "commodityManagement/list",
+        	"style": {
+        		"navigationBarTextStyle": "white",
+        		"titleNView": false
+        	}
+        },
+        {
+        	"path": "priceTag/index",
+        	"style": {
+        		"navigationBarTextStyle": "white",
+        		"titleNView": false
+        	}
+        },
+        {
+        	"path": "priceTag/edit",
+        	"style": {
+        		"navigationBarTextStyle": "white",
+        		"titleNView": false
+        	}
+        },
+        {
+        	"path": "salesInquiry/index",
+        	"style": {
+        		"navigationBarTextStyle": "white",
+        		"titleNView": false
+        	}
+        },
+        {
+        	"path": "checkQuery/index",
+        	"style": {
+        		"navigationBarTextStyle": "white",
+        		"titleNView": false
+        	}
+        },
+        {
+        	"path": "receivingQuery/index",
+        	"style": {
+        		"navigationBarTextStyle": "white",
+        		"titleNView": false
+        	}
+        },
+        {
+        	"path": "receivingQuery/detail",
+        	"style": {
+        		"navigationBarTextStyle": "white",
+        		"titleNView": false
+        	}
+        }
+      ]
+    }
+  ],
 	"tabBar": {
 		"color": "#A0A0A0",
 		"selectedColor": "#0096E4",
@@ -150,7 +163,7 @@
 		"iconHeight": "16px",
 		"list": [{
 				"text": "首页",
-				"pagePath": "pages/home/index",
+				"pagePath": "pages/index/index",
 				"iconPath": "./static/img/tabbar/index.png",
 				"selectedIconPath": "./static/img/tabbar/index_s.png"
 			},
@@ -162,7 +175,7 @@
 			},
 			{
 				"text": "我的",
-				"pagePath": "pages/user/index",
+				"pagePath": "pages/home/index",
 				"iconPath": "./static/img/tabbar/mine.png",
 				"selectedIconPath": "./static/img/tabbar/mine_s.png"
 			}
@@ -189,9 +202,7 @@
 			"van-dropdown-item": "./wxcomponents/dropdown-item/index",
 			"van-dialog": "./wxcomponents/dialog/index",
 			"van-area": "./wxcomponents/area/index",
-			"van-toast": "./wxcomponents/toast/index",
-			"van-tree-select": "./wxcomponents/tree-select/index",
-			"van-cell-group":"./wxcomponents/cell-group/index"
+			"van-toast": "./wxcomponents/toast/index"
 		}
 	}
 }

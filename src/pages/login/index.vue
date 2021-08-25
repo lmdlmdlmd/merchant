@@ -116,7 +116,7 @@ export default {
           return this.$toast.text("不是商家角色,请切换账号");
         }
         uni.reLaunch({
-          url: "/pages/home/index",
+          url: "/pages/index/index",
         });
       }).catch((err) => {
         this.$toast.text(err.message || "登录失败");

@@ -98,7 +98,7 @@
         <view class="dialog_box">
           <image
             class="warning"
-            src="../../../static/img/icon/warning.png"
+            src="@/static/img/icon/warning.png"
           ></image>
           <text class="dele_title">您确定删除该价签？</text>
           <view class="dialog_btn">
@@ -121,12 +121,12 @@
 </template>
 
 <script>
-import Footer from "../../../components/footer-nav";
+import Footer from "@/components/footer-nav";
 import zzTabs from "@/components/zz-tabs.vue";
 import MescrollUni from "@/mescroll-uni/mescroll-uni.vue";
 import { ListService } from "@/provider/list.service.js";
 import { EasyListService } from "@/provider/list.service.js";
-import selectGoods from "../../components/selectGoods";
+import selectGoods from "@/components/selectGoods";
 // import List from "./list";
 const activeMap = {
   //0全部 申请中 1 已通过 2 驳回3

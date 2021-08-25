@@ -131,7 +131,7 @@
                         >
                           <img
                             class="more_img"
-                            src="../../../static/img/icon/icon_call.png"
+                            src="@/static/img/icon/icon_call.png"
                             alt="navigation"
                           />
                         </view>
@@ -172,9 +172,9 @@
 </template>
 
 <script>
-import zzNavBar from "../../../components/zz-nav-bar";
-import Footer from "../../../components/footer-nav";
-import zzEmpty from "../../../components/zz-empty";
+import zzNavBar from "@/components/zz-nav-bar";
+import Footer from "@/components/footer-nav";
+import zzEmpty from "@/components/zz-empty";
 export default {
   components: {
     zzNavBar,

@@ -227,10 +227,10 @@
 </template>
 
 <script>
-import zzNavBar from "../../../components/zz-nav-bar";
-import Footer from "../../../components/footer-nav";
-import Anchor from "../../components/anchor";
-import { formatDecimal } from "../../../utils/index.js";
+import zzNavBar from "@/components/zz-nav-bar";
+import Footer from "@/components/footer-nav";
+import Anchor from "@/components/anchor";
+import { formatDecimal } from "@/utils/index.js";
 
 export default {
   components: {

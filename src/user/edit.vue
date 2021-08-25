@@ -74,7 +74,6 @@ export default {
         },
         id: data.id
       }).then((res) => {
-        debugger;
         uni.showToast({
           icon: "none",
           position: "bottom",
